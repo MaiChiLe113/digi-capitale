@@ -34,6 +34,3 @@ WHERE SlotID = 26 AND SlotDay = '2024-12-27'
 ;
 
 
-
- 
-
