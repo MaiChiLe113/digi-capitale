@@ -5,32 +5,42 @@ SELECT * FROM `item` WHERE `Type` = 'Utility';
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
 JOIN `item`
 ON slots.ItemID = item.ItemID
-WHERE `Status` = 'Open' AND item.Type = 'Utility';
+WHERE `Status` = 'Open';
 
+-- Search for specific utility -CHANGE SEARCH VARIABLE
+SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
+JOIN `item`
+ON slots.ItemID = item.ItemID
+WHERE ServiceName LIKE 'sth';
 
--- User booking service (ex user book slot 26, NEED TO ADD CONTRACT ID AS VARIABLES-> change state to pending)
-UPDATE slots
-SET `Status` = 'Pending' AND TimeStamp = current_timestamp() AND `ContractID` = 1
-WHERE SlotID = 26 AND SlotDay = '2024-12-27'
-;
+-- User books utility (ex user book slot 26, create a reservation)
+SELECT `phone` FROM resident WHERE `residentID` = 1;
+INSERT INTO booking (ContractID, SlotID, Phone, Status, Note)  values (1, 26, 1234567890, 'Registered', '');
+
+-- Calculate available slots to display 
+SELECT SlotID, COUNT(*) FROM booking WHERE `Status` = 'Pending' OR `Status` = 'Confirmed' GROUP BY SlotID;
+
+-- Update status if book full
+UPDATE Slots SET `Status` = 'Close';
 
 -- Receptionist view pending booking list 
-SELECT * FROM slots WHERE `Status` = 'Pending' ORDER BY TimeStamp;
+SELECT * FROM booking WHERE `Status` = 'Registered' ORDER BY TimeStamp;
 
 -- Approve a reservation
-UPDATE slots
-SET `Status` = 'Closed'
-WHERE SlotID = 26 AND SlotDay = '2024-12-27'
+UPDATE booking
+SET `Status` = 'Confirmed'
+WHERE BookID = 1 AND `Status` = 'Pending'
 ;
 
-
--- Create bill when the reservation is confirmed
-INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity) VALUES();
+-- Create bill when the reservation is confirmed CHANGE VARIABLES
+INSERT INTO bill(ContractID, ItemID, TotalPrice, IsPaid, Quantity) VALUES('contractid', 'itemid', '=quantity * unit price', 0, 'quantity');
 
 -- Reject a reservation
-UPDATE slots
-SET `Status` = 'Open'
-WHERE SlotID = 26 AND SlotDay = '2024-12-27'
-;
+UPDATE booking
+SET `Status` = 'Rejected'
+WHERE BookID = 1 AND `Status` = 'Pending';
 
+
+
+ 
 
