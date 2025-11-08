@@ -20,8 +20,11 @@ FROM
 WHERE
   c.ResidentID = 101  -- Use the logged-in resident's ID
 ORDER BY
-  b.CreatedAt DESC;   -- Show the most recent bills first
-  
+  b.CreatedAt DESC;   -- Show the most recent bills first TRANGJ THAIS 
+  b.IsPaid
+
+  --
+   
   -- View all unpaid bill -> handle in code
   
   -- Mark a specific bill as paid
