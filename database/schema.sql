@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2025 at 02:00 PM
+-- Generation Time: Nov 09, 2025 at 08:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -1149,7 +1149,8 @@ INSERT INTO `card` (`CardID`, `BuildingID`, `ResidentID`, `IssueDate`, `ExpiryDa
 (997, 7, 1009, '2020-02-23', '2025-02-23', 1),
 (998, 1, 1010, '2020-12-09', '2025-12-09', 0),
 (999, 5, 1011, '2025-04-26', '2030-04-26', 0),
-(1000, 7, 1012, '2025-01-31', '2030-01-31', 1);
+(1000, 7, 1012, '2025-01-31', '2030-01-31', 1),
+(1001, 1, 1440, '2025-11-10', '2030-11-10', 1);
 
 -- --------------------------------------------------------
 
@@ -1862,7 +1863,7 @@ INSERT INTO `lease` (`LeaseID`, `ResidentID`, `RoomNum`, `BuildingID`, `VehicleR
 (1437, '1437', 920.00, 2.00, 1),
 (1438, '1438', 921.00, 2.00, 0),
 (1439, '1439', 922.00, 2.00, 4),
-(1440, '1440', 1001.00, 3.00, 2),
+(1440, '1440', 1001.00, 1.00, 2),
 (1441, '1441', 1002.00, 3.00, 2),
 (1442, '1442', 1003.00, 3.00, 0),
 (1443, '1443', 1004.00, 3.00, 2),
@@ -12058,7 +12059,9 @@ INSERT INTO `vehicle` (`VehicleID`, `CardID`, `LicensePlate`, `VehicleType`) VAL
 (797, 327, '12Q-49687', 'car'),
 (798, 96, '77B-05529', 'electricbike'),
 (799, 724, '34A-62816', 'electricbike'),
-(800, 154, '64D-03794', 'car');
+(800, 154, '64D-03794', 'car'),
+(801, 1001, '29C-83271', 'Motorcycle'),
+(802, 1001, '29C-99999', 'Car');
 
 --
 -- Indexes for dumped tables
@@ -12166,7 +12169,7 @@ ALTER TABLE `building`
 -- AUTO_INCREMENT for table `card`
 --
 ALTER TABLE `card`
-  MODIFY `CardID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `CardID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
 
 --
 -- AUTO_INCREMENT for table `contract`
@@ -12202,7 +12205,7 @@ ALTER TABLE `slots`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `VehicleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=801;
+  MODIFY `VehicleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=803;
 
 --
 -- Constraints for dumped tables
