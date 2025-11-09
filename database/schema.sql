@@ -11245,6 +11245,34 @@ INSERT INTO `slots` (`SlotID`, `ItemID`, `SlotDay`, `StartTime`, `Capacity`, `St
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `UserID` int(11) NOT NULL,
+  `ResidentID` int(11) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `PasswordHash` varchar(255) NOT NULL,
+  `Role` enum('resident','admin','security') DEFAULT 'resident',
+  `IsActive` tinyint(1) DEFAULT 1,
+  `CreatedAt` datetime DEFAULT current_timestamp(),
+  `LastLogin` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UserID`, `ResidentID`, `Email`, `PasswordHash`, `Role`, `IsActive`, `CreatedAt`, `LastLogin`) VALUES
+(1, 1, 'aalpin0@acquirethisname.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
+(2, 2, 'mdukes1@apache.org', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
+(3, 3, 'bferrini2@ft.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
+(4, 4, 'sgillum3@chronoengine.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, '2025-11-10 00:59:38', NULL),
+(5, 5, 'fpasley4@ustream.tv', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vehicle`
 --
 
@@ -12136,6 +12164,16 @@ ALTER TABLE `slots`
   ADD PRIMARY KEY (`SlotID`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`UserID`),
+  ADD UNIQUE KEY `unique_email` (`Email`),
+  ADD UNIQUE KEY `unique_resident` (`ResidentID`),
+  ADD KEY `idx_user_email` (`Email`),
+  ADD KEY `idx_user_resident` (`ResidentID`);
+
+--
 -- Indexes for table `vehicle`
 --
 ALTER TABLE `vehicle`
@@ -12202,6 +12240,12 @@ ALTER TABLE `slots`
   MODIFY `SlotID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
 
 --
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
@@ -12243,6 +12287,12 @@ ALTER TABLE `incidents`
 --
 ALTER TABLE `room`
   ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`BuildingID`) REFERENCES `building` (`BuildingID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_user_resident` FOREIGN KEY (`ResidentID`) REFERENCES `resident` (`ResidentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vehicle`
