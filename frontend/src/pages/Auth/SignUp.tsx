@@ -201,33 +201,14 @@ const SignUp = () => {
                     checked={agreeToTerms}
                     onChange={(e) => setAgreeToTerms(e.target.checked)}
                     size="small"
-                    required
                   />
                 }
                 label={
                   <Typography variant="body2">
-                    I agree to the{" "}
-                    <Link
-                      component={RouterLink}
-                      to="/terms"
-                      underline="hover"
-                      sx={{ color: "primary.main" }}
-                    >
-                      Terms & Conditions
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      component={RouterLink}
-                      to="/privacy"
-                      underline="hover"
-                      sx={{ color: "primary.main" }}
-                    >
-                      Privacy Policy
-                    </Link>
+                    I agree to the Terms and Conditions
                   </Typography>
                 }
               />
-
               {/* Sign Up Button */}
               <Button
                 fullWidth
