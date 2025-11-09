@@ -51,7 +51,7 @@ DROP PROCEDURE IF EXISTS ConfirmBook;
 DELIMITER $$
 CREATE PROCEDURE ConfirmBook (IN b_BookID INT, IN b_ItemID INT, IN b_Quantity INT)
 BEGIN
-	DECLARE v_TotalPrice INT;
+	DECLARE v_TotalPrice DECIMAL(10, 2);
     DECLARE v_ContractID INT;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -61,16 +61,16 @@ BEGIN
     
     START TRANSACTION;
 		SELECT ContractID INTO v_ContractID FROM booking WHERE BookID = b_BookID;
-		SET v_TotalPrice = b_Quantity * (SELECT UnitPrice FROM item WHERE ItemID = b_ItemID);
+		SET v_TotalPrice = b_Quantity * (SELECT COALESCE(UnitPrice, 0) FROM item WHERE ItemID = b_ItemID);
 		UPDATE booking
 		SET `Status` = 'Confirmed'
 		WHERE BookID = b_BookID AND `Status` = 'Registered';
-        INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity) VALUES(v_ContractID, b_ItemID, v_TotalPrice, b_Quantity);
+        INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity, IsPaid, CreatedAt) VALUES(v_ContractID, b_ItemID, v_TotalPrice, b_Quantity, default(IsPaid), default(CreatedAt));
 	COMMIT;
 END$$
 DELIMITER ;
 
-CALL ConfirmBook(1, 2, 5);
+CALL ConfirmBook(2, 1, 10);
 
 -- Reject a reservation
 DROP PROCEDURE IF EXISTS RejectBook;
@@ -85,7 +85,7 @@ BEGIN
 	END;
     
     START TRANSACTION;
-		SELECT SlotID FROM booking WHERE BookID = b_BookID INTO v_SlotID;
+		SELECT SlotID INTO v_SlotID FROM booking WHERE BookID = b_BookID;
 		UPDATE booking
 		SET `Status` = 'Rejected'
 		WHERE BookID = b_BookID AND `Status` = 'Registered';
@@ -93,17 +93,10 @@ BEGIN
         -- Update status if book available
 		UPDATE Slots
 		SET `Status` = 'Open'
-		WHERE SlotID = b_SlotID
-		AND Slots.Capacity - (SELECT Count(*) FROM booking WHERE SlotID = b_SlotID AND (`Status` = 'Registered' OR `Status` = 'Confirmed')) > 0;
+		WHERE SlotID = v_SlotID
+		AND Slots.Capacity - (SELECT Count(*) FROM booking WHERE SlotID = v_SlotID AND (`Status` = 'Registered' OR `Status` = 'Confirmed')) > 0;
 	COMMIT;
 END$$
 DELIMITER ;
 
-
-
-
-
-
-
- 
-
+CALL RejectBook(1)
