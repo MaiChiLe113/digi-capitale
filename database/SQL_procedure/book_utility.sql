@@ -7,38 +7,101 @@ JOIN `item`
 ON slots.ItemID = item.ItemID
 WHERE `Status` = 'Open';
 
--- Search for specific utility -CHANGE SEARCH VARIABLE
+-- Search for specific utility
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
 JOIN `item`
 ON slots.ItemID = item.ItemID
-WHERE ServiceName LIKE 'sth';
+WHERE ServiceName LIKE @Search;
 
--- User books utility (ex user book slot 26, create a reservation)
-SELECT `phone` FROM resident WHERE `residentID` = 1;
-INSERT INTO booking (ContractID, SlotID, Phone, Status, Note)  values (1, 26, 1234567890, 'Registered', '');
+DROP PROCEDURE IF EXISTS BookUtility;
+DELIMITER $$
+CREATE PROCEDURE BookUtility (IN b_ResidentID INT, IN b_SlotID INT, IN b_ContractID INT, IN b_Note VARCHAR(255))
+BEGIN
+	DECLARE v_Email VARCHAR(255);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Transaction failed. Booking was not recorded.';
+    END;
+	START TRANSACTION;
+		SELECT Email INTO v_Email FROM resident WHERE ResidentID = b_ResidentID;
+		INSERT INTO booking (ContractID, SlotID, Email, Status, Note) values (b_ContractID, b_SlotID, v_Email, 'Registered', b_Note);
+		-- Update status if book full
+		UPDATE Slots
+		SET `Status` = 'Close'
+		WHERE SlotID = b_SlotID
+		AND Slots.Capacity - (SELECT Count(*) FROM booking WHERE SlotID = b_SlotID AND (`Status` = 'Registered' OR `Status` = 'Confirmed')) = 0;
+	COMMIT;
+END$$
+DELIMITER ;
+
+-- Test function
+CALL BookUtility(1, 100, 1, 'Hello myname is LAm');    
 
 -- Calculate available slots to display 
-SELECT SlotID, COUNT(*) FROM booking WHERE `Status` = 'Pending' OR `Status` = 'Confirmed' GROUP BY SlotID;
-
--- Update status if book full
-UPDATE Slots SET `Status` = 'Close';
+SELECT SlotID, COUNT(*) FROM booking WHERE `Status` = 'Registered' OR `Status` = 'Confirmed' GROUP BY SlotID;
 
 -- Receptionist view pending booking list 
 SELECT * FROM booking WHERE `Status` = 'Registered' ORDER BY TimeStamp;
 
--- Approve a reservation
-UPDATE booking
-SET `Status` = 'Confirmed'
-WHERE BookID = 1 AND `Status` = 'Pending'
-;
 
--- Create bill when the reservation is confirmed CHANGE VARIABLES
-INSERT INTO bill(ContractID, ItemID, TotalPrice, IsPaid, Quantity) VALUES('contractid', 'itemid', '=quantity * unit price', 0, 'quantity');
+
+-- Approve a reservation
+DROP PROCEDURE IF EXISTS ConfirmBook;
+DELIMITER $$
+CREATE PROCEDURE ConfirmBook (IN b_BookID INT, IN b_ItemID INT, IN b_Quantity INT)
+BEGIN
+	DECLARE v_TotalPrice INT;
+    DECLARE v_ContractID INT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000'SET MESSAGE_TEXT = 'Confirm booking failed.';
+	END;
+    
+    START TRANSACTION;
+		SELECT ContractID INTO v_ContractID FROM booking WHERE BookID = b_BookID;
+		SET v_TotalPrice = b_Quantity * (SELECT UnitPrice FROM item WHERE ItemID = b_ItemID);
+		UPDATE booking
+		SET `Status` = 'Confirmed'
+		WHERE BookID = b_BookID AND `Status` = 'Registered';
+        INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity) VALUES(v_ContractID, b_ItemID, v_TotalPrice, b_Quantity);
+	COMMIT;
+END$$
+DELIMITER ;
+
+CALL ConfirmBook(1, 2, 5);
 
 -- Reject a reservation
-UPDATE booking
-SET `Status` = 'Rejected'
-WHERE BookID = 1 AND `Status` = 'Pending';
+DROP PROCEDURE IF EXISTS RejectBook;
+DELIMITER $$
+CREATE PROCEDURE RejectBook (IN b_BookID INT)
+BEGIN
+	DECLARE v_SlotID INT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000'SET MESSAGE_TEXT = 'Reject booking failed.';
+	END;
+    
+    START TRANSACTION;
+		SELECT SlotID FROM booking WHERE BookID = b_BookID INTO v_SlotID;
+		UPDATE booking
+		SET `Status` = 'Rejected'
+		WHERE BookID = b_BookID AND `Status` = 'Registered';
+        
+        -- Update status if book available
+		UPDATE Slots
+		SET `Status` = 'Open'
+		WHERE SlotID = b_SlotID
+		AND Slots.Capacity - (SELECT Count(*) FROM booking WHERE SlotID = b_SlotID AND (`Status` = 'Registered' OR `Status` = 'Confirmed')) > 0;
+	COMMIT;
+END$$
+DELIMITER ;
+
+
+
+
 
 
 

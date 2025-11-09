@@ -54,7 +54,7 @@ BEGIN
     END IF;
 END //
 
-DELIMITER ;
+DELIMITER; 
 
 -- exampple:
 -- SELECT SlotID, SlotDay, Status FROM Slots WHERE SlotID = 50;
