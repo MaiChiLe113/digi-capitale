@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+// import { EmailVerification } from "./screens/EmailVerification";
+// import { PasswordReset } from "./screens/PasswordReset";
+// import { PasswordResetScreen } from "./screens/PasswordResetScreen";
+// import { SetNewPassword } from "./screens/SetNewPassword";
+import SignIn from "./pages/Auth/SignIn.tsx";
+import SignUp from "./pages/Auth/SignUp.tsx";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// import { SuccessConfirmation } from "./screens/SuccessConfirmation";
+
+const router = createBrowserRouter([
+  {
+    path: "/*",
+    element: <SignUp />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />,
+  },
+  // {
+  //   path: "/email-verification",
+  //   element: <EmailVerification />,
+  // },
+  // {
+  //   path: "/set-new-password",
+  //   element: <SetNewPassword />,
+  // },
+  // {
+  //   path: "/password-reset-success-confirmation",
+  //   element: <PasswordReset />,
+  // },
+  // {
+  //   path: "/password-reset-request",
+  //   element: <PasswordResetScreen />,
+  // },
+  {
+    path: "/sign-in",
+    element: <SignIn />,
+  },
+  // {
+  //   path: "/success-confirmation-page",
+  //   element: <SuccessConfirmation />,
+  // },
+]);
+
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;

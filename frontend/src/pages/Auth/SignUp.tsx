@@ -1,0 +1,262 @@
+import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Box,
+  Stack,
+  Typography,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  InputAdornment,
+  IconButton,
+  Paper,
+} from "@mui/material";
+import PersonRounded from "@mui/icons-material/PersonRounded";
+import EmailRounded from "@mui/icons-material/EmailRounded";
+import LockRounded from "@mui/icons-material/LockRounded";
+import PhoneRounded from "@mui/icons-material/PhoneRounded";
+import VisibilityRounded from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRounded from "@mui/icons-material/VisibilityOffRounded";
+
+const SignUp = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle sign up logic here
+    console.log({ ...formData, agreeToTerms });
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        bgcolor: "background.default",
+        py: 4,
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          width: "100%",
+          maxWidth: 440,
+          p: 4,
+          borderRadius: 4,
+        }}
+      >
+        <Stack spacing={3}>
+          {/* Header */}
+          <Stack spacing={1} textAlign="center">
+            <Typography variant="h1" color="text.primary">
+              Create Account
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Sign up to get started
+            </Typography>
+          </Stack>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={2}>
+              {/* Full Name Input */}
+              <TextField
+                fullWidth
+                type="text"
+                label="Full Name"
+                placeholder="Enter your full name"
+                value={formData.fullName}
+                onChange={handleChange("fullName")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+
+              {/* Email Input */}
+              <TextField
+                fullWidth
+                type="email"
+                label="Email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange("email")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+
+              {/* Phone Input */}
+              <TextField
+                fullWidth
+                type="tel"
+                label="Phone Number"
+                placeholder="Enter your phone number"
+                value={formData.phone}
+                onChange={handleChange("phone")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PhoneRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+
+              {/* Password Input */}
+              <TextField
+                fullWidth
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange("password")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? (
+                          <VisibilityOffRounded sx={{ color: "text.secondary" }} />
+                        ) : (
+                          <VisibilityRounded sx={{ color: "text.secondary" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+
+              {/* Confirm Password Input */}
+              <TextField
+                fullWidth
+                type={showConfirmPassword ? "text" : "password"}
+                label="Confirm Password"
+                placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                onChange={handleChange("confirmPassword")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOffRounded sx={{ color: "text.secondary" }} />
+                        ) : (
+                          <VisibilityRounded sx={{ color: "text.secondary" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+
+              {/* Terms & Conditions */}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={agreeToTerms}
+                    onChange={(e) => setAgreeToTerms(e.target.checked)}
+                    size="small"
+                    required
+                  />
+                }
+                label={
+                  <Typography variant="body2">
+                    I agree to the{" "}
+                    <Link
+                      component={RouterLink}
+                      to="/terms"
+                      underline="hover"
+                      sx={{ color: "primary.main" }}
+                    >
+                      Terms & Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      component={RouterLink}
+                      to="/privacy"
+                      underline="hover"
+                      sx={{ color: "primary.main" }}
+                    >
+                      Privacy Policy
+                    </Link>
+                  </Typography>
+                }
+              />
+
+              {/* Sign Up Button */}
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+              >
+                Sign Up
+              </Button>
+            </Stack>
+          </form>
+
+          {/* Sign In Link */}
+          <Typography variant="body2" textAlign="center" color="text.secondary">
+            Already have an account?{" "}
+            <Link
+              component={RouterLink}
+              to="/sign-in"
+              underline="hover"
+              sx={{ color: "primary.main", fontWeight: 500 }}
+            >
+              Sign in
+            </Link>
+          </Typography>
+        </Stack>
+      </Paper>
+    </Box>
+  );
+};
+
+export default SignUp;
