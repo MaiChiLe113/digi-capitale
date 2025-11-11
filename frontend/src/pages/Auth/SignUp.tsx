@@ -38,10 +38,42 @@ const SignUp = () => {
     setFormData({ ...formData, [field]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    console.log({ ...formData, agreeToTerms });
+  if (formData.password !== formData.confirmPassword) {
+    alert("Passwords don't match");
+    return;
+  }
+  
+  if (!agreeToTerms) {
+    alert("Please agree to terms");
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost/api/signup.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        residentId: formData.residentId,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      // Redirect to login
+      window.location.href = '/sign-in';
+    } else {
+      alert(data.message); // Show error from backend
+    }
+  } catch (error) {
+    alert('Sign up failed');
+  }
   };
 
   return (
