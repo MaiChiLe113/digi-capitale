@@ -22,7 +22,8 @@ import VisibilityOffRounded from "@mui/icons-material/VisibilityOffRounded";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     residentId: "",
     email: "",
     phone: "",
@@ -77,14 +78,31 @@ const SignUp = () => {
           {/* Form */}
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              {/* Full Name */}
+              {/* First Name */}
               <TextField
                 fullWidth
                 type="text"
-                label="Full Name"
-                placeholder="Enter your full name"
-                value={formData.fullName}
-                onChange={handleChange("fullName")}
+                label="First Name"
+                placeholder="Enter your first name"
+                value={formData.firstName}
+                onChange={handleChange("firstName")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonRounded sx={{ color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+              />
+              {/* Last Name */}
+              <TextField
+                fullWidth
+                type="text"
+                label="Last Name"
+                placeholder="Enter your last name"
+                value={formData.lastName}
+                onChange={handleChange("lastName")}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

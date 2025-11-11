@@ -11256,19 +11256,18 @@ CREATE TABLE `users` (
   `Role` enum('resident','admin','security') DEFAULT 'resident',
   `IsActive` tinyint(1) DEFAULT 1,
   `CreatedAt` datetime DEFAULT current_timestamp(),
-  `LastLogin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UserID`, `ResidentID`, `Email`, `PasswordHash`, `Role`, `IsActive`, `CreatedAt`, `LastLogin`) VALUES
-(1, 1, 'aalpin0@acquirethisname.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
-(2, 2, 'mdukes1@apache.org', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
-(3, 3, 'bferrini2@ft.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL),
-(4, 4, 'sgillum3@chronoengine.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, '2025-11-10 00:59:38', NULL),
-(5, 5, 'fpasley4@ustream.tv', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38', NULL);
+INSERT INTO `users` (`UserID`, `ResidentID`, `Email`, `PasswordHash`, `Role`, `IsActive`, `CreatedAt`) VALUES
+(1, 1, 'aalpin0@acquirethisname.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38'),
+(2, 2, 'mdukes1@apache.org', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38'),
+(3, 3, 'bferrini2@ft.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38'),
+(4, 4, 'sgillum3@chronoengine.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, '2025-11-10 00:59:38'),
+(5, 5, 'fpasley4@ustream.tv', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'resident', 1, '2025-11-10 00:59:38');
 
 -- --------------------------------------------------------
 
