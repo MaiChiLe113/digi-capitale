@@ -1,12 +1,9 @@
-import { React } from 'react';
+import React  from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 export default function Landing() {
     return (
     <div className="landing-page">
-        <Header />
         <main>
             {/* Hero Section */}
             <section className="hero-section">
@@ -34,7 +31,6 @@ export default function Landing() {
                 <Link to="/login" className="btn btn-secondary">Log In to Resident Portal</Link>
             </section>
         </main>
-        <Footer />
     </div>
     );
 };
