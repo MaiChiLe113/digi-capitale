@@ -51,7 +51,11 @@ const SignUp = () => {
   }
 
   try {
-    const res = await fetch('http://localhost/api/signup.php', {
+    //use Xampp
+    // const res = await fetch('http://localhost/api/signup.php', {
+
+    //Use MAMP
+    const res = await fetch('http://localhost:8888/api/index.php?action=signup',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
