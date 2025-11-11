@@ -77,7 +77,7 @@ const SignUp = () => {
           {/* Form */}
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              {/* Full Name Input */}
+              {/* Full Name */}
               <TextField
                 fullWidth
                 type="text"
@@ -148,7 +148,7 @@ const SignUp = () => {
                 required
               />
 
-              {/* Password Input */}
+              {/* Password Input - Password123 */}
               <TextField
                 fullWidth
                 type={showPassword ? "text" : "password"}
