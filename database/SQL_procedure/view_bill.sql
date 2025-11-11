@@ -49,4 +49,4 @@ SET
   IsPaid = 'true'
 WHERE
   PaymentCode = 5001      -- The ID of the bill they just paid, fix in code
-  AND IsPaid = 'false';   -- Only update if the bill is currently unpaid
+  AND IsPaid = 'false';   
