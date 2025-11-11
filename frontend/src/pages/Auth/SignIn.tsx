@@ -24,11 +24,21 @@ const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle sign in logic here
-    console.log({ email, password, rememberMe });
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+    const response = await fetch('/api/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, rememberMe }),
+      credentials: 'include'
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    } 
+};
 
   return (
     <Box

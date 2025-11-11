@@ -11255,7 +11255,7 @@ CREATE TABLE `users` (
   `PasswordHash` varchar(255) NOT NULL,
   `Role` enum('resident','admin','security') DEFAULT 'resident',
   `IsActive` tinyint(1) DEFAULT 1,
-  `CreatedAt` datetime DEFAULT current_timestamp(),
+  `CreatedAt` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

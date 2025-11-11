@@ -6,6 +6,8 @@ import { PasswordReset } from "./pages/Auth/PasswordReset.tsx";
 import { SetNewPassword } from "./pages/Auth/SetNewPassword.tsx";
 import SignIn from "./pages/Auth/SignIn.tsx";
 import SignUp from "./pages/Auth/SignUp.tsx";
+import Landing from "./pages/Landing.jsx";
+import About from "./pages/About.jsx";
 
 // import { SuccessConfirmation } from "./screens/SuccessConfirmation";
 
@@ -38,6 +40,15 @@ const router = createBrowserRouter([
     path: "/sign-in",
     element: <SignIn />,
   },
+  {
+    path: "/landing",
+    element: <Landing />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  }
+
   // {
   //   path: "/success-confirmation-page",
   //   element: <SuccessConfirmation />,
