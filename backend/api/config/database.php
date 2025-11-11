@@ -7,7 +7,9 @@
 // Database credentials
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'root'); // Use MAMP
+//use XAMPP
+// define('DB_PASS', '');
 define('DB_NAME', 'digicapitale');
 
 // Create connection function
