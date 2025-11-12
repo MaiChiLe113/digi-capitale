@@ -30,6 +30,9 @@ import VisibilityRounded from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRounded from "@mui/icons-material/VisibilityOffRounded";
 import CloudUploadRounded from "@mui/icons-material/CloudUploadRounded";
 import DeleteRounded from "@mui/icons-material/DeleteRounded";
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import RoomServiceIcon from '@mui/icons-material/RoomService';
+import LockIcon from '@mui/icons-material/Lock';
 const DLogo = "/images/Dlogo.svg";
 
 interface ResidentProfile {
@@ -659,7 +662,7 @@ const Profile = () => {
                               <Typography variant="body1" sx={{ fontWeight: 600 }}>
                                 {member.Name}
                               </Typography>
-                              <Typography variant="caption" color="textSecondary">
+                              <Typography variant="body1" color="textSecondary">
                                 ID: {member.ID} • {member.Relationship}
                               </Typography>
                             </Box>
@@ -673,6 +676,82 @@ const Profile = () => {
                 <Typography color="textSecondary">No family members added</Typography>
               )}
             </Box>
+            {/* Support Section */}
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 600, mb: 2, mt: 3 }}>
+                Support
+              </Typography>
+                <Stack spacing={2}>
+                    <Card>
+                      <CardContent>
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Stack direction="row" alignItems="center" gap={2}>
+                            <HomeRepairServiceIcon sx={{ color: "primary.main", fontSize: 32 }} />
+                            <Box>
+                              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                Building Manager
+                              </Typography>
+                              <Typography variant="body1" color="textSecondary">
+                                021 899 5434
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardContent>
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Stack direction="row" alignItems="center" gap={2}>
+                            <RoomServiceIcon sx={{ color: "primary.main", fontSize: 32 }} />
+                            <Box>
+                              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                Reception Hotline
+                              </Typography>
+                              <Typography variant="body1" color="textSecondary">
+                                045 698 7123
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardContent>
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Stack direction="row" alignItems="center" gap={2}>
+                            <LockIcon sx={{ color: "primary.main", fontSize: 32 }} />
+                            <Box>
+                              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                Security Hotline
+                              </Typography>
+                              <Typography variant="body1" color="textSecondary">
+                                000 589 6376
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                </Stack>
+              
+            </Box>
+
+
           </>
         )}
       </Stack>

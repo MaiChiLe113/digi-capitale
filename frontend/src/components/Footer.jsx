@@ -16,7 +16,6 @@ const Dlogo = "/images/Dlogo.svg";
 const Footer = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const contactInfo = [
     {
       icon: PhoneIcon,
