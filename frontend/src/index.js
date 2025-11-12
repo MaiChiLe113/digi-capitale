@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
 import theme from './theme';
 import reportWebVitals from './reportWebVitals';
+import Footer from './components/Footer.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +13,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <App />
+      <Footer />
     </ThemeProvider>
   </React.StrictMode>
 );
