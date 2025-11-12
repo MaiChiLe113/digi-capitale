@@ -11,7 +11,7 @@ import {
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Dlogo from '../images/Dlogo.svg';
+const Dlogo = "/images/Dlogo.svg";
 
 const Footer = () => {
   const theme = useTheme();

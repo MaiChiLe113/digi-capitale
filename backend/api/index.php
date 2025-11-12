@@ -5,8 +5,6 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
   exit;
@@ -21,9 +19,14 @@ if ($action === 'signup') {
   require 'login.php';
 } else if ($action === 'getProfile') {
   require 'getProfile.php';
-  // require 'testProfile.php';
-} else if ($action === 'updateProfile') {
-  require 'updateProfile.php';
+} else if ($action === 'updateEmail') {
+  require 'updateEmail.php';
+} else if ($action === 'updatePhoto') {
+  require 'updatePhoto.php';
+} else if ($action === 'updatePassword') {
+  require 'updatePassword.php';
+} else if ($action === 'deletePhoto') {
+  require 'deletePhoto.php';
 } else if ($action === 'getApartmentInfo') {
   require 'getApartment.php';
 } else {
