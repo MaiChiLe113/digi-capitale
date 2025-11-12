@@ -53,10 +53,10 @@ const SignUp = () => {
   try {
      console.log('Sending:', formData);
     //use Xampp
-    // const res = await fetch('http://localhost/api/signup.php', {
+     const res = await fetch('http://localhost/api/index.php?action=signup', {
 
     //Use MAMP
-    const res = await fetch('http://localhost:8888/backend/api/index.php?action=signup',{
+    // const res = await fetch('http://localhost:8888/backend/api/index.php?action=signup',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
