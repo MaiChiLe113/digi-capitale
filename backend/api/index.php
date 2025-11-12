@@ -11,15 +11,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $action = $_GET['action'] ?? '';
-// handling data for auth routes
+
+// Handle routes
 if ($action === 'signup') {
   require 'signup.php';
 } else if ($action === 'login') {
   require 'login.php';
+} else if ($action === 'getProfile') {
+  // require 'getProfile.php';
+  require 'testProfile.php';
+} else if ($action === 'updateProfile') {
+  require 'updateProfile.php';
+} else if ($action === 'getApartmentInfo') {
+  require 'getApartment.php';
 } else {
   http_response_code(404);
   echo json_encode(['success' => false, 'message' => 'Endpoint not found']);
 }
-
-
 ?>
