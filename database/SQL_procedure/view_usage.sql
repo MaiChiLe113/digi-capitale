@@ -62,3 +62,23 @@ WHERE
   AND b.CheckOutTime IS NOTT NULL
 ORDER BY
   b.CheckInTime DESC; -- Show most recent check-ins first
+
+
+-- Calculate actual usage for each utilities (check-in to check-out)
+SELECT
+  i.ServiceName,
+  SUM(TIMESTAMPDIFF(MINUTE, b.CheckInTime, b.CheckOutTime)) AS TotalUsageMinutes
+FROM
+  Booking AS b
+  -- Join to Slots to get the ItemID
+  JOIN Slots AS s ON b.SlotID = s.SlotID
+  -- Join to Item to get the ServiceName
+  JOIN Item AS i ON s.ItemID = i.ItemID
+WHERE
+  -- Only include bookings that are fully complete
+  b.CheckInTime IS NOT NULL
+  AND b.CheckOutTime IS NOT NULL
+GROUP BY
+  i.ItemID, i.ServiceName  -- Group all bookings for the same service
+ORDER BY
+  TotalUsageMinutes DESC;
