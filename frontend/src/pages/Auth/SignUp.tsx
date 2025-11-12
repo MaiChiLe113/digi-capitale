@@ -34,52 +34,52 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [field]: e.target.value });
-  };
+  const handleChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, [field]: e.target.value });
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  if (formData.password !== formData.confirmPassword) {
-    alert("Passwords don't match");
-    return;
-  }
-  
-  if (!agreeToTerms) {
-    alert("Please agree to terms");
-    return;
-  }
-
-  try {
-     console.log('Sending:', formData);
-    //use Xampp
-    // const res = await fetch('http://localhost/api/index.php?action=signup', {
-
-    //Use MAMP
-    const res = await fetch('http://localhost:8888/api/index.php?action=signup',{
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        residentId: formData.residentId,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password
-      })
-    });
-    console.log('Response status:', res.status); 
-    const data = await res.json();
-    console.log('Response data:', data);
-    if (data.success) {
-      // Redirect to login
-      window.location.href = '/sign-in';
-    } else {
-      alert(data.message); // Show error from backend
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match");
+      return;
     }
-  } catch (error) {
-    alert('Sign up failed');
-  }
+
+    if (!agreeToTerms) {
+      alert("Please agree to terms");
+      return;
+    }
+
+    try {
+      console.log("Sending:", formData);
+      //use Xampp
+      const res = await fetch("http://localhost/api/index.php?action=signup", {
+        //Use MAMP
+        // const res = await fetch('http://localhost:8888/api/index.php?action=signup',{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          residentId: formData.residentId,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+        }),
+      });
+      console.log("Response status:", res.status);
+      const data = await res.json();
+      console.log("Response data:", data);
+      if (data.success) {
+        // Redirect to login
+        window.location.href = "/sign-in";
+      } else {
+        alert(data.message); // Show error from backend
+      }
+    } catch (error) {
+      alert("Sign up failed");
+    }
   };
 
   return (
@@ -225,7 +225,9 @@ const SignUp = () => {
                         edge="end"
                       >
                         {showPassword ? (
-                          <VisibilityOffRounded sx={{ color: "text.secondary" }} />
+                          <VisibilityOffRounded
+                            sx={{ color: "text.secondary" }}
+                          />
                         ) : (
                           <VisibilityRounded sx={{ color: "text.secondary" }} />
                         )}
@@ -253,11 +255,15 @@ const SignUp = () => {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                         edge="end"
                       >
                         {showConfirmPassword ? (
-                          <VisibilityOffRounded sx={{ color: "text.secondary" }} />
+                          <VisibilityOffRounded
+                            sx={{ color: "text.secondary" }}
+                          />
                         ) : (
                           <VisibilityRounded sx={{ color: "text.secondary" }} />
                         )}

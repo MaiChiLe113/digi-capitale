@@ -24,22 +24,25 @@ const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-    // const response = await fetch('http://localhost/api/login.php', {
-    const response = await fetch('http://localhost:8888/api/index.php?action=login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, rememberMe }),
-    });
-    
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await fetch(
+      "http://localhost/api/index.php?action=login",
+      {
+        // const response = await fetch('http://localhost:8888/api/index.php?action=login', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, rememberMe }),
+      }
+    );
+
     const data = await response.json();
     if (data.success) {
-      localStorage.setItem('auth_token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      window.location.href = '/landing';
-    } 
-};
+      localStorage.setItem("auth_token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "/landing";
+    }
+  };
 
   return (
     <Box
@@ -113,7 +116,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                         edge="end"
                       >
                         {showPassword ? (
-                          <VisibilityOffRounded sx={{ color: "text.secondary" }} />
+                          <VisibilityOffRounded
+                            sx={{ color: "text.secondary" }}
+                          />
                         ) : (
                           <VisibilityRounded sx={{ color: "text.secondary" }} />
                         )}
@@ -138,9 +143,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                       size="small"
                     />
                   }
-                  label={
-                    <Typography variant="body2">Remember me</Typography>
-                  }
+                  label={<Typography variant="body2">Remember me</Typography>}
                 />
                 <Link
                   component={RouterLink}
