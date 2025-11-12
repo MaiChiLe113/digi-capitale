@@ -108,7 +108,10 @@ export default function About() {
                                             color: '#2C325B',
                                         }}> {member.name} </Typography>
 
-                                    <Typography variant = "subtitle1" color = "text.secondary"> {member.role} </Typography>
+                                    <Typography 
+                                        variant = "subtitle1" 
+                                        color = "text.secondary"
+                                        > {member.role} </Typography>
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -118,4 +121,5 @@ export default function About() {
     );
 
     
+
 }
