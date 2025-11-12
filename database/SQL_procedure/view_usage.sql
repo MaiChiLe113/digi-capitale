@@ -82,3 +82,18 @@ GROUP BY
   i.ItemID, i.ServiceName  -- Group all bookings for the same service
 ORDER BY
   TotalUsageMinutes DESC;
+
+
+-- view peak usage time (most bookings window)
+SELECT
+  s.StartTime,
+  COUNT(b.BookID) AS TotalBookings
+FROM
+  Booking AS b
+  JOIN Slots AS s ON b.SlotID = s.SlotID
+WHERE
+  b.Status = 'confirmed'
+GROUP BY
+  s.StartTime
+ORDER BY
+  TotalBookings DESC;
