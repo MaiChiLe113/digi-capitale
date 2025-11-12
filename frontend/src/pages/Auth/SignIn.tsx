@@ -26,17 +26,18 @@ const SignIn = () => {
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-    const response = await fetch('/api/login.php', {
+    // const response = await fetch('http://localhost/api/login.php', {
+    const response = await fetch('http://localhost:8888/api/index.php?action=login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, rememberMe }),
-      credentials: 'include'
     });
     
     const data = await response.json();
     if (data.success) {
       localStorage.setItem('auth_token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      window.location.href = '/landing';
     } 
 };
 

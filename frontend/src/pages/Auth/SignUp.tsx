@@ -56,7 +56,7 @@ const SignUp = () => {
     // const res = await fetch('http://localhost/api/signup.php', {
 
     //Use MAMP
-    const res = await fetch('http://localhost:8888/backend/api/index.php?action=signup',{
+    const res = await fetch('http://localhost:8888/api/index.php?action=signup',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
