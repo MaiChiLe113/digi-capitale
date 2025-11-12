@@ -18,12 +18,11 @@ if (!$conn) {
   exit;
 }
 $stmt = $conn->prepare('
-  SELECT 
-    r.ResidentID, 
-    r.FirstName, 
-    r.LastName, 
-    r.Email, 
-    r.Phone, 
+  SELECT
+    r.ResidentID,
+    r.FirstName,
+    r.LastName,
+    r.Email,
     r.Image,
     u.Role
   FROM resident r
@@ -54,9 +53,8 @@ echo json_encode([
     'FirstName' => $profile['FirstName'],
     'LastName' => $profile['LastName'],
     'Email' => $profile['Email'],
-    'Phone' => $profile['Phone'],
     'Image' => $profile['Image'],
-    'Role' => $profile['Role']
+    'Role' => $profile['Role'] ?? 'resident'
   ]
 ]);
 ?>

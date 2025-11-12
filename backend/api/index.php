@@ -20,8 +20,8 @@ if ($action === 'signup') {
 } else if ($action === 'login') {
   require 'login.php';
 } else if ($action === 'getProfile') {
-  // require 'getProfile.php';
-  require 'testProfile.php';
+  require 'getProfile.php';
+  // require 'testProfile.php';
 } else if ($action === 'updateProfile') {
   require 'updateProfile.php';
 } else if ($action === 'getApartmentInfo') {

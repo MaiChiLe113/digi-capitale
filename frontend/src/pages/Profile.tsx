@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import EditRounded from "@mui/icons-material/EditRounded";
 import HomeRounded from "@mui/icons-material/HomeRounded";
-import PhoneRounded from "@mui/icons-material/PhoneRounded";
 import EmailRounded from "@mui/icons-material/EmailRounded";
 import PersonRounded from "@mui/icons-material/PersonRounded";
 
@@ -26,7 +25,6 @@ interface ResidentProfile {
   FirstName: string;
   LastName: string;
   Email: string;
-  Phone: string;
   Image: string;
   Role: string;
 }
@@ -235,21 +233,6 @@ const Profile = () => {
 
                 <Divider />
 
-                {/* Phone */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <PhoneRounded sx={{ color: "primary.main", fontSize: 28 }} />
-                  <Box>
-                    <Typography variant="caption" color="text.secondary">
-                      Phone Number
-                    </Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {profile.Phone || "Not provided"}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Divider />
-
                 {/* Full Name */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <PersonRounded sx={{ color: "primary.main", fontSize: 28 }} />
@@ -293,12 +276,6 @@ const Profile = () => {
               setEditData({ ...editData, LastName: e.target.value })
             }
           />
-          <TextField
-            fullWidth
-            label="Phone"
-            value={editData.Phone || ""}
-            onChange={(e) => setEditData({ ...editData, Phone: e.target.value })}
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
@@ -307,6 +284,8 @@ const Profile = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Add History Transaction, Service here */}
     </Box>
   );
 };

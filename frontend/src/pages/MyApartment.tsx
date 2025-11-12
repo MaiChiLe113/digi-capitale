@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   Paper,
-  Grid,
   Card,
   CardContent,
   Divider,
@@ -17,7 +16,6 @@ import {
   IconButton,
 } from "@mui/material";
 import ArrowBackRounded from "@mui/icons-material/ArrowBackRounded";
-import EditRounded from "@mui/icons-material/EditRounded";
 import HomeRounded from "@mui/icons-material/HomeRounded";
 import DirectionsCarRounded from "@mui/icons-material/DirectionsCarRounded";
 import TwoWheelerRounded from "@mui/icons-material/TwoWheelerRounded";
@@ -143,70 +141,61 @@ const MyApartment = () => {
         <Paper elevation={2} sx={{ p: 4, bgcolor: "#F5E6D3" }}>
           <Stack spacing={3}>
             {/* Building and Room Info */}
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems={{ xs: "flex-start", sm: "center" }} gap={2}>
               <Box>
                 <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                   {apartment.Building} - Room {apartment.RoomNum}
                 </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Card sx={{ bgcolor: "white" }}>
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Building
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          <HomeRounded sx={{ mr: 1, verticalAlign: "middle" }} />
-                          {apartment.Building}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Card sx={{ bgcolor: "white" }}>
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Floor
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          {apartment.Floor}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Card sx={{ bgcolor: "white" }}>
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Room Number
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          {apartment.RoomNum}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Card sx={{ bgcolor: "white" }}>
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Room Type
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          {apartment.RoomType}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </Grid>
+                <Stack
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                    gap: 2,
+                  }}
+                >
+                  <Card sx={{ bgcolor: "white" }}>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Building
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        <HomeRounded sx={{ mr: 1, verticalAlign: "middle" }} />
+                        {apartment.Building}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                  <Card sx={{ bgcolor: "white" }}>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Floor
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        {apartment.Floor}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                  <Card sx={{ bgcolor: "white" }}>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Room Number
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        {apartment.RoomNum}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                  <Card sx={{ bgcolor: "white" }}>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Room Type
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        {apartment.RoomType}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Stack>
               </Box>
-              <Button
-                variant="contained"
-                startIcon={<EditRounded />}
-                sx={{ height: "fit-content" }}
-              >
-                Edit
-              </Button>
             </Stack>
 
             <Divider />
@@ -231,41 +220,45 @@ const MyApartment = () => {
             Vehicles
           </Typography>
           {vehicles.length > 0 ? (
-            <Grid container spacing={2}>
+            <Stack
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
+                gap: 2,
+              }}
+            >
               {vehicles.map((vehicle) => (
-                <Grid item xs={12} sm={6} md={4} key={vehicle.VehicleID}>
-                  <Card>
-                    <CardContent>
-                      <Stack spacing={1}>
-                        <Typography color="textSecondary" gutterBottom>
-                          {vehicle.Type === "car" && (
-                            <>
-                              <DirectionsCarRounded sx={{ mr: 1, verticalAlign: "middle" }} />
-                              Car
-                            </>
-                          )}
-                          {(vehicle.Type === "motorcycle" || vehicle.Type === "Motorcycle") && (
-                            <>
-                              <TwoWheelerRounded sx={{ mr: 1, verticalAlign: "middle" }} />
-                              Motorcycle
-                            </>
-                          )}
-                          {vehicle.Type === "electricbike" && (
-                            <>
-                              <TwoWheelerRounded sx={{ mr: 1, verticalAlign: "middle" }} />
-                              Electric Bike
-                            </>
-                          )}
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          {vehicle.LicensePlate}
-                        </Typography>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <Card key={vehicle.VehicleID}>
+                  <CardContent>
+                    <Stack spacing={1}>
+                      <Typography color="textSecondary" gutterBottom>
+                        {vehicle.Type === "car" && (
+                          <>
+                            <DirectionsCarRounded sx={{ mr: 1, verticalAlign: "middle" }} />
+                            Car
+                          </>
+                        )}
+                        {(vehicle.Type === "motorcycle" || vehicle.Type === "Motorcycle") && (
+                          <>
+                            <TwoWheelerRounded sx={{ mr: 1, verticalAlign: "middle" }} />
+                            Motorcycle
+                          </>
+                        )}
+                        {vehicle.Type === "electricbike" && (
+                          <>
+                            <TwoWheelerRounded sx={{ mr: 1, verticalAlign: "middle" }} />
+                            Electric Bike
+                          </>
+                        )}
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        {vehicle.LicensePlate}
+                      </Typography>
+                    </Stack>
+                  </CardContent>
+                </Card>
               ))}
-            </Grid>
+            </Stack>
           ) : (
             <Typography color="textSecondary">No vehicles registered</Typography>
           )}
@@ -277,36 +270,31 @@ const MyApartment = () => {
             Family
           </Typography>
           {familyMembers.length > 0 ? (
-            <Grid container spacing={2}>
+            <Stack spacing={2}>
               {familyMembers.map((member, index) => (
-                <Stack item xs={12} key={index}>
-                  <Card>
-                    <CardContent>
-                      <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Stack direction="row" alignItems="center" gap={2}>
-                          <PersonRounded sx={{ color: "primary.main", fontSize: 32 }} />
-                          <Box>
-                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                              {member.Name}
-                            </Typography>
-                            <Typography variant="caption" color="textSecondary">
-                              ID: {member.ID}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                        <Button variant="text" size="small">
-                          Edit
-                        </Button>
+                <Card key={index}>
+                  <CardContent>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack direction="row" alignItems="center" gap={2}>
+                        <PersonRounded sx={{ color: "primary.main", fontSize: 32 }} />
+                        <Box>
+                          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                            {member.Name}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            ID: {member.ID}
+                          </Typography>
+                        </Box>
                       </Stack>
-                    </CardContent>
-                  </Card>
-                </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
               ))}
-            </Grid>
+            </Stack>
           ) : (
             <Typography color="textSecondary">No family members added</Typography>
           )}
