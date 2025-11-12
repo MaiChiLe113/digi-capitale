@@ -151,7 +151,7 @@ const SignIn = () => {
         localStorage.setItem("auth_token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         setTimeout(() => {
-          window.location.href = "/landing";
+          window.location.href = "/home";
         }, 1500);
       } else {
         // Handle specific error messages from backend

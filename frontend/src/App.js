@@ -1,6 +1,5 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import { EmailVerification } from "./screens/EmailVerification";
 // import { PasswordReset } from "./screens/PasswordReset";
 import { PasswordReset } from "./pages/Auth/PasswordReset.tsx";
 import { SetNewPassword } from "./pages/Auth/SetNewPassword.tsx";
@@ -8,22 +7,18 @@ import SignIn from "./pages/Auth/SignIn.tsx";
 import SignUp from "./pages/Auth/SignUp.tsx";
 import Landing from "./pages/Landing.jsx";
 import About from "./pages/About.jsx";
-
+import Home from "./pages/Home.jsx";
 // import { SuccessConfirmation } from "./screens/SuccessConfirmation";
 
 const router = createBrowserRouter([
   {
     path: "/*",
-    element: <SignUp />,
+    element: <Landing />,
   },
   {
     path: "/sign-up",
     element: <SignUp />,
   },
-  // {
-  //   path: "/email-verification",
-  //   element: <EmailVerification />,
-  // },
   {
     path: "/set-new-password",
     element: <SetNewPassword />,
@@ -47,7 +42,11 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
-  }
+  },
+  {
+    path: "/home",
+    element: <Home />,
+  },
 
   // {
   //   path: "/success-confirmation-page",
