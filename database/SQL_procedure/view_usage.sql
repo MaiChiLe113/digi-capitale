@@ -2,7 +2,7 @@
 SELECT * 
 FROM booking AS b
 JOIN contract AS c ON c.ContractID = b.ContractID
-WHERE b.Status = 'Confirmed'
+WHERE b.Status = 'Confirmed';
 
 -- Monitor usage frequency by utilities
 SELECT
