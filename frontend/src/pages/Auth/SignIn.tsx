@@ -339,7 +339,7 @@ const SignIn = () => {
             Don't have an account?{" "}
             <Link
               component={RouterLink}
-              to="/sign-up"
+              to="/signup"
               underline="hover"
               sx={{ color: "primary.main", fontWeight: 500 }}
             >
