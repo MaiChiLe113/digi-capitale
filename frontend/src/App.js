@@ -6,6 +6,7 @@ import Landing from "./pages/Landing.jsx";
 import About from "./pages/About.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.tsx";
+import Utility from "./pages/Utility.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     path: "/profile",
     element: <Profile />,
   },
+  {
+    path: "/utility",
+    element: <Utility />,
+  }
 ]);
 
 const App = () => {
