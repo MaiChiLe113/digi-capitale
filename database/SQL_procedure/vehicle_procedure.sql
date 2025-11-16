@@ -41,11 +41,11 @@ JOIN card c ON v.CardID = c.CardID
 SET v.LicensePlate = "29C-77777", v.VehicleType = "motorcycle"
 WHERE c.ResidentID = 1440 AND v.LicensePlate = "29C-99999";
 
--- View all residents who have vehicle (cnay tmh k ro de lmj nen k sua nhe)
-SELECT r.FirstName, r.LastName, l.RoomNum, l.BuildingID
-FROM resident r
-JOIN lease l ON r.ResidentID = l.ResidentID
-WHERE l.VehicleRegistered = 1 AND l.BuildingID = "IDID";
+-- View all residents who have vehicle (cnay tmh k ro de lmj nen k sua nhe) +1 lam nghi la nen xoa
+-- SELECT r.FirstName, r.LastName, l.RoomNum, l.BuildingID
+-- FROM resident r
+-- JOIN lease l ON r.ResidentID = l.ResidentID
+-- WHERE l.VehicleRegistered = 1 AND l.BuildingID = "IDID";
 
 -- View all vehicle belong to pple in a room (assume code has RoomID)
 SELECT
