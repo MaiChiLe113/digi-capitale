@@ -17,7 +17,7 @@ export default function Utility() {
         },
 
         {
-            section: 'Community',
+        section: 'Community',
             items: [
                 { name: 'Sky Bar', icon: <LocalBar />, status: 'Available', color: 'success' },
                 { name: 'BBQ Garden', icon: <OutdoorGrill />, status: 'Full', color: 'error' },
