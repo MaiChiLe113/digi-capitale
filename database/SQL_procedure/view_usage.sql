@@ -14,7 +14,7 @@ FROM
   JOIN Item AS i ON s.ItemID = i.ItemID
 WHERE
   b.Status = 'confirmed'
-  -- Filter by a specific time range (e.g., November 2025), un comment dong duoi neu muon loc theo thoi gian
+  -- Filter by a specific time range (e.g., November 2025)
   -- AND s.SlotDay BETWEEN '2025-11-01' AND '2025-11-30'
 GROUP BY
   i.ServiceName
@@ -39,8 +39,9 @@ WHERE
   BookID = 123
   AND CheckInTime IS NOT NULL -- Must check-in before checking out
   AND CheckOutTime IS NULL; -- Prevents checking out twice
+  
 
--- Monitor actual úage time
+-- Monitor actual usage time
 SELECT
   b.BookID,
   i.ServiceName,
@@ -59,9 +60,11 @@ FROM
 WHERE
   b.Status = 'confirmed'
   AND b.CheckInTime IS NOT NULL
-  AND b.CheckOutTime IS NOTT NULL
+  AND b.CheckOutTime IS NOT NULL
 ORDER BY
   b.CheckInTime DESC; -- Show most recent check-ins first
+
+  
 
 
 -- Calculate actual usage for each utilities (check-in to check-out)
@@ -78,6 +81,9 @@ WHERE
   -- Only include bookings that are fully complete
   b.CheckInTime IS NOT NULL
   AND b.CheckOutTime IS NOT NULL
+  -- Filter by a specific time range (e.g., November 2025). uncomment to use
+  -- AND Year(s.SlotDay) = 2025
+  -- AND Month(s.SlotDay) = 11
 GROUP BY
   i.ItemID, i.ServiceName  -- Group all bookings for the same service
 ORDER BY
@@ -93,6 +99,10 @@ FROM
   JOIN Slots AS s ON b.SlotID = s.SlotID
 WHERE
   b.Status = 'confirmed'
+  -- Sort total booking by specific services 
+  AND s.ItemID = 3
+  AND YEAR(s.SlotDay) = 2025
+  AND MONTH(s.SlotDay) = 11
 GROUP BY
   s.StartTime
 ORDER BY

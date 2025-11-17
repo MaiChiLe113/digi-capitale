@@ -1,4 +1,4 @@
--- Vieww all money collected, grouped by resident and room number
+-- View all money collected, grouped by resident and room number
 SELECT
   c.ResidentID,
   c.RoomNum,
@@ -38,13 +38,12 @@ ORDER BY
 
 
 
-
 -- View unpaid bills, order by amount
 SELECT
   c.ResidentID,
   c.RoomNum,
   SUM(b.TotalPrice) AS TotalAmountOwed,
-  COUNT(b.PaymentCode) AS UnpaidBillCount
+  COUNT(b.PaymentCode) AS UnpaidBill
 FROM
   Bill AS b
   JOIN Contract AS c ON b.ContractID = c.ContractID
@@ -55,7 +54,7 @@ GROUP BY
 ORDER BY
   TotalAmountOwed DESC;
 
--- View total money collected for each service/item
+-- View total money collected for each service/item during certain period
 SELECT
   i.ServiceName,
   SUM(b.TotalPrice) AS TotalRevenue,
@@ -65,6 +64,8 @@ FROM
   JOIN Item AS i ON b.ItemID = i.ItemID
 WHERE
   b.IsPaid = '1' -- Only counts collected revenue
+  AND YEAR(b.CreatedAt) = 2025
+  AND MONTH(b.CreatedAt) = 11
 GROUP BY
   i.ItemID, i.ServiceName
 ORDER BY

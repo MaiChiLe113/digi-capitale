@@ -107,3 +107,30 @@ export default function Landing() {
     </Stack>
   );
 }
+
+
+// ATTRACTIVE INCENTIVE POLICY
+
+// 💥  Only for this month  💥
+
+// 🎁  15% discount for customers who pay early
+
+// 🎁  Free furniture package equivalent to 10% of apartment value
+
+// 🎁  Support loan 65% of apartment value with 0% interest rate in 24 months
+
+// 🎁  8% discount for customers paying on schedule
+
+// 🎁  Customers can come and see the apartment directly
+
+// ⇒  Free 10 years of service fees, if you do not receive service fees, they will be deducted directly from the selling price.
+
+// 🎁  1 bedroom apartment: 70 million discount
+
+// 🎁  2-bedroom apartment: 120 million discount
+
+// 🎁  3-bedroom apartment: discount 170 million
+
+// 🎁  Get a housewarming package worth 150 million, deducted from the value before VAT + maintenance fee
+
+// This is the opportunity to buy D'capitale Tran Duy Hung apartment at the best price. What are you waiting for? Hurry up and buy now, call hotline 0987606780 or leave your information below. 
