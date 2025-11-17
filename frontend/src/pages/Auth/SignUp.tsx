@@ -194,7 +194,9 @@ const SignUp = () => {
         error = validatePassword(value);
         // Also validate confirm password if it has been touched
         if (touched.confirmPassword && formData.confirmPassword) {
-          const confirmError = validateConfirmPassword(formData.confirmPassword);
+          const confirmError = validateConfirmPassword(
+            formData.confirmPassword
+          );
           setFormErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
         }
         break;
@@ -306,7 +308,7 @@ const SignUp = () => {
           width: "100%",
           maxWidth: 440,
           p: 4,
-          borderRadius: 4,
+          borderRadius: 1,
         }}
       >
         <Stack spacing={3}>
@@ -516,7 +518,9 @@ const SignUp = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange("confirmPassword")}
                   onBlur={() => handleBlur("confirmPassword")}
-                  error={touched.confirmPassword && !!formErrors.confirmPassword}
+                  error={
+                    touched.confirmPassword && !!formErrors.confirmPassword
+                  }
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">

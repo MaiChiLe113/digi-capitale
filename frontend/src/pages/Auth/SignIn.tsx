@@ -155,13 +155,19 @@ const SignIn = () => {
         }, 1500);
       } else {
         // Handle specific error messages from backend
-        if (data.message === "Invalid email" || data.message === "User not found") {
+        if (
+          data.message === "Invalid email" ||
+          data.message === "User not found"
+        ) {
           setError("No account found with this email address");
           setFormErrors((prev) => ({
             ...prev,
             email: "Account not found",
           }));
-        } else if (data.message === "Invalid password" || data.message === "Password incorrect") {
+        } else if (
+          data.message === "Invalid password" ||
+          data.message === "Password incorrect"
+        ) {
           setError("Incorrect password. Please try again.");
           setFormErrors((prev) => ({
             ...prev,
@@ -172,7 +178,9 @@ const SignIn = () => {
         }
       }
     } catch (error) {
-      setError("An error occurred. Please check your connection and try again.");
+      setError(
+        "An error occurred. Please check your connection and try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -195,7 +203,7 @@ const SignIn = () => {
           width: "100%",
           maxWidth: 440,
           p: 4,
-          borderRadius: 4,
+          borderRadius: 1,
         }}
       >
         <Stack spacing={3}>
@@ -280,7 +288,9 @@ const SignIn = () => {
                               sx={{ color: "text.secondary" }}
                             />
                           ) : (
-                            <VisibilityRounded sx={{ color: "text.secondary" }} />
+                            <VisibilityRounded
+                              sx={{ color: "text.secondary" }}
+                            />
                           )}
                         </IconButton>
                       </InputAdornment>

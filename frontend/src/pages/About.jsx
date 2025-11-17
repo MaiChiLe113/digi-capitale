@@ -9,6 +9,8 @@ import {
   CardContent,
   CardMedia,
   Divider,
+  Stack,
+  Paper,
 } from "@mui/material";
 import theme from "../theme";
 
@@ -17,7 +19,7 @@ export default function About() {
     {
       name: "Tran Minh Hai",
       role: "Role 1",
-      img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=faces&fit=crop&w=200&h=200",
+      img: "https://scontent.fhan5-9.fna.fbcdn.net/v/t39.30808-1/574476450_2280964512408753_2767848676934015635_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e99d92&_nc_ohc=UJ22DCQ9HQQQ7kNvwHmVTtt&_nc_oc=AdlYldVO9RKf_PtTjqOLYcwLMsnXe8VjMjH3G5f7LwwldXMD-dT_IGRUMJ4CCw6YSHg&_nc_zt=24&_nc_ht=scontent.fhan5-9.fna&_nc_gid=LuulqzYVS7PxEenzncts1w&oh=00_Afg1vE0Ar465LD6rCLu-_U8Cw3RbbFeLiUecxQTUdHGI3A&oe=691DABB0",
     },
     {
       name: "Le Mai Chi",
@@ -27,153 +29,195 @@ export default function About() {
     {
       name: "Nguyen Nhat Lam",
       role: "Role 3",
-      img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=faces&fit=crop&w=200&h=200",
+      img: "https://scontent.fhan5-6.fna.fbcdn.net/v/t39.30808-6/440928634_1233348624715488_6688028666977266526_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KF8eED2P-PkQ7kNvwGAGa7I&_nc_oc=AdlaW9ooD_AxYq5P641a-UJ1oakkPC-LUiq9NPwylTqypQQ7rroKGb7GixnRQjZ3bcU&_nc_zt=23&_nc_ht=scontent.fhan5-6.fna&_nc_gid=c1H1uXSHwZGcKwFjk8zPYg&oh=00_AfiR7bwULxHaGn6PtIZFsI3SHo0imzuueARNBqdsmY6XxQ&oe=691DB481",
     },
     {
       name: "Nguyen Duc Nam",
       role: "Role 4",
-      img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?crop=faces&fit=crop&w=200&h=200",
+      img: "https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/460885431_3882918485273699_427880928224399346_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=ET2HROjBwngQ7kNvwGlTZl2&_nc_oc=AdnQ_I4CpLJ_fKicZG8ONCpV3MuVwoHDYL8usqmnmSKZYL9Uyd9nEZi1dALn--aBdrE&_nc_zt=23&_nc_ht=scontent.fhan5-8.fna&_nc_gid=sCLW4U-MXDCV_GXqkO8QZQ&oh=00_AfjKTOwyqkrhNzfBfWFIQ94VLoBPZIDlRyxc3fw0GUgaGQ&oe=691DD218",
     },
     {
       name: "Nguyen Huyen Minh Nhat",
       role: "Role 5",
-      img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=faces&fit=crop&w=200&h=200",
+      img: "https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/474989068_1274483427109383_9076362888895322949_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=502-Oe8w890Q7kNvwG-mkUL&_nc_oc=AdnaX6n5ZkFBkcrk9ko8akfMY5yFZL5k_pcFjTnhBF2rT7pzT6TKYTxEUkk_-k-zVxI&_nc_zt=23&_nc_ht=scontent.fhan5-11.fna&_nc_gid=nYtvF7lQDRi47k7I-kc-RA&oh=00_Afis6u1hSxPlT3cSMypzsQUmzLSQU6Ba1R4F1bMdnj_fXQ&oe=691DCDF3",
     },
   ];
 
   return (
-    <Container
-      sx={{
-        textAlign: "center",
-        borderRadius: 0.5,
-        boxShadow: 3,
-        backgroundColor: "background.paper",
-      }}
-    >
-      {/* Our Mission */}
-      <Typography variant="h3" gutterBottom color="secondary.main">
-        {" "}
-        Our Mission{" "}
-      </Typography>
-      <Typography variant="body1" color="secondary.dark" sx={{ mb: 4 }}>
-        Digi Capitale is a project team aiming for the development of the D'
-        Capitale residential area.
-      </Typography>
-
-      {/* Buttons */}
-      <Box sx={{ my: 4, display: "flex", justifyContent: "center", gap: 2 }}>
-        {/* Confluence */}
-        <Button
-          variant="contained"
-          href="https://cos20031-nguyenducnam.atlassian.net/wiki/spaces/COS20031/pages/98773/Digi+Capitale+Home+Page"
-          color="primary"
+    <Stack>
+      <Box
+        sx={{
+          position: "relative",
+          minHeight: "40vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "center",
+          color: "white",
+          padding: 4,
+          backgroundImage: `url("https://media.istockphoto.com/id/1346944001/photo/close-up-of-co-workers-stacking-their-hands-together.jpg?s=612x612&w=0&k=20&c=lidJcFUSR3rkMt4B0yoNwH55lz3sth9o2280keqBXGE=")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 0,
+            background: `rgba(0, 0, 0, 0.3)`,
+            backdropFilter: "blur(3px)",
+          },
+          "& > *": {
+            position: "relative",
+            zIndex: 1,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "flex-start",
+          }}
         >
-          {" "}
-          See Our Journey{" "}
-        </Button>
+          <Typography variant="h1" color="primary">
+            Our Mission
+          </Typography>
+          <Typography variant="h5" color="primary.contrastText">
+            Digi Capitale is a project team aiming for the development of the D'
+            Capitale residential area.
+          </Typography>
 
-        {/* Github */}
-        <Button
-          variant="contained"
-          href="https://github.com/MaiChiLe113/digi-capitale/tree/main/frontend"
-          color="primary"
-        >
-          {" "}
-          See Our Production{" "}
-        </Button>
+          {/* Buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: 2,
+            }}
+          >
+            {/* Confluence */}
+            <Button
+              variant="contained"
+              href="https://cos20031-nguyenducnam.atlassian.net/wiki/spaces/COS20031/pages/98773/Digi+Capitale+Home+Page"
+              color="primary"
+            >
+              {" "}
+              See Our Journey{" "}
+            </Button>
+
+            {/* Github */}
+            <Button
+              variant="contained"
+              href="https://github.com/MaiChiLe113/digi-capitale/tree/main/frontend"
+              color="primary"
+            >
+              {" "}
+              See Our Production{" "}
+            </Button>
+          </Box>
+        </Box>
+        {/* Our Mission */}
       </Box>
 
       {/* Members */}
-      <Typography
-        variant="h4"
-        gutterBottom
-        color="secondary.main"
-        sx={{ mb: 2 }}
-      >
-        Meet Our Team
-      </Typography>
-      <Grid container spacing={2} justifyContent="center" alignItems="stretch">
-        {members.map((member, index) => (
-          <Grid item xs={12} sm={6} md={2} key={index} sx={{ display: "flex" }}>
-            <Card
-              sx={{
-                width: 280,
-                height: 200,
-                textAlign: "center",
-                boxShadow: 4,
-                borderRadius: 2,
-                background: "linear-gradient(135deg, #D4A160 0%, #C4924A 100%)",
-                transition: "transform 0.3s",
-                "&:hover": {
-                  transform: "scale(1.02)",
-                  boxShadow: 10,
-                },
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={member.img}
-                alt={member.name}
-                sx={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  mx: "auto",
-                  mt: 2,
-                }}
-              />
-
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "secondary.light",
-                  }}
-                >
-                  {" "}
-                  {member.name}{" "}
-                </Typography>
-
-                <Typography variant="subtitle1" color="text.primary">
-                  {" "}
-                  {member.role}{" "}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Stats Section */}
       <Box
         sx={{
-          mt: 8,
-          py: 6,
-          backgroundColor: "background.default",
-          borderRadius: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          gap: 2,
+          margin: 4,
+          textAlign: "center",
         }}
       >
-        <Typography variant="h4" sx={{ color: "#D6B585", mb: 4 }}>
+        <Typography variant="h1">Meet Our Team</Typography>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          alignItems="stretch"
+        >
+          {members.map((member, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={2}
+              key={index}
+              sx={{ display: "flex" }}
+            >
+              <Card
+                sx={{
+                  width: 220,
+                  height: 280,
+                  textAlign: "center",
+                  boxShadow: 4,
+                  borderRadius: 1,
+                  background:
+                    "linear-gradient(140deg, #f9dbb3ff 0%, #c88e3dff 100%)",
+                  transition: "transform 0.3s",
+                  "&:hover": {
+                    transform: "scale(1.02)",
+                    boxShadow: 10,
+                  },
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  image={member.img}
+                  alt={member.name}
+                  sx={{
+                    height: 200,
+                    borderRadius: 0,
+                    objectFit: "cover",
+                    mx: "auto",
+                    mt: 0,
+                  }}
+                />
+
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "secondary.light",
+                    }}
+                  >
+                    {" "}
+                    {member.name}{" "}
+                  </Typography>
+                  <Typography variant="h6" color="text.primary">
+                    {" "}
+                    {member.role}{" "}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Stats Section */}
+        <Typography variant="h1" sx={{ mt: 2 }}>
           About Us
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} sm={4}>
-            <Typography
-              variant="h3"
-              sx={{ color: "secondary.main", fontWeight: "bold" }}
-            >
+            <Typography variant="h2" sx={{ fontWeight: "bold" }}>
               30+
             </Typography>
-            <Typography variant="h6" sx={{ color: "text.primary", mb: 1 }}>
+            <Typography variant="h5" sx={{ color: "primary.main", mb: 1 }}>
               Countries worldwide
             </Typography>
             <Typography
-              variant="body2"
+              variant="body1"
               sx={{
-                color: "secondary.light",
-                textAlign: "left",
+                color: "text.primary",
+                textAlign: "justify",
                 maxWidth: "300px",
                 mx: "auto",
               }}
@@ -186,20 +230,17 @@ export default function About() {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Typography
-              variant="h3"
-              sx={{ color: "secondary.main", fontWeight: "bold" }}
-            >
+            <Typography variant="h2" sx={{ fontWeight: "bold" }}>
               50+
             </Typography>
-            <Typography variant="h6" sx={{ color: "text.primary", mb: 1 }}>
+            <Typography variant="h5" sx={{ color: "primary.main", mb: 1 }}>
               Qualified experts
             </Typography>
             <Typography
-              variant="body2"
+              variant="body1"
               sx={{
-                color: "secondary.light",
-                textAlign: "left",
+                color: "text.primary",
+                textAlign: "justify",
                 maxWidth: "300px",
                 mx: "auto",
               }}
@@ -214,20 +255,17 @@ export default function About() {
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography
-              variant="h3"
-              sx={{ color: "secondary.main", fontWeight: "bold" }}
-            >
+            <Typography variant="h2" sx={{ fontWeight: "bold" }}>
               70%
             </Typography>
-            <Typography variant="h6" sx={{ color: "text.primary", mb: 1 }}>
+            <Typography variant="h5" sx={{ color: "primary.main", mb: 1 }}>
               Time saved on projects
             </Typography>
             <Typography
-              variant="body2"
+              variant="body1"
               sx={{
-                color: "secondary.light",
-                textAlign: "left",
+                color: "text.primary",
+                textAlign: "justify",
                 maxWidth: "300px",
                 mx: "auto",
               }}
@@ -242,8 +280,6 @@ export default function About() {
           </Grid>
         </Grid>
       </Box>
-
-      <Divider sx={{ bgcolor: "primary.contrastText" }} />
-    </Container>
+    </Stack>
   );
 }
