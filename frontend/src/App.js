@@ -1,5 +1,8 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import AppLayout from "./AppLayout.jsx";
+
 import SignIn from "./pages/Auth/SignIn.tsx";
 import SignUp from "./pages/Auth/SignUp.tsx";
 import Landing from "./pages/Landing.jsx";
@@ -9,6 +12,16 @@ import Profile from "./pages/Profile.tsx";
 import Utility from "./pages/Utility.jsx";
 
 const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      { path: "/home", element: <Home /> },
+      { path: "/utility", element: <Utility /> },
+      // { path: "/services", element: <Services /> },
+      { path: "/about", element: <About /> },
+      { path: "/profile", element: <Profile /> },
+    ],
+  },
   {
     path: "/*",
     element: <Landing />,
@@ -25,22 +38,6 @@ const router = createBrowserRouter([
     path: "/landing",
     element: <Landing />,
   },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/utility",
-    element: <Utility />,
-  }
 ]);
 
 const App = () => {
