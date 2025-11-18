@@ -34,9 +34,9 @@ const theme = createTheme({
       dark: "#CA8A04",
     },
     success: {
-      main: "#10B981", // Green for success/paid
-      light: "#D1FAE5",
-      dark: "#059669",
+      main: "#5FBD54", // Green for success/paid
+      light: "#d3ffceff",
+      dark: "#518a4bff",
     },
     info: {
       main: "#0EA5E9", // Light blue for info

@@ -10,6 +10,7 @@ import About from "./pages/About.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.tsx";
 import Utility from "./pages/Utility.jsx";
+import Services from "./pages/Services.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/home", element: <Home /> },
       { path: "/utility", element: <Utility /> },
-      // { path: "/services", element: <Services /> },
+      { path: "/services", element: <Services /> },
       { path: "/about", element: <About /> },
       { path: "/profile", element: <Profile /> },
     ],
