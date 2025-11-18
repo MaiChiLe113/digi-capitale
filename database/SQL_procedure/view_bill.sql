@@ -35,7 +35,7 @@ BEGIN
 	END$$
 DELIMITER ;
 
--- TEST
+-- de trong code thi chi de dong nay thoi, DO NOT RE create lai ca cai procedure nhaa,
 CALL ViewBill(846);
 
 
