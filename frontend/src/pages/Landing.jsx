@@ -48,7 +48,7 @@ export default function Landing() {
           <Typography variant="h1" color="primary">
             Welcome to D'Capitale
           </Typography>
-          <Typography variant="h2" color="primary.contrastText">
+          <Typography variant="h5" color="primary.contrastText">
             Where Prime Location Meets Perfect Connection
           </Typography>
           <Button variant="containedPrimary" component={Link} to="/about">
@@ -80,7 +80,7 @@ export default function Landing() {
             Discover the range of services we offer to enhance your living
             experience.
           </Typography>
-          <Button variant="outlined" component={Link} to="/login">
+          <Button variant="outlined" component={Link} to="/signin">
             Log In to Explore Services
           </Button>
         </Box>
@@ -99,7 +99,7 @@ export default function Landing() {
             Access your personalized resident portal for exclusive features and
             updates.
           </Typography>
-          <Button variant="outlined" component={Link} to="/login">
+          <Button variant="outlined" component={Link} to="/signin">
             Log In to Resident Portal
           </Button>
         </Box>
@@ -107,7 +107,6 @@ export default function Landing() {
     </Stack>
   );
 }
-
 
 // ATTRACTIVE INCENTIVE POLICY
 
@@ -133,4 +132,4 @@ export default function Landing() {
 
 // 🎁  Get a housewarming package worth 150 million, deducted from the value before VAT + maintenance fee
 
-// This is the opportunity to buy D'capitale Tran Duy Hung apartment at the best price. What are you waiting for? Hurry up and buy now, call hotline 0987606780 or leave your information below. 
+// This is the opportunity to buy D'capitale Tran Duy Hung apartment at the best price. What are you waiting for? Hurry up and buy now, call hotline 0987606780 or leave your information below.

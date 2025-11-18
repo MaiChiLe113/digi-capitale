@@ -5,8 +5,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App";
 import theme from "./theme";
 import reportWebVitals from "./reportWebVitals";
+import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { Container } from "@mui/material";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,7 +18,6 @@ root.render(
       {/* <Container component={"main"} sx={{ flexGrow: 1, py: 4 }}> */}
       <App />
       {/* </Container> */}
-      <Footer />
     </ThemeProvider>
   </React.StrictMode>
 );

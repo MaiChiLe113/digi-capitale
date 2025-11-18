@@ -157,6 +157,23 @@ const theme = createTheme({
     //     },
     //   },
     // },
+    MuiContainer: {
+      styleOverrides: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        alignItems: "flex-start",
+        margin: 10,
+      },
+    },
+    MuiBox: {
+      styleOverrides: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        alignItems: "flex-start",
+      },
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true,
