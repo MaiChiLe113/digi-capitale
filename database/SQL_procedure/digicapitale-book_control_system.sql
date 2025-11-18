@@ -1,3 +1,6 @@
+-- ommm file nay trung voi file book_utility.sql nen la  dung file kia nha =))))))))
+
+
 DELIMITER //
 CREATE PROCEDURE ManageBooking(IN slotId INT, IN actionType VARCHAR(10))
 BEGIN

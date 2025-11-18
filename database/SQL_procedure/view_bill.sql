@@ -25,6 +25,9 @@ BEGIN
 		  JOIN Contract AS c ON b.ContractID = c.ContractID
 		WHERE
 		  c.ResidentID = c_ResidentID
+          -- Uncomment if need to filter by specific month/year
+        --   AND YEAR(b.CreatedAt) = 2025
+        --   AND MONTH (b.CreatedAt) = 11          
 		ORDER BY
 		  b.CreatedAt DESC,   -- Show the most recent bills first
 		  b.IsPaid;
@@ -36,14 +39,3 @@ DELIMITER ;
 CALL ViewBill(846);
 
 
-  --
-   
-  -- View all unpaid bill -> handle in code
-  
-  -- Mark a specific bill as paid
-UPDATE Bill
-SET
-  IsPaid = 'true'
-WHERE
-  PaymentCode = 5001      -- The ID of the bill they just paid, fix in code
-  AND IsPaid = 'false';   

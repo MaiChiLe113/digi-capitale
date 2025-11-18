@@ -1,18 +1,28 @@
+-- DROP PROCEDURE IF EXISTS AddVehicle;     ** Only use this line when you need to recreate the procedure **
 -- Add new vehicle
--- Assume ResidentID=1440 and LeaseID=1440 are known by the app (t modify user nay co du ttin)
-SELECT VehicleRegistered
-FROM Lease
-WHERE ResidentID = 1440 AND LeaseID = 1440;
--- Add the new vehicle, linking it to the resident's card
-SELECT CardID FROM card WHERE ResidentID = 1440 LIMIT 1;
-INSERT INTO Vehicle (CardID, LicensePlate, VehicleType)
-VALUES (1001, '29C-88888', 'Car');	-- insert card value, cnay cung la cua user tren
-
--- Increment the counter on that resident's lease
-UPDATE Lease
-SET VehicleRegistered = VehicleRegistered + 1
-WHERE ResidentID = 1440 AND LeaseID = 1440;
-
+DELIMITER $$
+CREATE PROCEDURE AddVehicle(IN b_ResidentID INT, IN b_LeaseID INT, IN b_LicensePlate VARCHAR(20), IN b_VehicleType VARCHAR(50))   -- VehicleType: car, motorcycle, bicycle (use the same as this so can search and sort easier)
+BEGIN  
+	DECLARE v_CurrentVehi INT;
+	DECLARE v_CardID INT;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			ROLLBACK;
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fail to add vehicle.';
+		END;
+	START TRANSACTION;
+		SELECT IFNULL(VehicleRegistered, 0) INTO v_CurrentVehi FROM Lease WHERE ResidentID = b_ResidentID AND LeaseID = b_LeaseID;
+		-- Add the new vehicle, linking it to the resident's card
+		SELECT CardID INTO v_CardID FROM card WHERE ResidentID = b_ResidentID LIMIT 1;
+		INSERT INTO Vehicle (CardID, LicensePlate, VehicleType)
+		VALUES (v_CardID, b_LicensePlate, b_VehicleType);
+		-- Increment the counter on that resident's lease
+		UPDATE Lease
+		SET VehicleRegistered = v_CurrentVehi + 1
+		WHERE LeaseID = b_LeaseID;
+	COMMIT;
+END$$
+DELIMITER ;
 
 
 
