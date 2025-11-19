@@ -43,9 +43,11 @@ CALL BookUtility(1, 12, 775, 'Hello myname is Lam');
 -- Calculate available slots to display 
 SELECT (Capacity - (SELECT Count(*) FROM booking WHERE SlotID = 12 AND (`Status` = 'Registered' OR `Status` = 'Confirmed'))) FROM slots WHERE SlotID = 12;
 
+
+
+
 -- Receptionist view  booking list 
 SELECT * FROM booking WHERE `Status` = 'Registered' ORDER BY TimeStamp;
-
 
 
 -- PROCESS BOOKING REQUESTS--
