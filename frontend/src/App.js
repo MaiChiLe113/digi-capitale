@@ -11,6 +11,7 @@ import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.tsx";
 import Utility from "./pages/Utility.jsx";
 import Services from "./pages/Services.jsx";
+import AdminRequest from "./pages/AdminRequest.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
     path: "/landing",
     element: <Landing />,
   },
+  {
+    path: "/home",
+    element: <Home />,
+  },
+  {
+    path: "/admin",
+    element: <AdminRequest />,
+  }
 ]);
 
 const App = () => {

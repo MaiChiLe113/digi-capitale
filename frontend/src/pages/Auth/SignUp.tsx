@@ -98,8 +98,8 @@ const SignUp = () => {
     if (!value.trim()) {
       return "Resident ID is required";
     }
-    if (value.trim().length < 3) {
-      return "Resident ID must be at least 3 characters";
+    if (value.trim().length < 1) {
+      return "Resident ID must be at least 1 characters";
     }
     return "";
   };
