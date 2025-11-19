@@ -29,6 +29,10 @@ if ($action === 'signup') {
   require 'deletePhoto.php';
 } else if ($action === 'getApartmentInfo') {
   require 'getApartment.php';
+} else if ($action === 'getBookings') {
+  require 'getBookings.php';
+} else if ($action === 'handleBookings') {
+  require 'handleBookings.php';
 } else {
   http_response_code(404);
   echo json_encode(['success' => false, 'message' => 'Endpoint not found']);
