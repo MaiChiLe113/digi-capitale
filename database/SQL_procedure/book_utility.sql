@@ -11,8 +11,10 @@ WHERE `Status` = 'Open';
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
 JOIN `item`
 ON slots.ItemID = item.ItemID
-WHERE ServiceName LIKE @Search;
+WHERE item.ServiceName LIKE '%Badminton%';
 
+
+-- Book a slot for a utility
 DROP PROCEDURE IF EXISTS BookUtility;
 DELIMITER $$
 CREATE PROCEDURE BookUtility (IN b_ResidentID INT, IN b_SlotID INT, IN b_ContractID INT, IN b_Note VARCHAR(255))
@@ -36,23 +38,27 @@ END$$
 DELIMITER ;
 
 -- Test function
-CALL BookUtility(1, 100, 1, 'Hello myname is LAm');    
+CALL BookUtility(1, 12, 775, 'Hello myname is Lam');  
 
 -- Calculate available slots to display 
-SELECT SlotID, COUNT(*) FROM booking WHERE `Status` = 'Registered' OR `Status` = 'Confirmed' GROUP BY SlotID;
+SELECT (Capacity - (SELECT Count(*) FROM booking WHERE SlotID = 12 AND (`Status` = 'Registered' OR `Status` = 'Confirmed'))) FROM slots WHERE SlotID = 12;
 
--- Receptionist view pending booking list 
+-- Receptionist view  booking list 
 SELECT * FROM booking WHERE `Status` = 'Registered' ORDER BY TimeStamp;
 
 
 
+-- PROCESS BOOKING REQUESTS--
+
 -- Approve a reservation
 DROP PROCEDURE IF EXISTS ConfirmBook;
 DELIMITER $$
-CREATE PROCEDURE ConfirmBook (IN b_BookID INT, IN b_ItemID INT, IN b_Quantity INT)
+CREATE PROCEDURE ConfirmBook (IN b_BookID INT)   -- Quantity auto = 1 because 1 booking can only book 1 slot
 BEGIN
 	DECLARE v_TotalPrice DECIMAL(10, 2);
     DECLARE v_ContractID INT;
+    DECLARE v_ItemID INT;
+    DECLARE v_SlotId INT;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
 		ROLLBACK;
@@ -61,16 +67,19 @@ BEGIN
     
     START TRANSACTION;
 		SELECT ContractID INTO v_ContractID FROM booking WHERE BookID = b_BookID;
-		SET v_TotalPrice = b_Quantity * (SELECT COALESCE(UnitPrice, 0) FROM item WHERE ItemID = b_ItemID);
+        SELECT SlotID INTO v_SlotID FROM booking WHERE BookID = b_BookID;
+        SELECT ItemID INTO v_ItemID FROM slots WHERE SlotID = v_SlotID;
+		SET v_TotalPrice = 1 * (SELECT COALESCE(UnitPrice, 0) FROM item WHERE ItemID = v_ItemID);
 		UPDATE booking
 		SET `Status` = 'Confirmed'
 		WHERE BookID = b_BookID AND `Status` = 'Registered';
-        INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity, IsPaid, CreatedAt) VALUES(v_ContractID, b_ItemID, v_TotalPrice, b_Quantity, default(IsPaid), default(CreatedAt));
+        -- create bill for that book
+        INSERT INTO bill(ContractID, ItemID, TotalPrice, Quantity, IsPaid, CreatedAt) VALUES(v_ContractID, v_ItemID, v_TotalPrice, 1, default(IsPaid), default(CreatedAt));
 	COMMIT;
 END$$
 DELIMITER ;
 
-CALL ConfirmBook(2, 1, 10);
+CALL ConfirmBook(11);
 
 -- Reject a reservation
 DROP PROCEDURE IF EXISTS RejectBook;
@@ -99,14 +108,18 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL RejectBook(1)
+CALL RejectBook(29);
 
 
-  
-  -- Mark a specific bill as paid
+-- Redo reject booking (in case receptionist made a mistake and rejected/approve that booking)
+UPDATE booking
+		SET `Status` = 'Registered'
+		WHERE BookID = 10 AND (`Status` = 'Rejected' OR `Status` = 'Confirmed');
+        
+        
 UPDATE Bill
 SET
-  IsPaid = 'true'
+  IsPaid = true
 WHERE
-  PaymentCode = 5001      -- The ID of the bill they just paid, fix in code
-  AND IsPaid = 'false';   
+  PaymentCode = 23      -- The ID of the bill they just paid, fix in code
+  AND IsPaid = false;   
