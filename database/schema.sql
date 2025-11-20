@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2025 at 01:48 PM
+-- Generation Time: Nov 20, 2025 at 04:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -1169,7 +1169,12 @@ INSERT INTO `bill` (`PaymentCode`, `ContractID`, `ItemID`, `TotalPrice`, `Create
 (1002, 838, 13, 0.00, '2025-11-18 18:34:34', 0, 1),
 (1003, 425, 34, 0.00, '2025-11-18 19:19:29', 0, 1),
 (1004, 113, 19, 0.00, '2025-11-18 19:26:00', 0, 1),
-(1005, 731, 32, 0.00, '2025-11-18 19:26:39', 0, 1);
+(1005, 731, 32, 0.00, '2025-11-18 19:26:39', 0, 1),
+(1006, 801, 19, 0.00, '2025-11-19 19:58:36', 0, 1),
+(1007, 1, 23, 0.00, '2025-11-19 20:02:59', 0, 1);
+INSERT INTO `bill` (`PaymentCode`, `ContractID`, `ItemID`, `TotalPrice`, `CreatedAt`, `IsPaid`, `Quantity`) VALUES
+(1008, 775, 3, 0.00, '2025-11-19 20:07:03', 0, 1),
+(1009, 775, 3, 0.00, '2025-11-20 09:56:05', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1358,7 +1363,7 @@ INSERT INTO `booking` (`BookID`, `ContractID`, `SlotID`, `Email`, `TimeStamp`, `
 (162, 863, 392, 'tscathard4h@plala.or.jp', '2025-11-11 23:17:49', 'Confirmed', '', '06:07:00', '22:53:00'),
 (163, 436, 924, 'sposnette4i@intel.com', '2025-11-11 04:26:15', 'Registered', '', '10:20:00', '14:02:00'),
 (164, 96, 639, 'adelmonte4j@csmonitor.com', '2025-11-11 03:12:29', 'Registered', '', '07:12:00', '17:42:00'),
-(165, 801, 950, 'glerego4k@accuweather.com', '2025-11-11 00:00:38', 'Registered', '', '06:13:00', '19:08:00'),
+(165, 801, 950, 'glerego4k@accuweather.com', '2025-11-11 00:00:38', 'Confirmed', '', '06:13:00', '19:08:00'),
 (166, 620, 802, 'cpancost4l@wikipedia.org', '2025-11-11 11:27:03', 'Confirmed', 'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', '08:47:00', '22:47:00'),
 (167, 938, 630, 'gvosper4m@bing.com', '2025-11-11 03:27:53', 'Confirmed', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', '09:43:00', '13:13:00'),
 (168, 82, 981, 'sboobier4n@privacy.gov.au', '2025-11-11 16:58:43', 'Confirmed', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', '09:27:00', '19:55:00'),
@@ -1532,7 +1537,7 @@ INSERT INTO `booking` (`BookID`, `ContractID`, `SlotID`, `Email`, `TimeStamp`, `
 (335, 60, 337, 'nkivlin9a@jimdo.com', '2025-11-11 23:28:21', 'Confirmed', '', '08:50:00', '19:24:00'),
 (336, 887, 19, 'cbeaman9b@squidoo.com', '2025-11-11 03:06:04', 'Confirmed', 'Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', '08:46:00', '15:24:00'),
 (337, 208, 852, 'gartist9c@bluehost.com', '2025-11-11 16:03:08', 'Registered', '', '07:48:00', '14:10:00'),
-(338, 764, 163, 'tglavin9d@upenn.edu', '2025-11-11 00:01:31', 'Registered', 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue.', '08:58:00', '17:32:00'),
+(338, 764, 163, 'tglavin9d@upenn.edu', '2025-11-11 00:01:31', 'Rejected', 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue.', '08:58:00', '17:32:00'),
 (339, 729, 144, 'acluer9e@harvard.edu', '2025-11-11 18:54:34', 'Confirmed', '', '07:44:00', '15:09:00'),
 (340, 433, 558, 'bconroy9f@dyndns.org', '2025-11-11 18:15:54', 'Confirmed', '', '05:12:00', '17:27:00'),
 (341, 132, 738, 'kterrazzo9g@uiuc.edu', '2025-11-11 05:45:36', 'Confirmed', '', '09:15:00', '17:37:00'),
@@ -2197,8 +2202,8 @@ INSERT INTO `booking` (`BookID`, `ContractID`, `SlotID`, `Email`, `TimeStamp`, `
 (998, 752, 63, 'ssignoretrp@webs.com', '2025-11-11 14:39:36', 'Confirmed', '', '08:40:00', '20:34:00'),
 (999, 285, 782, 'fedelmanrq@loc.gov', '2025-11-11 03:15:05', 'Confirmed', '', '07:29:00', '18:01:00'),
 (1000, 459, 104, 'gwindsorrr@studiopress.com', '2025-11-11 18:11:16', 'Rejected', '', '09:41:00', '22:41:00'),
-(1001, 1, 100, 'aalpin0@acquirethisn', '0000-00-00 00:00:00', 'Registered', 'Hello myname is LAm', NULL, NULL),
-(1002, 775, 12, 'aalpin0@acquirethisn', '0000-00-00 00:00:00', 'Registered', 'Hello myname is LAm', NULL, NULL),
+(1001, 1, 100, 'aalpin0@acquirethisn', '0000-00-00 00:00:00', 'Confirmed', 'Hello myname is LAm', NULL, NULL),
+(1002, 775, 12, 'aalpin0@acquirethisn', '0000-00-00 00:00:00', 'Confirmed', 'Hello myname is LAm', NULL, NULL),
 (1003, 775, 12, 'aalpin0@acquirethisn', '2025-11-18 21:23:05', 'Registered', 'Hello myname is LAm', NULL, NULL),
 (1004, 775, 12, 'aalpin0@acquirethisn', '2025-11-18 21:23:06', 'Registered', 'Hello myname is LAm', NULL, NULL),
 (1005, 775, 12, 'aalpin0@acquirethisn', '2025-11-18 21:26:28', 'Registered', 'Hello myname is LAm', NULL, NULL),
@@ -4494,64 +4499,65 @@ CREATE TABLE `item` (
   `ServiceName` varchar(100) NOT NULL,
   `UnitPrice` decimal(10,2) NOT NULL,
   `Type` varchar(50) DEFAULT NULL COMMENT 'Service, Utility',
-  `Subscription` varchar(50) DEFAULT NULL COMMENT 'Timely, Monthly, Yearly'
+  `Subscription` varchar(50) DEFAULT NULL COMMENT 'Timely, Monthly, Yearly',
+  `Condition` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `item`
 --
 
-INSERT INTO `item` (`ItemID`, `ServiceName`, `UnitPrice`, `Type`, `Subscription`) VALUES
-(1, 'Electricity', 0.00, 'Service', 'Monthly'),
-(2, 'Water Supply', 0.00, 'Utility', 'Yearly'),
-(3, 'Internet', 0.00, 'Utility', 'Timely'),
-(4, 'Cable TV', 0.00, 'Utility', 'Monthly'),
-(5, 'Parking - Car', 0.00, 'Service', 'Monthly'),
-(6, 'Parking - Motorcycle', 0.00, 'Service', 'Monthly'),
-(7, 'Parking - Electric Bike', 0.00, 'Service', 'Monthly'),
-(8, 'Swimming Pool Access', 0.00, 'Service', 'Yearly'),
-(9, 'Gym Membership', 0.00, 'Utility', 'Monthly'),
-(10, 'Tennis Court Hourly', 0.00, 'Utility', 'Monthly'),
-(11, 'Badminton Court Hourly', 0.00, 'Utility', 'Timely'),
-(12, 'Football Field Hourly', 0.00, 'Utility', 'Monthly'),
-(13, 'BBQ Garden Booking', 0.00, 'Utility', 'Timely'),
-(14, 'Community Room Booking', 0.00, 'Utility', 'Monthly'),
-(15, 'Security Service Monthly', 0.00, 'Service', 'Monthly'),
-(16, 'Cleaning Service', 0.00, 'Utility', 'Timely'),
-(17, 'Waste Collection', 0.00, 'Utility', 'Monthly'),
-(18, 'Building Management Fee', 0.00, 'Service', 'Monthly'),
-(19, 'Elevator Maintenance', 0.00, 'Utility', 'Timely'),
-(20, 'Fire Safety Service', 0.00, 'Service', 'Monthly'),
-(21, 'CCTV Service', 0.00, 'Utility', 'Monthly'),
-(22, 'Generator Backup', 0.00, 'Service', 'Monthly'),
-(23, 'Water Tank Cleaning', 0.00, 'Utility', 'Timely'),
-(24, 'Pest Control', 0.00, 'Service', 'Monthly'),
-(25, 'Landscape Maintenance', 0.00, 'Utility', 'Yearly'),
-(26, 'Common Area Electricity', 0.00, 'Service', 'Monthly'),
-(27, 'Gym Equipment Maintenance', 0.00, 'Utility', 'Monthly'),
-(28, 'Pool Maintenance', 0.00, 'Utility', 'Yearly'),
-(29, 'Guard Service', 0.00, 'Service', 'Monthly'),
-(30, 'Reception Service', 0.00, 'Service', 'Timely'),
-(31, 'Facility Booking Fee', 0.00, 'Utility', 'Monthly'),
-(32, 'Late Payment Fee', 0.00, 'Utility', 'Timely'),
-(33, 'Card Replacement Fee', 0.00, 'Utility', 'Monthly'),
-(34, 'Visitor Parking', 0.00, 'Utility', 'Timely'),
-(35, 'Overtime Parking', 0.00, 'Utility', 'Yearly'),
-(36, 'Pet Registration', 0.00, 'Utility', 'Monthly'),
-(37, 'Moving Service', 0.00, 'Service', 'Timely'),
-(38, 'Cleaning Deposit', 0.00, 'Service', 'Monthly'),
-(39, 'Damage Repair', 0.00, 'Utility', 'Yearly'),
-(40, 'Lock Change Service', 0.00, 'Service', 'Monthly'),
-(41, 'Key Duplication', 0.00, 'Service', 'Timely'),
-(42, 'Package Holding', 0.00, 'Utility', 'Yearly'),
-(43, 'Laundry Service', 0.00, 'Service', 'Yearly'),
-(44, 'Dry Cleaning', 0.00, 'Service', 'Yearly'),
-(45, 'Courier Service', 0.00, 'Utility', 'Monthly'),
-(46, 'Event Space Rental', 0.00, 'Service', 'Yearly'),
-(47, 'Equipment Rental', 0.00, 'Utility', 'Monthly'),
-(48, 'Technical Support', 0.00, 'Utility', 'Monthly'),
-(49, 'Emergency Response', 0.00, 'Service', 'Monthly'),
-(50, 'Electricity', 0.00, 'Utility', 'Yearly');
+INSERT INTO `item` (`ItemID`, `ServiceName`, `UnitPrice`, `Type`, `Subscription`, `Condition`) VALUES
+(1, 'Electricity', 0.00, 'Service', 'Monthly', NULL),
+(2, 'Water Supply', 0.00, 'Utility', 'Yearly', 'Maintenance'),
+(3, 'Internet', 0.00, 'Utility', 'Timely', 'Available'),
+(4, 'Cable TV', 0.00, 'Utility', 'Monthly', 'Available'),
+(5, 'Parking - Car', 0.00, 'Service', 'Monthly', NULL),
+(6, 'Parking - Motorcycle', 0.00, 'Service', 'Monthly', NULL),
+(7, 'Parking - Electric Bike', 0.00, 'Service', 'Monthly', NULL),
+(8, 'Swimming Pool Access', 0.00, 'Service', 'Yearly', NULL),
+(9, 'Gym Membership', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(10, 'Tennis Court Hourly', 0.00, 'Utility', 'Monthly', 'Available'),
+(11, 'Badminton Court Hourly', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(12, 'Football Field Hourly', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(13, 'BBQ Garden Booking', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(14, 'Community Room Booking', 0.00, 'Utility', 'Monthly', 'Available'),
+(15, 'Security Service Monthly', 0.00, 'Service', 'Monthly', NULL),
+(16, 'Cleaning Service', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(17, 'Waste Collection', 0.00, 'Utility', 'Monthly', 'Available'),
+(18, 'Building Management Fee', 0.00, 'Service', 'Monthly', NULL),
+(19, 'Elevator Maintenance', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(20, 'Fire Safety Service', 0.00, 'Service', 'Monthly', NULL),
+(21, 'CCTV Service', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(22, 'Generator Backup', 0.00, 'Service', 'Monthly', NULL),
+(23, 'Water Tank Cleaning', 0.00, 'Utility', 'Timely', 'Available'),
+(24, 'Pest Control', 0.00, 'Service', 'Monthly', NULL),
+(25, 'Landscape Maintenance', 0.00, 'Utility', 'Yearly', 'Maintenance'),
+(26, 'Common Area Electricity', 0.00, 'Service', 'Monthly', NULL),
+(27, 'Gym Equipment Maintenance', 0.00, 'Utility', 'Monthly', 'Available'),
+(28, 'Pool Maintenance', 0.00, 'Utility', 'Yearly', 'Available'),
+(29, 'Guard Service', 0.00, 'Service', 'Monthly', NULL),
+(30, 'Reception Service', 0.00, 'Service', 'Timely', NULL),
+(31, 'Facility Booking Fee', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(32, 'Late Payment Fee', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(33, 'Card Replacement Fee', 0.00, 'Utility', 'Monthly', 'Available'),
+(34, 'Visitor Parking', 0.00, 'Utility', 'Timely', 'Maintenance'),
+(35, 'Overtime Parking', 0.00, 'Utility', 'Yearly', 'Maintenance'),
+(36, 'Pet Registration', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(37, 'Moving Service', 0.00, 'Service', 'Timely', NULL),
+(38, 'Cleaning Deposit', 0.00, 'Service', 'Monthly', NULL),
+(39, 'Damage Repair', 0.00, 'Utility', 'Yearly', 'Available'),
+(40, 'Lock Change Service', 0.00, 'Service', 'Monthly', NULL),
+(41, 'Key Duplication', 0.00, 'Service', 'Timely', NULL),
+(42, 'Package Holding', 0.00, 'Utility', 'Yearly', 'Available'),
+(43, 'Laundry Service', 0.00, 'Service', 'Yearly', NULL),
+(44, 'Dry Cleaning', 0.00, 'Service', 'Yearly', NULL),
+(45, 'Courier Service', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(46, 'Event Space Rental', 0.00, 'Service', 'Yearly', NULL),
+(47, 'Equipment Rental', 0.00, 'Utility', 'Monthly', 'Available'),
+(48, 'Technical Support', 0.00, 'Utility', 'Monthly', 'Maintenance'),
+(49, 'Emergency Response', 0.00, 'Service', 'Monthly', NULL),
+(50, 'Electricity', 0.00, 'Utility', 'Yearly', 'Available');
 
 -- --------------------------------------------------------
 
@@ -23318,7 +23324,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `PaymentCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1006;
+  MODIFY `PaymentCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1010;
 
 --
 -- AUTO_INCREMENT for table `booking`

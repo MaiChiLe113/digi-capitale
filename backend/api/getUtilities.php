@@ -10,7 +10,7 @@ if (!$conn) {
     exit;
 }
 
-$sql = "SELECT ItemID, ServiceName, Type, Subscription FROM item WHERE Type IN ('Service', 'Utility') ORDER BY Type, ServiceName ASC";
+$sql = "SELECT * FROM `item` WHERE `Type` = 'Utility'";
 $result = $conn->query($sql);
 
 $sections = [];

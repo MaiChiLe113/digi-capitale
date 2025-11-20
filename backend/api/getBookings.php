@@ -21,7 +21,7 @@ try {
     $statusFilter = $_GET['status'] ?? 'Registered';
 
     // Query to get bookings based on status filter
-    // Based on: SELECT * FROM booking WHERE Status = 'Registered' ORDER BY TimeStamp
+    // Based on: SELECT * FROM booking WHERE Status = 'Registered' ORDER BY TimeStamp - Lam's query
     $query = "SELECT
                 b.BookID,
                 b.Email as UserEmail,
@@ -35,7 +35,7 @@ try {
               JOIN item i ON s.ItemID = i.ItemID
               WHERE ";
 
-    // Handle different status filters
+    // Handle different status filters --> Tab
     if ($statusFilter === 'solved') {
         $query .= "b.Status IN ('Confirmed', 'Rejected')";
     } else {
