@@ -4,11 +4,15 @@ SELECT * FROM `item` WHERE `Type` = 'Utility';
 
 -- RESIDENT SIDE
 
--- View available slots of a utility
+-- View available slots of a utility for the next 7 days
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
 JOIN `item`
 ON slots.ItemID = item.ItemID
-WHERE `Status` = 'Open';
+WHERE `Status` = 'Open'
+AND Year(SlotDay) = YEAR(CURDATE())  -- filter by current year and month
+AND Month(SlotDay) = MONTH(CURDATE())
+AND Day(SlotDay) >= DAY(CURDATE()) AND Day(SlotDay) <= (DAY(CURDATE()) + 7)
+;
 
 -- Search for specific utility
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
