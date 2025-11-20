@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Alert,
   IconButton,
-  Divider,
+  Divider,Modal
 } from "@mui/material";
 import RoomServiceIcon from "@mui/icons-material/RoomServiceRounded";
 import CalendarTodayIcon from "@mui/icons-material/CalendarMonthRounded";
@@ -26,6 +26,10 @@ export default function Home() {
   const [utilities, setUtilities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   useEffect(() => {
     fetchAll();
@@ -214,9 +218,22 @@ export default function Home() {
                       <Typography sx={{ fontWeight: 600 }}>{r.name}</Typography>
                       <Typography sx={{ color: "#666" }}>{r.time}</Typography>
                     </Box>
-                    <Button size="small" variant="contained">
-                      Details
-                    </Button>
+                  {/* <Button size="small" variant="contained" onClick={handleOpen}>Details</Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box>
+                      <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Text in a modal
+                      </Typography>
+                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                      </Typography>
+                    </Box>
+                  </Modal> */}
                   </Card>
                 ))
               )}

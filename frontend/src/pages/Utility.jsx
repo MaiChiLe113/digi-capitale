@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -8,12 +9,22 @@ import {
   Chip,
   CircularProgress,
   Alert,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  InputAdornment,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Utility() {
+  const navigate = useNavigate();
   const [utilities, setUtilities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   useEffect(() => {
     fetchUtilities();
@@ -47,6 +58,16 @@ export default function Utility() {
       return { bg: "#f8d7da", text: "#721c24", border: "#dc3545" };
     return { bg: "#e3f2fd", text: "#1565c0", border: "none" };
   };
+
+  // Filter utilities based on search term and selected filter
+  const filteredUtilities = utilities.filter((utility) => {
+    const matchesSearch = utility.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesFilter =
+      selectedFilter === "All" || utility.condition === selectedFilter;
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <Container>
@@ -89,6 +110,50 @@ export default function Utility() {
         </Alert>
       )}
 
+      {/* Search and Filter Section */}
+      {!loading && !error && (
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            mb: 3,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
+          <TextField
+            fullWidth
+            placeholder="Search utilities..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#999" }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              flex: 1,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+              },
+            }}
+          />
+          <FormControl sx={{ minWidth: 150 }}>
+            <InputLabel>Filter</InputLabel>
+            <Select
+              value={selectedFilter}
+              label="Filter"
+              onChange={(e) => setSelectedFilter(e.target.value)}
+              sx={{ borderRadius: 2 }}
+            >
+              <MenuItem value="All">All</MenuItem>
+              <MenuItem value="Available">Available</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      )}
+
       {/* Loading State */}
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
@@ -105,14 +170,16 @@ export default function Utility() {
             gap: 3,
           }}
         >
-          {utilities.length === 0 ? (
+          {filteredUtilities.length === 0 ? (
             <Box sx={{ gridColumn: "1 / -1", textAlign: "center", py: 6 }}>
               <Typography sx={{ color: "#999" }}>
-                No utilities available
+                {utilities.length === 0
+                  ? "No utilities available"
+                  : "No utilities match your search"}
               </Typography>
             </Box>
           ) : (
-            utilities.map((utility) => {
+            filteredUtilities.map((utility) => {
               const colors = getConditionColor(utility.condition);
               return (
                 <Card
@@ -157,7 +224,9 @@ export default function Utility() {
                       variant="contained"
                       color="primary"
                       size="small"
-                      sx={{ borderRadius: 2, whiteSpace: "nowrap" }}
+                      disabled={utility.condition === "Maintenance"}
+                      sx={{ borderRadius: 2, whiteSpace: "nowrap", ml: 2 }}
+                      onClick={() => navigate(`/utility/${utility.id}`)}
                     >
                       Book
                     </Button>

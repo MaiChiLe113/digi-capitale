@@ -12,6 +12,7 @@ import Profile from "./pages/Profile.tsx";
 import Utility from "./pages/Utility.jsx";
 import Services from "./pages/Services.jsx";
 import AdminRequest from "./pages/AdminRequest.jsx";
+import BookUtility from "./pages/BookUtility.tsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminRequest />,
+  },
+  {
+    path: "/utility/:id",
+    element: <BookUtility />,
   }
 ]);
 
