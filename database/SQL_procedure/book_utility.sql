@@ -1,6 +1,9 @@
 -- View available utilities
 SELECT * FROM `item` WHERE `Type` = 'Utility';
 
+
+-- RESIDENT SIDE
+
 -- View available slots of a utility
 SELECT SlotID, SlotDay, StartTime, `Status`, item.ServiceName FROM `slots`
 JOIN `item`
@@ -39,6 +42,19 @@ DELIMITER ;
 
 -- Test function
 CALL BookUtility(1, 12, 775, 'Hello myname is Lam');  
+
+-- View my bookings (my reservations)
+SELECT b.BookID, b.SlotID, s.SlotDay, s.StartTime, i.ServiceName, b.Status, b.TimeStamp
+FROM booking b
+JOIN slots s ON b.SlotID = s.SlotID
+JOIN item i ON s.ItemID = i.ItemID
+WHERE b.Email = (SELECT Email FROM resident WHERE ResidentID = 1);  -- Replace 1 with the actual ResidentID
+
+-- vi dang k store resident id  trong bang booking nen phai lay email roi moi lay dc booking cua resident do
+
+
+
+-- EMPLOYEE SIDE
 
 -- Calculate available slots to display 
 SELECT (Capacity - (SELECT Count(*) FROM booking WHERE SlotID = 12 AND (`Status` = 'Registered' OR `Status` = 'Confirmed'))) FROM slots WHERE SlotID = 12;
