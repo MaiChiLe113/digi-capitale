@@ -29,8 +29,8 @@ try {
     $bookID = intval($data['bookID']);
     $action = $data['action'];
 
-    if (!in_array($action, ['approve', 'reject'])) {
-        throw new Exception('Invalid action. Must be "approve" or "reject"');
+    if (!in_array($action, ['approve', 'reject', 'revert'])) {
+        throw new Exception('Invalid action. Must be "approve", "reject", or "revert"');
     }
 
     $conn = getDBConnection();
@@ -39,14 +39,19 @@ try {
         throw new Exception('Database connection failed');
     }
 
-    // Call the appropriate stored procedure
+    // Call the appropriate stored procedure or execute query
     if ($action === 'approve') {
         // Call ConfirmBook procedure
         $stmt = $conn->prepare("CALL ConfirmBook(?)");
         $stmt->bind_param("i", $bookID);
-    } else {
+    } else if ($action === 'reject') {
         // Call RejectBook procedure
         $stmt = $conn->prepare("CALL RejectBook(?)");
+        $stmt->bind_param("i", $bookID);
+    } else if ($action === 'revert') {
+        // Revert booking back to Registered status
+        // Based on: UPDATE booking SET Status = 'Registered' WHERE BookID = ? AND (Status = 'Rejected' OR Status = 'Confirmed')
+        $stmt = $conn->prepare("UPDATE booking SET Status = 'Registered' WHERE BookID = ? AND (Status = 'Rejected' OR Status = 'Confirmed')");
         $stmt->bind_param("i", $bookID);
     }
 
@@ -57,9 +62,18 @@ try {
     $stmt->close();
     $conn->close();
 
+    $actionMessage = 'processed';
+    if ($action === 'approve') {
+        $actionMessage = 'approved';
+    } else if ($action === 'reject') {
+        $actionMessage = 'rejected';
+    } else if ($action === 'revert') {
+        $actionMessage = 'reverted to pending';
+    }
+
     echo json_encode([
         'success' => true,
-        'message' => 'Booking ' . ($action === 'approve' ? 'approved' : 'rejected') . ' successfully'
+        'message' => 'Booking ' . $actionMessage . ' successfully'
     ]);
 
 } catch (Exception $e) {

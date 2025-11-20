@@ -6,7 +6,7 @@ const Dlogo = "/images/Dlogo.svg";
 
 const Header = () => {
   const navItems = [
-    { id: 1, name: "Home", href: "/landing" },
+    { id: 1, name: "Home", href: "/home" },
     { id: 2, name: "Utility", href: "/utility" },
     { id: 3, name: "Services", href: "/services" },
     { id: 4, name: "Profile", href: "/profile" },

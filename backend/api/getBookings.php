@@ -17,7 +17,10 @@ try {
         throw new Exception('Database connection failed');
     }
 
-    // Query to get registered bookings with utility and user details
+    // Get status filter from query parameter (default: 'Registered')
+    $statusFilter = $_GET['status'] ?? 'Registered';
+
+    // Query to get bookings based on status filter
     // Based on: SELECT * FROM booking WHERE Status = 'Registered' ORDER BY TimeStamp
     $query = "SELECT
                 b.BookID,
@@ -30,8 +33,16 @@ try {
               FROM booking b
               JOIN slots s ON b.SlotID = s.SlotID
               JOIN item i ON s.ItemID = i.ItemID
-              WHERE b.Status = 'Registered'
-              ORDER BY b.TimeStamp";
+              WHERE ";
+
+    // Handle different status filters
+    if ($statusFilter === 'solved') {
+        $query .= "b.Status IN ('Confirmed', 'Rejected')";
+    } else {
+        $query .= "b.Status = 'Registered'";
+    }
+
+    $query .= " ORDER BY b.TimeStamp DESC";
 
     $result = $conn->query($query);
 

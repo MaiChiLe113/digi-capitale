@@ -18,16 +18,21 @@ import {
   DialogActions,
   Alert,
   CircularProgress,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import {
   CheckCircle,
   Cancel,
   Refresh,
-  Info
+  Info,
+  Undo,
 } from "@mui/icons-material";
 
 export default function AdminRequest() {
-  const [bookings, setBookings] = useState([]);
+  const [activeTab, setActiveTab] = useState(0);
+  const [pendingBookings, setPendingBookings] = useState([]);
+  const [solvedBookings, setSolvedBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -35,21 +40,41 @@ export default function AdminRequest() {
   const [dialogAction, setDialogAction] = useState(null);
 
   useEffect(() => {
-    fetchBookings();
+    fetchPendingBookings();
+    fetchSolvedBookings();
   }, []);
 
-  const fetchBookings = async () => {
+  const fetchPendingBookings = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getBookings");
+      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=pending");
       const data = await response.json();
-      setBookings(Array.isArray(data) ? data : []);
+      setPendingBookings(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Error fetching bookings:", error);
-      setAlertMessage({ type: "error", text: "Failed to load bookings" });
+      console.error("Error fetching pending bookings:", error);
+      setAlertMessage({ type: "error", text: "Failed to load pending bookings" });
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchSolvedBookings = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=solved");
+      const data = await response.json();
+      setSolvedBookings(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching solved bookings:", error);
+      setAlertMessage({ type: "error", text: "Failed to load solved bookings" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAllBookings = () => {
+    fetchPendingBookings();
+    fetchSolvedBookings();
   };
 
   const handleOpenDialog = (booking, action) => {
@@ -80,11 +105,16 @@ export default function AdminRequest() {
       const result = await response.json();
 
       if (result.success) {
+        const actionText =
+          dialogAction === "approve" ? "approved" :
+          dialogAction === "reject" ? "rejected" :
+          "reverted to pending";
+
         setAlertMessage({
           type: "success",
-          text: `Booking ${dialogAction === "approve" ? "approved" : "rejected"} successfully`,
+          text: `Booking ${actionText} successfully`,
         });
-        fetchBookings();
+        fetchAllBookings();
       } else {
         setAlertMessage({
           type: "error",
@@ -114,13 +144,21 @@ export default function AdminRequest() {
         <Button
           variant="contained"
           color="primary"
-          onClick={fetchBookings}
+          onClick={fetchAllBookings}
           startIcon={<Refresh />}
           disabled={loading}
           sx={{ borderRadius: 2 }}
         >
           Refresh
         </Button>
+      </Box>
+
+      {/* Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
+        <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
+          <Tab label={`Pending Requests (${pendingBookings.length})`} />
+          <Tab label={`Solved Requests (${solvedBookings.length})`} />
+        </Tabs>
       </Box>
 
       {/* Alert Message */}
@@ -141,8 +179,8 @@ export default function AdminRequest() {
         </Box>
       )}
 
-      {/* Table */}
-      {!loading && (
+      {/* Table - Pending Requests Tab */}
+      {!loading && activeTab === 0 && (
         <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
           <Table>
             <TableHead>
@@ -158,7 +196,7 @@ export default function AdminRequest() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bookings.length === 0 ? (
+              {pendingBookings.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                     <Typography sx={{ color: "#999" }}>
@@ -167,7 +205,7 @@ export default function AdminRequest() {
                   </TableCell>
                 </TableRow>
               ) : (
-                bookings.map((booking, index) => (
+                pendingBookings.map((booking, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -191,7 +229,7 @@ export default function AdminRequest() {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        label={booking.Status || "Pending"}
+                        label={booking.Status || "Registered"}
                         variant="outlined"
                         size="small"
                         sx={{
@@ -233,10 +271,92 @@ export default function AdminRequest() {
         </TableContainer>
       )}
 
+      {/* Table - Solved Requests Tab */}
+      {!loading && activeTab === 1 && (
+        <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: "#f5f5f5" }}>
+                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
+                  Actions
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {solvedBookings.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                    <Typography sx={{ color: "#999" }}>
+                      No solved booking requests
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                solvedBookings.map((booking, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      "&:hover": { bgcolor: "#fafafa" },
+                      borderBottom: "1px solid #eee",
+                    }}
+                  >
+                    <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
+                    <TableCell>
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                          {booking.UtilityName}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                      {booking.UserEmail}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                      {booking.BookingDate} {booking.BookingTime}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={booking.Status}
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          bgcolor: booking.Status === "Confirmed" ? "#d4edda" : "#f8d7da",
+                          color: booking.Status === "Confirmed" ? "#155724" : "#721c24",
+                          borderColor: booking.Status === "Confirmed" ? "#28a745" : "#dc3545",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        startIcon={<Undo />}
+                        onClick={() => handleOpenDialog(booking, "revert")}
+                        sx={{ borderRadius: 1 }}
+                      >
+                        Revert
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
       {/* Confirmation Dialog */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle sx={{ fontWeight: 600 }}>
-          {dialogAction === "approve" ? "Approve Booking" : "Reject Booking"}
+          {dialogAction === "approve" ? "Approve Booking" :
+           dialogAction === "reject" ? "Reject Booking" :
+           "Revert Booking"}
         </DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
@@ -251,12 +371,20 @@ export default function AdminRequest() {
               <Typography variant="body2" sx={{ color: "#666" }}>
                 {selectedBooking?.BookingDate} at {selectedBooking?.BookingTime}
               </Typography>
+              {selectedBooking?.Status && (
+                <Typography variant="body2" sx={{ color: "#666", mt: 1 }}>
+                  Current Status: <strong>{selectedBooking.Status}</strong>
+                </Typography>
+              )}
             </Box>
           </Box>
           <Typography sx={{ mt: 2, fontSize: "0.9rem", color: "#666" }}>
             Are you sure you want to{" "}
-            <strong>{dialogAction === "approve" ? "approve" : "reject"}</strong> this
-            booking request?
+            <strong>
+              {dialogAction === "approve" ? "approve" :
+               dialogAction === "reject" ? "reject" :
+               "revert to pending"}
+            </strong> this booking request?
           </Typography>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
@@ -266,9 +394,13 @@ export default function AdminRequest() {
           <Button
             onClick={handleConfirmAction}
             variant="contained"
-            color={dialogAction === "approve" ? "success" : "error"}
+            color={dialogAction === "approve" ? "success" :
+                   dialogAction === "reject" ? "error" :
+                   "primary"}
           >
-            {dialogAction === "approve" ? "Approve" : "Reject"}
+            {dialogAction === "approve" ? "Approve" :
+             dialogAction === "reject" ? "Reject" :
+             "Revert"}
           </Button>
         </DialogActions>
       </Dialog>
