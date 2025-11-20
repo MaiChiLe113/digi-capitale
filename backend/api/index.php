@@ -33,6 +33,8 @@ if ($action === 'signup') {
   require 'getBookings.php';
 } else if ($action === 'handleBookings') {
   require 'handleBookings.php';
+} else if ($action === 'getUtilities') {
+  require 'getUtilities.php';
 } else {
   http_response_code(404);
   echo json_encode(['success' => false, 'message' => 'Endpoint not found']);

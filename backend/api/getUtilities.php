@@ -1,54 +1,47 @@
 <?php
+/**
+ * Get Utilities API
+ * Fetches utilities from item table with name and condition only
+ */
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET');
+
 require 'config/database.php';
 
-$conn = getDBConnection();
-if (!$conn) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Database connection failed']);
-    exit;
-}
+try {
+    $conn = getDBConnection();
 
-$sql = "SELECT * FROM `item` WHERE `Type` = 'Utility'";
-$result = $conn->query($sql);
+    if (!$conn) {
+        throw new Exception('Database connection failed');
+    }
 
-$sections = [];
-if ($result && $result->num_rows > 0) {
+    // Fetch utilities from item table
+    $sql = "SELECT ItemID, ServiceName, `Condition` FROM `item` WHERE `Type` = 'Utility' ORDER BY ServiceName";
+    $result = $conn->query($sql);
+
+    if (!$result) {
+        throw new Exception('Query failed: ' . $conn->error);
+    }
+
+    $utilities = [];
     while ($row = $result->fetch_assoc()) {
-        $section = $row['Type']; // "Service" or "Utility"
-        
-        // if not exists
-        if (!isset($sections[$section])) {
-            $sections[$section] = [
-                'section' => $section === 'Service' ? 'Services' : 'Utilities',
-                'items' => []
-            ];
-        }
-        
-        // Determine status
-        $status = 'Available'; // default
-        if ($row['Subscription'] === 'Timely') {
-            $status = 'Available';
-        } elseif ($row['Subscription'] === 'Monthly' || $row['Subscription'] === 'Yearly') {
-            $status = 'Available';
-        }
-        
-        // Map ItemID
-        $iconKey = strtolower(str_replace(' ', '_', $row['ServiceName']));
-        
-        $sections[$section]['items'][] = [
+        $utilities[] = [
+            'id' => $row['ItemID'],
             'name' => $row['ServiceName'],
-            'status' => $status,
-            'iconKey' => $iconKey,
-            'itemId' => $row['ItemID']
+            'condition' => $row['Condition'] ?? 'Available' // Default to Available if null
         ];
     }
+
+    echo json_encode($utilities);
+    $conn->close();
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Failed to fetch utilities: ' . $e->getMessage()
+    ]);
 }
-
-// Convert associative array to indexed array for JSON output
-$output = array_values($sections);
-
-echo json_encode($output);
-$conn->close();
 ?>
