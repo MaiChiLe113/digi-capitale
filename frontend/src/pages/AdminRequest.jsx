@@ -20,6 +20,12 @@ import {
   CircularProgress,
   Tabs,
   Tab,
+  TablePagination,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import {
   CheckCircle,
@@ -38,6 +44,12 @@ export default function AdminRequest() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState(null);
+
+  // Pagination, filtering, and selection states
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedUtility, setSelectedUtility] = useState('All');
+  const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
     fetchPendingBookings();
@@ -75,6 +87,47 @@ export default function AdminRequest() {
   const fetchAllBookings = () => {
     fetchPendingBookings();
     fetchSolvedBookings();
+    setPage(0); // Reset page on refresh
+    setSelectedRows([]); // Clear selections
+  };
+
+  // Get unique utilities for filter
+  const getUniqueUtilities = (bookings) => {
+    const utilities = bookings.map(booking => booking.UtilityName);
+    return ['All', ...new Set(utilities)];
+  };
+
+  // Filter bookings based on selected utility
+  const getFilteredBookings = (bookings) => {
+    if (selectedUtility === 'All') return bookings;
+    return bookings.filter(booking => booking.UtilityName === selectedUtility);
+  };
+
+  // Handle page change
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle rows per page change
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Handle select all
+  const handleSelectAll = (bookings) => {
+    const filteredBookings = getFilteredBookings(bookings);
+    const allIds = filteredBookings.map(booking => booking.BookID);
+    setSelectedRows(selectedRows.length === allIds.length ? [] : allIds);
+  };
+
+  // Handle select single row
+  const handleSelectRow = (bookID) => {
+    setSelectedRows(prev =>
+      prev.includes(bookID)
+        ? prev.filter(id => id !== bookID)
+        : [...prev, bookID]
+    );
   };
 
   const handleOpenDialog = (booking, action) => {
@@ -155,7 +208,11 @@ export default function AdminRequest() {
 
       {/* Tabs */}
       <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
-        <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
+        <Tabs value={activeTab} onChange={(e, newValue) => {
+          setActiveTab(newValue);
+          setPage(0); // Reset page on tab change
+          setSelectedRows([]); // Clear selections
+        }}>
           <Tab label={`Pending Requests (${pendingBookings.length})`} />
           <Tab label={`Solved Requests (${solvedBookings.length})`} />
         </Tabs>
@@ -181,174 +238,280 @@ export default function AdminRequest() {
 
       {/* Table - Pending Requests Tab */}
       {!loading && activeTab === 0 && (
-        <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <Table>
-            <TableHead>
-              <TableRow sx={{ bgcolor: "#f5f5f5" }}>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {pendingBookings.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
-                    <Typography sx={{ color: "#999" }}>
-                      No pending booking requests
-                    </Typography>
+        <>
+          {/* Filter and Selection Info */}
+          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <FormControl size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Filter by Utility</InputLabel>
+                <Select
+                  value={selectedUtility}
+                  label="Filter by Utility"
+                  onChange={(e) => {
+                    setSelectedUtility(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                >
+                  {getUniqueUtilities(pendingBookings).map((utility) => (
+                    <MenuItem key={utility} value={utility}>
+                      {utility}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {selectedRows.length > 0 && (
+                <Typography variant="body2" sx={{ color: "#666" }}>
+                  {selectedRows.length} selected
+                </Typography>
+              )}
+            </Box>
+          </Box>
+
+          <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: "#f5f5f5" }}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={selectedRows.length > 0 && selectedRows.length < getFilteredBookings(pendingBookings).length}
+                      checked={getFilteredBookings(pendingBookings).length > 0 && selectedRows.length === getFilteredBookings(pendingBookings).length}
+                      onChange={() => handleSelectAll(pendingBookings)}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
+                    Actions
                   </TableCell>
                 </TableRow>
-              ) : (
-                pendingBookings.map((booking, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:hover": { bgcolor: "#fafafa" },
-                      borderBottom: "1px solid #eee",
-                    }}
-                  >
-                    <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
-                    <TableCell>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {booking.UtilityName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                      {booking.UserEmail}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                      {booking.BookingDate} {booking.BookingTime}
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={booking.Status || "Registered"}
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          bgcolor: "#fff3cd",
-                          color: "#856404",
-                          borderColor: "#ffc107",
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          color="success"
-                          startIcon={<CheckCircle />}
-                          onClick={() => handleOpenDialog(booking, "approve")}
-                          sx={{ borderRadius: 1 }}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="error"
-                          startIcon={<Cancel />}
-                          onClick={() => handleOpenDialog(booking, "reject")}
-                          sx={{ borderRadius: 1 }}
-                        >
-                          Reject
-                        </Button>
-                      </Box>
+              </TableHead>
+              <TableBody>
+                {getFilteredBookings(pendingBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
+                      <Typography sx={{ color: "#999" }}>
+                        No pending booking requests
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                ) : (
+                  getFilteredBookings(pendingBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((booking) => (
+                    <TableRow
+                      key={booking.BookID}
+                      sx={{
+                        "&:hover": { bgcolor: "#fafafa" },
+                        borderBottom: "1px solid #eee",
+                      }}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedRows.includes(booking.BookID)}
+                          onChange={() => handleSelectRow(booking.BookID)}
+                        />
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
+                      <TableCell>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                            {booking.UtilityName}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                        {booking.UserEmail}
+                      </TableCell>
+                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                        {booking.BookingDate} {booking.BookingTime}
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={booking.Status || "Registered"}
+                          variant="outlined"
+                          size="small"
+                          sx={{
+                            bgcolor: "#fff3cd",
+                            color: "#856404",
+                            borderColor: "#ffc107",
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            color="success"
+                            startIcon={<CheckCircle />}
+                            onClick={() => handleOpenDialog(booking, "approve")}
+                            sx={{ borderRadius: 1 }}
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="error"
+                            startIcon={<Cancel />}
+                            onClick={() => handleOpenDialog(booking, "reject")}
+                            sx={{ borderRadius: 1 }}
+                          >
+                            Reject
+                          </Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={getFilteredBookings(pendingBookings).length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[5, 10, 20]}
+            />
+          </TableContainer>
+        </>
       )}
 
       {/* Table - Solved Requests Tab */}
       {!loading && activeTab === 1 && (
-        <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <Table>
-            <TableHead>
-              <TableRow sx={{ bgcolor: "#f5f5f5" }}>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {solvedBookings.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
-                    <Typography sx={{ color: "#999" }}>
-                      No solved booking requests
-                    </Typography>
+        <>
+          {/* Filter and Selection Info */}
+          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <FormControl size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Filter by Utility</InputLabel>
+                <Select
+                  value={selectedUtility}
+                  label="Filter by Utility"
+                  onChange={(e) => {
+                    setSelectedUtility(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                >
+                  {getUniqueUtilities(solvedBookings).map((utility) => (
+                    <MenuItem key={utility} value={utility}>
+                      {utility}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {selectedRows.length > 0 && (
+                <Typography variant="body2" sx={{ color: "#666" }}>
+                  {selectedRows.length} selected
+                </Typography>
+              )}
+            </Box>
+          </Box>
+
+          <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: "#f5f5f5" }}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={selectedRows.length > 0 && selectedRows.length < getFilteredBookings(solvedBookings).length}
+                      checked={getFilteredBookings(solvedBookings).length > 0 && selectedRows.length === getFilteredBookings(solvedBookings).length}
+                      onChange={() => handleSelectAll(solvedBookings)}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
+                    Actions
                   </TableCell>
                 </TableRow>
-              ) : (
-                solvedBookings.map((booking, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:hover": { bgcolor: "#fafafa" },
-                      borderBottom: "1px solid #eee",
-                    }}
-                  >
-                    <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
-                    <TableCell>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {booking.UtilityName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                      {booking.UserEmail}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                      {booking.BookingDate} {booking.BookingTime}
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={booking.Status}
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          bgcolor: booking.Status === "Confirmed" ? "#d4edda" : "#f8d7da",
-                          color: booking.Status === "Confirmed" ? "#155724" : "#721c24",
-                          borderColor: booking.Status === "Confirmed" ? "#28a745" : "#dc3545",
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        color="primary"
-                        startIcon={<Undo />}
-                        onClick={() => handleOpenDialog(booking, "revert")}
-                        sx={{ borderRadius: 1 }}
-                      >
-                        Revert
-                      </Button>
+              </TableHead>
+              <TableBody>
+                {getFilteredBookings(solvedBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
+                      <Typography sx={{ color: "#999" }}>
+                        No solved booking requests
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                ) : (
+                  getFilteredBookings(solvedBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((booking, index) => (
+                    <TableRow
+                      key={booking.BookID}
+                      sx={{
+                        "&:hover": { bgcolor: "#fafafa" },
+                        borderBottom: "1px solid #eee",
+                      }}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedRows.includes(booking.BookID)}
+                          onChange={() => handleSelectRow(booking.BookID)}
+                        />
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
+                      <TableCell>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                            {booking.UtilityName}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                        {booking.UserEmail}
+                      </TableCell>
+                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                        {booking.BookingDate} {booking.BookingTime}
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={booking.Status}
+                          variant="outlined"
+                          size="small"
+                          sx={{
+                            bgcolor: booking.Status === "Confirmed" ? "#d4edda" : "#f8d7da",
+                            color: booking.Status === "Confirmed" ? "#155724" : "#721c24",
+                            borderColor: booking.Status === "Confirmed" ? "#28a745" : "#dc3545",
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="primary"
+                          startIcon={<Undo />}
+                          onClick={() => handleOpenDialog(booking, "revert")}
+                          sx={{ borderRadius: 1 }}
+                        >
+                          Revert
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={getFilteredBookings(solvedBookings).length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[5, 10, 20]}
+            />
+          </TableContainer>
+        </>
       )}
 
       {/* Confirmation Dialog */}
