@@ -1,16 +1,26 @@
 import React from "react";
-import { Box, Button, Link as MuiLink } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Button, Link as MuiLink, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.tsx";
 import theme from "../theme";
 const Dlogo = "/images/Dlogo.svg";
 
 const Header = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
   const navItems = [
     { id: 1, name: "Home", href: "/home" },
     { id: 2, name: "Utility", href: "/utility" },
     { id: 3, name: "Services", href: "/services" },
     { id: 4, name: "Profile", href: "/profile" },
+    { id: 5, name: "About", href: "/about" },
   ];
+
+  const handleLogout = () => {
+    logout();
+    navigate("/landing");
+  };
 
   return (
     <Box
@@ -74,22 +84,46 @@ const Header = () => {
           gap: { xs: 1, sm: 2 },
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/signin"
-        >
-          Login
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          component={Link}
-          to="/signup"
-        >
-          Sign Up
-        </Button>
+        {isAuthenticated() ? (
+          <>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "primary.contrastText",
+                fontWeight: 500,
+                fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
+              }}
+            >
+              Hi, {user?.name || user?.email?.split("@")[0]}!
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/signin"
+            >
+              Login
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/signup"
+            >
+              Sign Up
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );

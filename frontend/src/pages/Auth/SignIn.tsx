@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Stack,
@@ -20,6 +20,7 @@ import EmailRounded from "@mui/icons-material/EmailRounded";
 import LockRounded from "@mui/icons-material/LockRounded";
 import VisibilityRounded from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRounded from "@mui/icons-material/VisibilityOffRounded";
+import { useAuth } from "../../contexts/AuthContext.tsx";
 
 interface FormErrors {
   email: string;
@@ -27,6 +28,8 @@ interface FormErrors {
 }
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -148,10 +151,9 @@ const SignIn = () => {
 
       if (data.success) {
         setSuccess("Sign in successful! Redirecting...");
-        localStorage.setItem("auth_token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        login(data.user, data.token);
         setTimeout(() => {
-          window.location.href = "/home";
+          navigate("/home");
         }, 1500);
       } else {
         // Handle specific error messages from backend

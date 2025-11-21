@@ -2,6 +2,8 @@ import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "./AppLayout.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
 
 import SignIn from "./pages/Auth/SignIn.tsx";
 import SignUp from "./pages/Auth/SignUp.tsx";
@@ -18,11 +20,39 @@ const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      { path: "/home", element: <Home /> },
-      { path: "/utility", element: <Utility /> },
-      { path: "/services", element: <Services /> },
+      {
+        path: "/home",
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/utility",
+        element: (
+          <ProtectedRoute>
+            <Utility />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/services",
+        element: (
+          <ProtectedRoute>
+            <Services />
+          </ProtectedRoute>
+        )
+      },
       { path: "/about", element: <About /> },
-      { path: "/profile", element: <Profile /> },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        )
+      },
     ],
   },
   {
@@ -42,21 +72,29 @@ const router = createBrowserRouter([
     element: <Landing />,
   },
   {
-    path: "/home",
-    element: <Home />,
-  },
-  {
     path: "/admin",
-    element: <AdminRequest />,
+    element: (
+      <ProtectedRoute>
+        <AdminRequest />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/utility/:id",
-    element: <BookUtility />,
+    element: (
+      <ProtectedRoute>
+        <BookUtility />
+      </ProtectedRoute>
+    ),
   }
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 };
 
 export default App;
