@@ -2,6 +2,7 @@ import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "./AppLayout.jsx";
+import AdminLayout from "./AdminLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 
@@ -15,6 +16,9 @@ import Utility from "./pages/Utility.jsx";
 import Services from "./pages/Services.jsx";
 import AdminRequest from "./pages/AdminRequest.jsx";
 import BookUtility from "./pages/BookUtility.tsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Report from "./pages/Report.jsx";
+import EmployeeProfile from "./pages/EmployeeProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -54,14 +58,6 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/admin",
-        element: (
-          <ProtectedRoute>
-            <AdminRequest />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "/utility/:id",
         element: (
           <ProtectedRoute>
@@ -69,6 +65,43 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       }
+    ],
+  },
+  {
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "/dashboard",
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/request",
+        element: (
+          <ProtectedRoute>
+            <AdminRequest />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/report",
+        element: (
+          <ProtectedRoute>
+            <Report />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/employee-profile",
+        element: (
+          <ProtectedRoute>
+            <EmployeeProfile />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
