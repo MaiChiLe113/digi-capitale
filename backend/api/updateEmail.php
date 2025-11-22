@@ -41,17 +41,11 @@ if ($result->num_rows > 0) {
 }
 $stmt->close();
 
-// Update email in resident table
-$stmt = $conn->prepare('UPDATE resident SET Email = ? WHERE ResidentID = ?');
+// Update email in users table
+$stmt = $conn->prepare('UPDATE users SET Email = ? WHERE ResidentID = ?');
 $stmt->bind_param('si', $newEmail, $residentId);
 
 if ($stmt->execute()) {
-  // Also update email in users table if exists
-  $stmt2 = $conn->prepare('UPDATE users SET Email = ? WHERE ResidentID = ?');
-  $stmt2->bind_param('si', $newEmail, $residentId);
-  $stmt2->execute();
-  $stmt2->close();
-
   echo json_encode(['success' => true, 'message' => 'Email updated successfully']);
 } else {
   http_response_code(500);

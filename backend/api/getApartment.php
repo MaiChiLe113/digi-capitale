@@ -19,11 +19,17 @@ if (!$conn) {
 }
 
 // Get apartment information from lease table (includes RoomType)
-$leaseQuery = "SELECT l.LeaseID, l.RoomNum, l.BuildingID, l.RoomType, b.BuildingName 
-              FROM lease l
-              LEFT JOIN building b ON l.BuildingID = b.BuildingID
-              WHERE l.ResidentID = " . intval($residentId) . " AND l.Status = 'active'
-              LIMIT 1";
+$leaseQuery = "SELECT 
+l.LeaseID, 
+l.RoomNum, 
+l.BuildingID,  
+b.BuildingName,
+r.Type 
+FROM lease l
+    LEFT JOIN building b ON l.BuildingID = b.BuildingID
+    LEFT JOIN room r ON l.BuildingID = r.BuildingID AND l.RoomNum = r.RoomNum
+    WHERE l.ResidentID = " . intval($residentId) . "
+    LIMIT 1;";
 
 $leaseResult = $conn->query($leaseQuery);
 
@@ -50,7 +56,7 @@ if ($floorNum === 0) {
 }
 
 // Get vehicles linked to resident via card
-$vehicleQuery = "SELECT v.VehicleID, v.LicensePlate, v.Type
+$vehicleQuery = "SELECT v.VehicleID, v.LicensePlate, v.VehicleType
                 FROM vehicle v
                 LEFT JOIN card c ON v.CardID = c.CardID
                 WHERE c.ResidentID = " . intval($residentId);
@@ -70,8 +76,7 @@ $familyQuery = "SELECT DISTINCT r.ResidentID, CONCAT(r.FirstName, ' ', r.LastNam
                INNER JOIN lease l ON r.ResidentID = l.ResidentID
                WHERE l.BuildingID = " . intval($lease['BuildingID']) . " 
                AND l.RoomNum = '" . $conn->real_escape_string($lease['RoomNum']) . "'
-               AND l.Status = 'active'
-               ORDER BY r.ResidentID";
+               ORDER BY r.ResidentIDl;";
 
 $familyResult = $conn->query($familyQuery);
 
