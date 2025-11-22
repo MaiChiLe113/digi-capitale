@@ -73,3 +73,8 @@ FROM
   JOIN Vehicle AS v ON c.CardID = v.CardID
 WHERE
   rm.RoomNum = '1001' AND rm.BuildingID = '1';
+
+
+
+  INSERT INTO bill (ContractID, ItemID, TotalPrice, IsPaid)
+  VALUES (SELECT ContractID, ItemID, TotalPrice, IsPaid FROM bill);

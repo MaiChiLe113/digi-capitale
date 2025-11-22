@@ -4378,7 +4378,7 @@ INSERT INTO `employee` (`EmployeeID`, `BuildingID`, `FirstName`, `LastName`, `Ph
 (88, '5', 'Gunilla', 'McKitterick', '146-961-6382', 'Receptionist'),
 (89, '3', 'Rubetta', 'Jeannequin', '541-619-8502', 'Security Officer'),
 (90, '5', 'Adora', 'Keigher', '798-217-9653', 'Resident Services Coordinator'),
-(91, '5', 'Brady', 'O\'Mahoney', '501-112-8293', 'Property Manager'),
+(91, '5', 'Brady', 'OMahoney', '501-112-8293', 'Property Manager'),
 (92, '7', 'Normy', 'Pagnin', '675-180-1387', 'Security Officer'),
 (93, '6', 'Lowe', 'Emanuel', '677-632-2834', 'Maintenance Technician'),
 (94, '6', 'Locke', 'Gedney', '231-115-8948', 'Property Manager'),
