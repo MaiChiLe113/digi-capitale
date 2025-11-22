@@ -19,27 +19,27 @@ export default function About() {
     {
       name: "Tran Minh Hai",
       role: "Role 1",
-      img: "https://scontent.fhan5-9.fna.fbcdn.net/v/t39.30808-1/574476450_2280964512408753_2767848676934015635_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e99d92&_nc_ohc=UJ22DCQ9HQQQ7kNvwHmVTtt&_nc_oc=AdlYldVO9RKf_PtTjqOLYcwLMsnXe8VjMjH3G5f7LwwldXMD-dT_IGRUMJ4CCw6YSHg&_nc_zt=24&_nc_ht=scontent.fhan5-9.fna&_nc_gid=LuulqzYVS7PxEenzncts1w&oh=00_Afg1vE0Ar465LD6rCLu-_U8Cw3RbbFeLiUecxQTUdHGI3A&oe=691DABB0",
+      img: "https://i.pinimg.com/1200x/cf/c8/21/cfc8215362bd6524be3bb231adbfe77c.jpg",
     },
     {
       name: "Le Mai Chi",
       role: "Role 2",
-      img: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=faces&fit=crop&w=200&h=200",
+      img: "https://i.pinimg.com/736x/67/a5/08/67a508692a8bdb1e648d020f28237ef4.jpg",
     },
     {
       name: "Nguyen Nhat Lam",
       role: "Role 3",
-      img: "https://scontent.fhan5-6.fna.fbcdn.net/v/t39.30808-6/440928634_1233348624715488_6688028666977266526_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KF8eED2P-PkQ7kNvwGAGa7I&_nc_oc=AdlaW9ooD_AxYq5P641a-UJ1oakkPC-LUiq9NPwylTqypQQ7rroKGb7GixnRQjZ3bcU&_nc_zt=23&_nc_ht=scontent.fhan5-6.fna&_nc_gid=c1H1uXSHwZGcKwFjk8zPYg&oh=00_AfiR7bwULxHaGn6PtIZFsI3SHo0imzuueARNBqdsmY6XxQ&oe=691DB481",
+      img: "https://i.pinimg.com/1200x/c4/38/f1/c438f1c4c951607ccc5b25264b3d0bb6.jpg",
     },
     {
       name: "Nguyen Duc Nam",
       role: "Role 4",
-      img: "https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/460885431_3882918485273699_427880928224399346_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=ET2HROjBwngQ7kNvwGlTZl2&_nc_oc=AdnQ_I4CpLJ_fKicZG8ONCpV3MuVwoHDYL8usqmnmSKZYL9Uyd9nEZi1dALn--aBdrE&_nc_zt=23&_nc_ht=scontent.fhan5-8.fna&_nc_gid=sCLW4U-MXDCV_GXqkO8QZQ&oh=00_AfjKTOwyqkrhNzfBfWFIQ94VLoBPZIDlRyxc3fw0GUgaGQ&oe=691DD218",
+      img: "https://i.pinimg.com/736x/60/11/32/601132a3f13ddc885f63a6f0bcd067f8.jpg",
     },
     {
       name: "Nguyen Huyen Minh Nhat",
       role: "Role 5",
-      img: "https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/474989068_1274483427109383_9076362888895322949_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=502-Oe8w890Q7kNvwG-mkUL&_nc_oc=AdnaX6n5ZkFBkcrk9ko8akfMY5yFZL5k_pcFjTnhBF2rT7pzT6TKYTxEUkk_-k-zVxI&_nc_zt=23&_nc_ht=scontent.fhan5-11.fna&_nc_gid=nYtvF7lQDRi47k7I-kc-RA&oh=00_Afis6u1hSxPlT3cSMypzsQUmzLSQU6Ba1R4F1bMdnj_fXQ&oe=691DCDF3",
+      img: "https://img.freepik.com/premium-photo/portrait-handsome-smiling-young-man-with-folded-arms-isolated-white-background_727137-9816.jpg?semt=ais_hybrid&w=740&q=80",
     },
   ];
 
