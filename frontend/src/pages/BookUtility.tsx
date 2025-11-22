@@ -191,22 +191,9 @@ export default function BookUtility() {
           <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
             Book {utility?.ServiceName}
           </Typography>
-
-          <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-            <Chip
-              label={utility?.Condition}
-              color={utility?.Condition === "Available" ? "success" : "warning"}
-              sx={{ borderRadius: 2 }}
-            />
-            {utility?.UnitPrice && utility.UnitPrice > 0 && (
-              <Chip
-                label={`$${utility.UnitPrice}`}
-                variant="outlined"
-                sx={{ borderRadius: 2 }}
-              />
-            )}
-          </Stack>
+          {/* Add Filter by day field */}
         </Paper>
+        
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
