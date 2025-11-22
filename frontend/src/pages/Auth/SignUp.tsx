@@ -591,11 +591,24 @@ const SignUp = () => {
             Already have an account?{" "}
             <Link
               component={RouterLink}
-              to="/sign-in"
+              to="/signin"
               underline="hover"
               sx={{ color: "primary.main", fontWeight: 500 }}
             >
               Sign in
+            </Link>
+          </Typography>
+
+          {/* Sign In as admin Link */}
+          <Typography variant="body2" textAlign="center" color="text.secondary">
+            Sign In as Admin{" "}
+            <Link
+              component={RouterLink}
+              to="/admin-signin"
+              underline="hover"
+              sx={{ color: "primary.main", fontWeight: 500 }}
+            >
+              Admin portal
             </Link>
           </Typography>
         </Stack>

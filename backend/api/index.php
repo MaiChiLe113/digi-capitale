@@ -17,6 +17,8 @@ if ($action === 'signup') {
   require 'signup.php';
 } else if ($action === 'login') {
   require 'login.php';
+} else if ($action === 'adminLogin') {
+  require 'adminLogin.php';
 } else if ($action === 'getProfile') {
   require 'getProfile.php';
 } else if ($action === 'updateEmail') {

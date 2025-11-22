@@ -20,8 +20,8 @@ if (!$conn) {
   exit;
 }
 
-// Get user by email
-$stmt = $conn->prepare('SELECT UserID, PasswordHash, ResidentID FROM users WHERE Email = ?');
+// Get admin by email
+$stmt = $conn->prepare('SELECT AdminID, EmployeeID, Email, PasswordHash, IsActive FROM admin WHERE Email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -33,10 +33,18 @@ if ($result->num_rows === 0) {
   exit;
 }
 
-$user = $result->fetch_assoc();
+$admin = $result->fetch_assoc();
+
+// Check if admin is active
+if (!$admin['IsActive']) {
+  echo json_encode(['success' => false, 'message' => 'Account is deactivated']);
+  $stmt->close();
+  $conn->close();
+  exit;
+}
 
 // Verify password
-if (!password_verify($password, $user['PasswordHash'])) {
+if (!password_verify($password, $admin['PasswordHash'])) {
   echo json_encode(['success' => false, 'message' => 'Invalid password']);
   $stmt->close();
   $conn->close();
@@ -53,9 +61,10 @@ echo json_encode([
   'success' => true,
   'message' => 'Login successful',
   'user' => [
-    'UserID' => $user['UserID'],
-    'ResidentID' => $user['ResidentID'],
-    'Email' => $email
+    'AdminID' => $admin['AdminID'],
+    'EmployeeID' => $admin['EmployeeID'],
+    'Email' => $admin['Email'],
+    'Role' => 'admin'
   ],
   'token' => $token
 ]);

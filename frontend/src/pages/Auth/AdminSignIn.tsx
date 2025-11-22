@@ -6,15 +6,13 @@ import {
   Typography,
   TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Link,
   InputAdornment,
   IconButton,
   Paper,
   Alert,
   AlertTitle,
   FormHelperText,
+  Link,
 } from "@mui/material";
 import EmailRounded from "@mui/icons-material/EmailRounded";
 import LockRounded from "@mui/icons-material/LockRounded";
@@ -27,12 +25,11 @@ interface FormErrors {
   password: string;
 }
 
-const SignIn = () => {
+const AdminSignIn = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -46,7 +43,6 @@ const SignIn = () => {
     password: false,
   });
 
-  // Validation functions
   const validateEmail = (value: string) => {
     if (!value.trim()) {
       return "Email is required";
@@ -64,7 +60,6 @@ const SignIn = () => {
     return "";
   };
 
-  // Handle field changes
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
@@ -89,7 +84,6 @@ const SignIn = () => {
     }
   };
 
-  // Handle blur event
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
 
@@ -106,7 +100,6 @@ const SignIn = () => {
     }
   };
 
-  // Validate all fields
   const validateAllFields = () => {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -138,12 +131,11 @@ const SignIn = () => {
 
     try {
       const response = await fetch(
-        "http://localhost/digi-capitale/backend/api/index.php?action=login",
+        "http://localhost/digi-capitale/backend/api/index.php?action=adminLogin",
         {
-          // const response = await fetch('http://localhost:8888/api/index.php?action=login', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, rememberMe }),
+          body: JSON.stringify({ email, password }),
         }
       );
 
@@ -153,15 +145,14 @@ const SignIn = () => {
         setSuccess("Sign in successful! Redirecting...");
         login(data.user, data.token);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/dashboard");
         }, 1500);
       } else {
-        // Handle specific error messages from backend
         if (
           data.message === "Invalid email" ||
-          data.message === "User not found"
+          data.message === "Email not found"
         ) {
-          setError("No account found with this email address");
+          setError("No admin account found with this email address");
           setFormErrors((prev) => ({
             ...prev,
             email: "Account not found",
@@ -175,6 +166,8 @@ const SignIn = () => {
             ...prev,
             password: "Incorrect password",
           }));
+        } else if (data.message === "Account is deactivated") {
+          setError("Your account has been deactivated. Contact support.");
         } else {
           setError(data.message || "Sign in failed. Please try again.");
         }
@@ -209,17 +202,15 @@ const SignIn = () => {
         }}
       >
         <Stack spacing={3}>
-          {/* Header */}
           <Stack spacing={1} textAlign="center">
             <Typography variant="h1" color="text.primary">
-              Welcome Back
+              Employee Portal
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Sign in to continue to your account
+              Sign in to access the admin dashboard
             </Typography>
           </Stack>
 
-          {/* Alert */}
           {error && (
             <Alert severity="error" onClose={() => setError("")}>
               <AlertTitle>Error</AlertTitle>
@@ -234,10 +225,8 @@ const SignIn = () => {
             </Alert>
           )}
 
-          {/* Form */}
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              {/* Email Input */}
               <div>
                 <TextField
                   fullWidth
@@ -262,7 +251,6 @@ const SignIn = () => {
                 )}
               </div>
 
-              {/* Password Input */}
               <div>
                 <TextField
                   fullWidth
@@ -305,34 +293,6 @@ const SignIn = () => {
                 )}
               </div>
 
-              {/* Remember Me & Forgot Password */}
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      size="small"
-                    />
-                  }
-                  label={<Typography variant="body2">Remember me</Typography>}
-                />
-                <Link
-                  component={RouterLink}
-                  to="/password-reset-request"
-                  variant="body2"
-                  underline="hover"
-                  sx={{ color: "primary.main" }}
-                >
-                  Forgot password?
-                </Link>
-              </Stack>
-
-              {/* Sign In Button */}
               <Button
                 fullWidth
                 type="submit"
@@ -345,30 +305,16 @@ const SignIn = () => {
               </Button>
             </Stack>
           </form>
-
-          {/* Sign Up Link */}
+          {/* Sign In Link */}
           <Typography variant="body2" textAlign="center" color="text.secondary">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
               component={RouterLink}
-              to="/signup"
+              to="/signin"
               underline="hover"
               sx={{ color: "primary.main", fontWeight: 500 }}
             >
-              Sign up
-            </Link>
-          </Typography>
-
-          {/* Sign In as admin Link */}
-          <Typography variant="body2" textAlign="center" color="text.secondary">
-            Sign In as Admin{" "}
-            <Link
-              component={RouterLink}
-              to="/admin-signin"
-              underline="hover"
-              sx={{ color: "primary.main", fontWeight: 500 }}
-            >
-              Admin portal
+              Sign in
             </Link>
           </Typography>
         </Stack>
@@ -377,4 +323,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default AdminSignIn;

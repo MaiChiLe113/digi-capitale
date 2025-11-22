@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 
 import SignIn from "./pages/Auth/SignIn.tsx";
 import SignUp from "./pages/Auth/SignUp.tsx";
+import AdminSignIn from "./pages/Auth/AdminSignIn.tsx";
 import Landing from "./pages/Landing.jsx";
 import About from "./pages/About.jsx";
 import Home from "./pages/Home.jsx";
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SignIn />,
+  },
+  {
+    path: "/admin-signin",
+    element: <AdminSignIn />,
   },
 ]);
 
