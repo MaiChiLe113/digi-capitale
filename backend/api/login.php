@@ -43,7 +43,9 @@ if (!password_verify($password, $user['PasswordHash'])) {
   exit;
 }
 
-// Login successful
+// Login successful - generate auth token
+$token = bin2hex(random_bytes(32));
+
 $stmt->close();
 $conn->close();
 
@@ -55,6 +57,7 @@ echo json_encode([
     'ResidentID' => $user['ResidentID'],
     'Email' => $email,
     'Role' => $user['Role']
-  ]
+  ],
+  'token' => $token
 ]);
 ?>

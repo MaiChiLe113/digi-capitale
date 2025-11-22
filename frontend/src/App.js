@@ -53,10 +53,26 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         )
       },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute>
+            <AdminRequest />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/utility/:id",
+        element: (
+          <ProtectedRoute>
+            <BookUtility />
+          </ProtectedRoute>
+        ),
+      }
     ],
   },
   {
-    path: "/*",
+    path: "/",
     element: <Landing />,
   },
   {
@@ -67,26 +83,6 @@ const router = createBrowserRouter([
     path: "/signin",
     element: <SignIn />,
   },
-  {
-    path: "/landing",
-    element: <Landing />,
-  },
-  {
-    path: "/admin",
-    element: (
-      <ProtectedRoute>
-        <AdminRequest />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/utility/:id",
-    element: (
-      <ProtectedRoute>
-        <BookUtility />
-      </ProtectedRoute>
-    ),
-  }
 ]);
 
 const App = () => {
