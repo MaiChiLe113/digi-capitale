@@ -19,7 +19,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/landing");
+    navigate("/home");
   };
 
   return (
@@ -86,16 +86,6 @@ const Header = () => {
       >
         {isAuthenticated() ? (
           <>
-            <Typography
-              variant="body1"
-              sx={{
-                color: "primary.contrastText",
-                fontWeight: 500,
-                fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
-              }}
-            >
-              Hi, {user?.name || user?.email?.split("@")[0]}!
-            </Typography>
             <Button
               variant="outlined"
               color="primary"

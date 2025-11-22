@@ -37,6 +37,12 @@ if ($action === 'signup') {
   require 'handleBookings.php';
 } else if ($action === 'getUtilities') {
   require 'getUtilities.php';
+} else if ($action === 'getDashboardStats') {
+  require 'getDashboardStats.php';
+} else if ($action === 'getReportData') {
+  require 'getReportData.php';
+} else if ($action === 'getEmployeeProfile') {
+  require 'getEmployeeProfile.php';
 } else {
   http_response_code(404);
   echo json_encode(['success' => false, 'message' => 'Endpoint not found']);
