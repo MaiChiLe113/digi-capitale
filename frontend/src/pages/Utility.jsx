@@ -33,7 +33,9 @@ export default function Utility() {
   const fetchUtilities = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getUtilities");
+      const response = await fetch(
+        "http://localhost/digi-capitale/backend/api/index.php?action=getUtilities"
+      );
       const data = await response.json();
 
       if (data.success === false) {
@@ -97,12 +99,24 @@ export default function Utility() {
           }}
         >
           <Typography variant="h1">Utilities</Typography>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }}>
-            Report Incidents
-          </Button>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/history">
-            See History Bookings
-          </Button>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ borderRadius: 20 }}
+            >
+              Report Incidents
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ borderRadius: 20 }}
+              component={Link}
+              to="/history"
+            >
+              See Booking History
+            </Button>
+          </Box>
         </Box>
       </Box>
 
@@ -216,7 +230,9 @@ export default function Utility() {
                     sx={{
                       bgcolor: colors.bg,
                       color: colors.text,
-                      border: colors.border ? `1px solid ${colors.border}` : "none",
+                      border: colors.border
+                        ? `1px solid ${colors.border}`
+                        : "none",
                       borderRadius: 2,
                       fontSize: "0.875rem",
                       fontWeight: 500,
@@ -224,15 +240,15 @@ export default function Utility() {
                     }}
                   />
                   <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      disabled={utility.condition === "Maintenance"}
-                      sx={{ borderRadius: 2, whiteSpace: "nowrap", ml: 2 }}
-                      onClick={() => navigate(`/utility/${utility.id}`)}
-                    >
-                      Book
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    disabled={utility.condition === "Maintenance"}
+                    sx={{ borderRadius: 2, whiteSpace: "nowrap", ml: 2 }}
+                    onClick={() => navigate(`/utility/${utility.id}`)}
+                  >
+                    Book
+                  </Button>
                 </Card>
               );
             })
