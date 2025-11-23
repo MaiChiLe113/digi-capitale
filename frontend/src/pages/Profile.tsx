@@ -458,20 +458,6 @@ const Profile = () => {
               >
                 Resident ID: {profile.ResidentID}
               </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  mt: 1,
-                  px: 2,
-                  py: 1,
-                  bgcolor: "primary.light",
-                  color: "primary.dark",
-                  borderRadius: 2,
-                  textTransform: "capitalize",
-                }}
-              >
-                {profile.Role}
-              </Typography>
             </Box>
 
             {/* Details Section */}
