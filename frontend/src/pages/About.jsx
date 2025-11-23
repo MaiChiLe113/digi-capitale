@@ -280,6 +280,167 @@ export default function About() {
           </Grid>
         </Grid>
       </Box>
+      {/* Contribution */}
+      <Box
+        sx={{
+          justifyItems: "center",
+          m: 10,
+          px: 4,
+        }}
+      >
+        <Typography variant="h1" gutterBottom>
+          Contribution
+        </Typography>
+
+        <table border={1} style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead
+            style={{
+              backgroundColor: theme.palette.primary.main,
+              color: "white",
+            }}
+          >
+            <th>Phase</th>
+            {members.map((member, index) => (
+              <th key={index}>{member.name}</th>
+            ))}
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>1-3</td>
+              <td>
+                <Typography variant="body3">
+                  Meeting with clients, drafting ideasabout the project, define
+                  project scope, and assigning team roles. Identify problem
+                  statement, research project background, identify product
+                  requirements. List features for WebApp
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Meeting with clients, researching and providing insights about
+                  the D’capitale building, writing product requirement s
+                  Proofread final files + export Confluence pages List features
+                  for WebApp
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Meeting with clients, narrowing down the scope, and
+                  identifying team roles Research project backgroun d, identify
+                  requireme nts, write user story List features for WebApp
+                  Review team’s work and provide feedback
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Meeting with clients, research project background Identify
+                  product requireme nts and out-ofscope areas Document ing,
+                  adding tasks to Jira, and writing meeting notes. Do risk
+                  assessme nt for the project List features for WebApp
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  research project background
+                </Typography>
+              </td>
+            </tr>
+
+            <tr>
+              <td>4-6</td>
+              <td>
+                <Typography variant="body3">
+                  Conduct meeting to update progress with client Drawing initial
+                  ERD, choosing tech stack, proposing ideas for the WebApp
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Identify current problems of the building Design ERD, Design
+                  prototype for the project
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Draw, connect, finalise ERD
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Monitor team health Design ERD
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">Design ERD</Typography>
+              </td>
+            </tr>
+
+            <tr>
+              <td>6-10</td>
+              <td>
+                <Typography variant="body3">
+                  Generate data with mockaroo, planning for website Front-end
+                  documentatio n, assign Web tasks to members
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Generate data, code frontend, write SQL query for the
+                  functions
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Duplicate data, write SQL query for the functions Keep the
+                  team on track with deadlines Add tasks to Jira
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Generate data, write SQL query for the functions Code frontend
+                  landing page Add tasks to Jira
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Write SQL query for book utility function Code front-end
+                </Typography>
+              </td>
+            </tr>
+
+            <tr>
+              <td>10-12</td>
+              <td>
+                <Typography variant="body3">
+                  Code WebApp Team Reflection
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Code WebApp Video product Slide
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Duplicate data Code frontend for WebApp (home page) Team
+                  reflection Test performan ce of the database
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">
+                  Test performan ce of the database Document data generation
+                  process, index + procedure performan ce testing. Team
+                  reflection Content for product video slide
+                </Typography>
+              </td>
+              <td>
+                <Typography variant="body3">Code web</Typography>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Box>
     </Stack>
   );
 }
