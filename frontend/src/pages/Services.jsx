@@ -26,7 +26,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-
+import { Link } from "react-router-dom";
 // Material UI Icons
 import WaterIcon from "@mui/icons-material/WaterDropRounded";
 import ElectricityIcon from "@mui/icons-material/ElectricalServicesRounded";
@@ -510,7 +510,7 @@ export default function Service() {
           }}
         >
           <Typography variant="h1">Services</Typography>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }}>
+          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/makeincidents">
             Request Maintenance
           </Button>
         </Box>

@@ -15,9 +15,8 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import RoomServiceIcon from "@mui/icons-material/RoomServiceRounded";
-import CalendarTodayIcon from "@mui/icons-material/CalendarMonthRounded";
-import PaymentIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import PayNowIcon from "@mui/icons-material/PaymentRounded";
 import PaidIcon from "@mui/icons-material/CheckCircleRounded";
 import WaterIcon from "@mui/icons-material/WaterDropRounded";
@@ -34,9 +33,6 @@ export default function Home() {
   const [utilities, setUtilities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     fetchAll();
@@ -192,8 +188,8 @@ export default function Home() {
           }}
         >
           <Typography variant="h1">Welcome back</Typography>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }}>
-            New Booking
+          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/makeincidents">
+            Report Incidents
           </Button>
         </Box>
       </Box>
@@ -332,6 +328,7 @@ export default function Home() {
                       },
                     }}
                     startIcon={<VisibilityIcon />}
+                    component={Link} to="/profile"
                   >
                     View Profile
                   </Button>
@@ -344,6 +341,7 @@ export default function Home() {
                       "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
                     }}
                     startIcon={<EditIcon />}
+                    component={Link} to="/profile"
                   >
                     Edit
                   </Button>
@@ -356,12 +354,24 @@ export default function Home() {
               <Typography variant="h3" sx={{ mb: 1, fontWeight: 600 }}>
                 My Reservations
               </Typography>
-
               {reservations.length === 0 ? (
                 <Card sx={{ p: 3, textAlign: "center" }}>
                   <Typography sx={{ color: "#999" }}>
                     No reservations
                   </Typography>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: "primary.dark",
+                      borderRadius: 3,
+                      fontWeight: 700,
+                      "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
+                    }}
+                    startIcon={<EditIcon />}
+                    component={Link} to="/utility"
+                  >
+                    Make New Reservation
+                  </Button>
                 </Card>
               ) : (
                 reservations.map((r, idx) => (
@@ -379,22 +389,6 @@ export default function Home() {
                       <Typography sx={{ fontWeight: 600 }}>{r.name}</Typography>
                       <Typography sx={{ color: "#666" }}>{r.time}</Typography>
                     </Box>
-                    {/* <Button size="small" variant="contained" onClick={handleOpen}>Details</Button>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box>
-                      <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                      </Typography>
-                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                      </Typography>
-                    </Box>
-                  </Modal> */}
                   </Card>
                 ))
               )}
@@ -407,7 +401,6 @@ export default function Home() {
                 <Typography variant="h3" sx={{ mb: 1, fontWeight: 600 }}>
                   Services Payment Status
                 </Typography>
-                <Card sx={{ p: 3 }}>
                   <Box
                     sx={{
                       display: "flex",
@@ -415,12 +408,6 @@ export default function Home() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography variant="h3" sx={{ fontWeight: 600 }}>
-                      Payment Status
-                    </Typography>
-                    <IconButton>
-                      <CalendarTodayIcon />
-                    </IconButton>
                   </Box>
                   <Divider sx={{ my: 2 }} />
 
@@ -520,7 +507,6 @@ export default function Home() {
                       })}
                     </Box>
                   )}
-                </Card>
               </Grid>
             </Grid>
           </Grid>

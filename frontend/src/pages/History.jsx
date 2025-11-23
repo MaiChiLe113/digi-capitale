@@ -16,9 +16,8 @@ import {
   Select,
   MenuItem,
   useTheme,
+  Pagination,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -127,25 +126,6 @@ export default function History() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
-
-  // Generate pagination buttons
-  const paginationButtons = [];
-  for (let i = 1; i <= totalPages; i++) {
-    paginationButtons.push(
-      <Button
-        key={i}
-        variant={i === currentPage ? "contained" : "outlined"}
-        onClick={() => handlePageChange(i)}
-        sx={{ minWidth: 32, px: 1, mx: 0.5 }}
-      >
-        {i}
-      </Button>
-    );
-  }
 
   if (loading) {
     return (
@@ -351,37 +331,19 @@ export default function History() {
         ))
       )}
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       {totalPages > 1 && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-            mt: 4,
-            flexWrap: "wrap",
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            startIcon={<ArrowBackIcon />}
-            sx={{ borderRadius: 2 }}
-          >
-            Prev
-          </Button>
-          {paginationButtons}
-          <Button
-            variant="outlined"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            endIcon={<ArrowForwardIcon />}
-            sx={{ borderRadius: 2 }}
-          >
-            Next
-          </Button>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={(e, page) => setCurrentPage(page)}
+            color="primary"
+            siblingCount={0}
+            boundaryCount={2}
+            showFirstButton
+            showLastButton
+          />
         </Box>
       )}
     </Container>
