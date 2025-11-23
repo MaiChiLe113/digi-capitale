@@ -37,6 +37,8 @@ if ($action === 'signup') {
   require 'handleBookings.php';
 } else if ($action === 'getUtilities') {
   require 'getUtilities.php';
+} else if ($action === 'getReservations') {
+  require 'getReservations.php';
 } else if ($action === 'getDashboardStats') {
   require 'getDashboardStats.php';
 } else if ($action === 'getReportData') {
