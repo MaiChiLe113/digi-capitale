@@ -284,7 +284,8 @@ export default function About() {
       <Box
         sx={{
           justifyItems: "center",
-          m: 10,
+          mx: 10,
+          my : 4,
           px: 4,
         }}
       >
