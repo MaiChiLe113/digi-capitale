@@ -18,6 +18,9 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarMonthRounded";
 import PaymentIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import PayNowIcon from '@mui/icons-material/PaymentRounded';
 import PaidIcon from '@mui/icons-material/CheckCircleRounded';
+import WaterIcon from "@mui/icons-material/WaterDropRounded";
+import ElectricityIcon from "@mui/icons-material/ElectricalServicesRounded";
+import MaintenanceIcon from "@mui/icons-material/BuildRounded";
 import { useTheme } from '@mui/material';
 
 export default function Home() {
@@ -120,10 +123,19 @@ export default function Home() {
   const pendingPayments = utilities.filter((u) => u.condition === "Pending" || u.status === "Pending");
 
   // Create lightweight card data for utilities to display similar UI to Services.jsx
+  const getIconForUtility = (name) => {
+    const lowerName = (name || "").toLowerCase();
+    if (lowerName.includes("water")) return WaterIcon;
+    if (lowerName.includes("electric")) return ElectricityIcon;
+    if (lowerName.includes("maintenance")) return MaintenanceIcon;
+    return RoomServiceIcon;
+  };
+
   const utilityCards = utilities.map((u) => ({
     id: u.id,
     name: u.name,
     fee: Number(u.fee || 0),
+    icon: getIconForUtility(u.name),
     // treat non-Available items as Pending for display purposes
     status: (u.condition && u.condition !== "Available") || u.status ? "Pending" : "Paid",
   }));
@@ -265,34 +277,67 @@ export default function Home() {
                     <Typography sx={{ color: "#999" }}>No service bills</Typography>
                   ) : (
                     <Box sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
-                      {utilityCards.map((it) => (
-                        <Card
-                          key={it.id}
-                          sx={{
-                            p: 4,
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 2,
-                            borderRadius: 2,
-                            flexGrow: 1,
-                            minWidth: 200,
-                          }}
-                        >
-                          <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
-                            {/* <RoomServiceIcon sx={{ fontSize: 56 }} /> */}
-                            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }}>
-                              <Typography variant="h5" sx={{ color: "text.primary" }}>{it.name} bill</Typography>
-                              <Typography variant="h2" sx={{ fontWeight: 700 }}>${(it.fee || 0).toFixed(2)}</Typography>
+                      {utilityCards.map((it) => {
+                        const Icon = it.icon;
+                        const isPending = it.status === "Pending";
+                        
+                        return (
+                          <Card
+                            key={it.id}
+                            sx={{
+                              p: 3,
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 2,
+                              borderRadius: 2,
+                              flexGrow: 1,
+                              minWidth: 220,
+                              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                transform: "translateY(-2px)",
+                              },
+                            }}
+                          >
+                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
+                              <Icon sx={{ fontSize: 60, color: "primary.main" }} />
+                              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 0.5 }}>
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                  {it.name} bill
+                                </Typography>
+                                <Typography variant="h4" sx={{ fontWeight: 700, color: "primary.main" }}>
+                                  ${(it.fee || 0).toFixed(2)}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
 
-                          {it.status === "Pending" ? (
-                            <Button variant="contained" color="primary" startIcon={<PayNowIcon />}>Pay Now</Button>
-                          ) : (
-                            <Chip label="Paid" icon={<PaidIcon />} sx={{ fontWeight: 600, height: 48 }} />
-                          )}
-                        </Card>
-                      ))}
+                            {isPending ? (
+                              <Button 
+                                variant="contained" 
+                                color="primary" 
+                                startIcon={<PayNowIcon />}
+                                fullWidth
+                                sx={{ mt: 1 }}
+                              >
+                                Pay Now
+                              </Button>
+                            ) : (
+                              <Chip 
+                                label="Paid" 
+                                icon={<PaidIcon />} 
+                                sx={{ 
+                                  fontWeight: 600, 
+                                  height: 40,
+                                  bgcolor: "#e8f5e9",
+                                  color: "#2e7d32",
+                                  border: "1px solid #4caf50",
+                                }} 
+                              />
+                            )}
+                          </Card>
+                        );
+                      })}
                     </Box>
                   )}
                 </Card>

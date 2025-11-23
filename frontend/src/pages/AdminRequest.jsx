@@ -43,6 +43,8 @@ export default function AdminRequest() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedUtilities, setSelectedUtilities] = useState([]);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
@@ -88,13 +90,39 @@ export default function AdminRequest() {
   // Get unique utilities for filter
   const getUniqueUtilities = (bookings) => {
     const utilities = bookings.map(booking => booking.UtilityName);
-    return ['All', ...new Set(utilities)];
+    return Array.from(new Set(utilities)).sort();
   };
 
-  // Filter bookings based on selected utility
+  // Get unique times for filter
+  const getUniqueTimes = (bookings) => {
+    const times = new Set();
+    bookings.forEach(booking => {
+      if (booking.BookingTime) {
+        times.add(booking.BookingTime);
+      }
+    });
+    return Array.from(times).sort();
+  };
+
+  // Get unique dates for filter
+  const getUniqueDates = (bookings) => {
+    const dates = new Set();
+    bookings.forEach(booking => {
+      if (booking.BookingDate) {
+        dates.add(booking.BookingDate);
+      }
+    });
+    return Array.from(dates).sort().reverse();
+  };
+
+  // Filter bookings based on selected filters
   const getFilteredBookings = (bookings) => {
-    if (selectedUtilities.length === 0) return bookings;
-    return bookings.filter(booking => selectedUtilities.includes(booking.UtilityName));
+    return bookings.filter(booking => {
+      const utilityMatch = selectedUtilities.length === 0 || selectedUtilities.includes(booking.UtilityName);
+      const timeMatch = selectedTime === "" || booking.BookingTime === selectedTime;
+      const dateMatch = selectedDate === "" || booking.BookingDate === selectedDate;
+      return utilityMatch && timeMatch && dateMatch;
+    });
   };
 
   // Handle page change
@@ -234,39 +262,95 @@ export default function AdminRequest() {
       {!loading && activeTab === 0 && (
         <>
           {/* Filter and Selection Info */}
-          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
+          <Box sx={{ mb: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+            {/* Filter by Utility */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333" }}>Filter by Utility:</Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Utility:</Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-                {getUniqueUtilities(pendingBookings)
-                  .filter((u) => u !== 'All')
-                  .map((utility) => (
-                    <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                      <Checkbox
-                        checked={selectedUtilities.includes(utility)}
-                        onChange={() => {
-                          setSelectedUtilities((prevSelected) => {
-                            if (prevSelected.includes(utility)) {
-                              return prevSelected.filter((u) => u !== utility);
-                            } else {
-                              return [...prevSelected, utility];
-                            }
-                          });
-                          setPage(0);
-                          setSelectedRows([]);
-                        }}
-                        size="small"
-                      />
-                      <Typography variant="body2">{utility}</Typography>
-                    </Box>
-                  ))}
+                {getUniqueUtilities(pendingBookings).map((utility) => (
+                  <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <Checkbox
+                      checked={selectedUtilities.includes(utility)}
+                      onChange={() => {
+                        setSelectedUtilities((prev) =>
+                          prev.includes(utility)
+                            ? prev.filter((u) => u !== utility)
+                            : [...prev, utility]
+                        );
+                        setPage(0);
+                        setSelectedRows([]);
+                      }}
+                      size="small"
+                    />
+                    <Typography variant="body2">{utility}</Typography>
+                  </Box>
+                ))}
               </Box>
-              {selectedRows.length > 0 && (
-                <Typography variant="body2" sx={{ color: "#666" }}>
-                  {selectedRows.length} selected
-                </Typography>
-              )}
             </Box>
+
+            {/* Filter by Time */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Time:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                <select
+                  value={selectedTime}
+                  onChange={(e) => {
+                    setSelectedTime(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="">All Times</option>
+                  {getUniqueTimes(pendingBookings).map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+              </Box>
+            </Box>
+
+            {/* Filter by Date */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Date:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                <select
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="">All Dates</option>
+                  {getUniqueDates(pendingBookings).map((date) => (
+                    <option key={date} value={date}>
+                      {date}
+                    </option>
+                  ))}
+                </select>
+              </Box>
+            </Box>
+
+            {selectedRows.length > 0 && (
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                {selectedRows.length} selected
+              </Typography>
+            )}
           </Box>
 
           <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
@@ -386,53 +470,95 @@ export default function AdminRequest() {
       {!loading && activeTab === 1 && (
         <>
           {/* Filter and Selection Info */}
-          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <FormControl component="fieldset" sx={{ minWidth: 200 }}>
-                <InputLabel shrink>Filter by Utility</InputLabel>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: 200,
-                    overflowY: "auto",
-                    border: "1px solid rgba(0, 0, 0, 0.23)",
-                    borderRadius: 1,
-                    p: 1,
-                    mt: 1,
-                    bgcolor: "background.paper",
+          <Box sx={{ mb: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+            {/* Filter by Utility */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Utility:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                {getUniqueUtilities(solvedBookings).map((utility) => (
+                  <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <Checkbox
+                      checked={selectedUtilities.includes(utility)}
+                      onChange={() => {
+                        setSelectedUtilities((prev) =>
+                          prev.includes(utility)
+                            ? prev.filter((u) => u !== utility)
+                            : [...prev, utility]
+                        );
+                        setPage(0);
+                        setSelectedRows([]);
+                      }}
+                      size="small"
+                    />
+                    <Typography variant="body2">{utility}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+
+            {/* Filter by Time */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Time:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                <select
+                  value={selectedTime}
+                  onChange={(e) => {
+                    setSelectedTime(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    fontSize: "13px",
+                    cursor: "pointer",
                   }}
                 >
-                {getUniqueUtilities(solvedBookings)
-                    .filter((u) => u !== 'All')
-                    .map((utility) => (
-                      <Box key={utility} sx={{ display: "flex", alignItems: "center" }}>
-                        <Checkbox
-                          checked={selectedUtilities.includes(utility)}
-                          onChange={() => {
-                            setSelectedUtilities((prevSelected) => {
-                              if (prevSelected.includes(utility)) {
-                                return prevSelected.filter((u) => u !== utility);
-                              } else {
-                                return [...prevSelected, utility];
-                              }
-                            });
-                            setPage(0);
-                            setSelectedRows([]);
-                          }}
-                          size="small"
-                        />
-                        <Typography variant="body2">{utility}</Typography>
-                      </Box>
-                    ))}
-                </Box>
-              </FormControl>
-              {selectedRows.length > 0 && (
-                <Typography variant="body2" sx={{ color: "#666" }}>
-                  {selectedRows.length} selected
-                </Typography>
-              )}
+                  <option value="">All Times</option>
+                  {getUniqueTimes(solvedBookings).map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+              </Box>
             </Box>
+
+            {/* Filter by Date */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Date:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                <select
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                    setPage(0);
+                    setSelectedRows([]);
+                  }}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="">All Dates</option>
+                  {getUniqueDates(solvedBookings).map((date) => (
+                    <option key={date} value={date}>
+                      {date}
+                    </option>
+                  ))}
+                </select>
+              </Box>
+            </Box>
+
+            {selectedRows.length > 0 && (
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                {selectedRows.length} selected
+              </Typography>
+            )}
           </Box>
 
           <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
