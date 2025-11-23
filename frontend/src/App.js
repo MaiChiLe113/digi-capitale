@@ -1,8 +1,8 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import AppLayout from "./AppLayout.jsx";
-import AdminLayout from "./AdminLayout.jsx";
+import AppLayout from "./layout/AppLayout.jsx";
+import AdminLayout from "./layout/AdminLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 

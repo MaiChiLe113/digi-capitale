@@ -1,12 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Container } from "@mui/material";
-import AdminHeader from "./components/AdminHeader.tsx";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
-const AdminLayout = () => {
+const AppLayout = () => {
   return (
     <>
-        <AdminHeader />
+      <Header />
       {/* <Container
         component="main"
         sx={{
@@ -17,8 +18,9 @@ const AdminLayout = () => {
       > */}
       <Outlet />
       {/* </Container> */}
+      <Footer />
     </>
   );
 };
 
-export default AdminLayout;
+export default AppLayout;

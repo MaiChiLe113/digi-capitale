@@ -23,8 +23,7 @@ $stmt = $conn->prepare('
     r.FirstName,
     r.LastName,
     r.Email,
-    r.Image,
-    u.Role
+    r.Image
   FROM resident r
   LEFT JOIN users u ON r.ResidentID = u.ResidentID
   WHERE r.ResidentID = ?
@@ -54,7 +53,6 @@ echo json_encode([
     'LastName' => $profile['LastName'],
     'Email' => $profile['Email'],
     'Image' => $profile['Image'],
-    'Role' => $profile['Role'] ?? 'resident'
   ]
 ]);
 ?>
