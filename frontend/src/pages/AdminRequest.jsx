@@ -48,7 +48,7 @@ export default function AdminRequest() {
   // Pagination, filtering, and selection states
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [selectedUtility, setSelectedUtility] = useState('All');
+  const [selectedUtilities, setSelectedUtilities] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
@@ -99,8 +99,8 @@ export default function AdminRequest() {
 
   // Filter bookings based on selected utility
   const getFilteredBookings = (bookings) => {
-    if (selectedUtility === 'All') return bookings;
-    return bookings.filter(booking => booking.UtilityName === selectedUtility);
+    if (selectedUtilities.length === 0) return bookings;
+    return bookings.filter(booking => selectedUtilities.includes(booking.UtilityName));
   };
 
   // Handle page change
@@ -242,23 +242,44 @@ export default function AdminRequest() {
           {/* Filter and Selection Info */}
           <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel>Filter by Utility</InputLabel>
-                <Select
-                  value={selectedUtility}
-                  label="Filter by Utility"
-                  onChange={(e) => {
-                    setSelectedUtility(e.target.value);
-                    setPage(0);
-                    setSelectedRows([]);
+              <FormControl component="fieldset" sx={{ minWidth: 200 }}>
+                <InputLabel shrink>Filter by Utility</InputLabel>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxHeight: 200,
+                    overflowY: "auto",
+                    border: "1px solid rgba(0, 0, 0, 0.23)",
+                    borderRadius: 1,
+                    p: 1,
+                    mt: 1,
+                    bgcolor: "background.paper",
                   }}
                 >
-                  {getUniqueUtilities(pendingBookings).map((utility) => (
-                    <MenuItem key={utility} value={utility}>
-                      {utility}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  {getUniqueUtilities(pendingBookings)
+                    .filter((u) => u !== 'All')
+                    .map((utility) => (
+                      <Box key={utility} sx={{ display: "flex", alignItems: "center" }}>
+                        <Checkbox
+                          checked={selectedUtilities.includes(utility)}
+                          onChange={() => {
+                            setSelectedUtilities((prevSelected) => {
+                              if (prevSelected.includes(utility)) {
+                                return prevSelected.filter((u) => u !== utility);
+                              } else {
+                                return [...prevSelected, utility];
+                              }
+                            });
+                            setPage(0);
+                            setSelectedRows([]);
+                          }}
+                          size="small"
+                        />
+                        <Typography variant="body2">{utility}</Typography>
+                      </Box>
+                    ))}
+                </Box>
               </FormControl>
               {selectedRows.length > 0 && (
                 <Typography variant="body2" sx={{ color: "#666" }}>
@@ -387,23 +408,44 @@ export default function AdminRequest() {
           {/* Filter and Selection Info */}
           <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel>Filter by Utility</InputLabel>
-                <Select
-                  value={selectedUtility}
-                  label="Filter by Utility"
-                  onChange={(e) => {
-                    setSelectedUtility(e.target.value);
-                    setPage(0);
-                    setSelectedRows([]);
+              <FormControl component="fieldset" sx={{ minWidth: 200 }}>
+                <InputLabel shrink>Filter by Utility</InputLabel>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxHeight: 200,
+                    overflowY: "auto",
+                    border: "1px solid rgba(0, 0, 0, 0.23)",
+                    borderRadius: 1,
+                    p: 1,
+                    mt: 1,
+                    bgcolor: "background.paper",
                   }}
                 >
-                  {getUniqueUtilities(solvedBookings).map((utility) => (
-                    <MenuItem key={utility} value={utility}>
-                      {utility}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  {getUniqueUtilities(solvedBookings)
+                    .filter((u) => u !== 'All')
+                    .map((utility) => (
+                      <Box key={utility} sx={{ display: "flex", alignItems: "center" }}>
+                        <Checkbox
+                          checked={selectedUtilities.includes(utility)}
+                          onChange={() => {
+                            setSelectedUtilities((prevSelected) => {
+                              if (prevSelected.includes(utility)) {
+                                return prevSelected.filter((u) => u !== utility);
+                              } else {
+                                return [...prevSelected, utility];
+                              }
+                            });
+                            setPage(0);
+                            setSelectedRows([]);
+                          }}
+                          size="small"
+                        />
+                        <Typography variant="body2">{utility}</Typography>
+                      </Box>
+                    ))}
+                </Box>
               </FormControl>
               {selectedRows.length > 0 && (
                 <Typography variant="body2" sx={{ color: "#666" }}>

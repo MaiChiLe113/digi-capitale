@@ -17,6 +17,8 @@ import {
   Avatar,
   IconButton,
   Tooltip,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 // Using the correct Material UI Icons from the original code request
 import WaterIcon from "@mui/icons-material/WaterDropRounded";
@@ -27,6 +29,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import PaidIcon from "@mui/icons-material/CheckCircleRounded";
 import PendingIcon from "@mui/icons-material/AccessTimeRounded";
 import PayNowIcon from "@mui/icons-material/PaymentRounded";
+import SearchIcon from "@mui/icons-material/Search";
 
 // --- DUMMY DATA SETUP ---
 const DUMMY_DATA = {
@@ -290,11 +293,28 @@ export default function Utility() {
 
   const [currentMonth, setCurrentMonth] = useState("11/2025");
   const [data, setData] = useState(DUMMY_DATA);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;
 
-  const currentData = data[currentMonth] || [];
+  // Get current month's data or empty array
+  const rawData = data[currentMonth] || [];
+
+  // Filter data by search term (only by name)
+  const filteredData = rawData.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination calculations
+  const totalItems = filteredData.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const summary = useMemo(() => {
-    return currentData.reduce(
+    return paginatedData.reduce(
       (acc, item) => {
         acc.total += item.fee;
         if (item.status === "Pending") {
@@ -304,7 +324,7 @@ export default function Utility() {
       },
       { total: 0, pendingTotal: 0 }
     );
-  }, [currentData]);
+  }, [paginatedData]);
 
   const handlePayment = (id, name) => {
     // Simulating payment logic
@@ -331,10 +351,32 @@ export default function Utility() {
   const handleMonthChange = (direction) => {
     if (direction === "next" && currentMonth === "10/2025") {
       setCurrentMonth("11/2025");
+      setCurrentPage(1);
     } else if (direction === "prev" && currentMonth === "11/2025") {
       setCurrentMonth("10/2025");
+      setCurrentPage(1);
     }
   };
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
+  // Generate pagination buttons (1 ... totalPages)
+  const paginationButtons = [];
+  for (let i = 1; i <= totalPages; i++) {
+    paginationButtons.push(
+      <Button
+        key={i}
+        variant={i === currentPage ? "contained" : "outlined"}
+        onClick={() => handlePageChange(i)}
+        sx={{ minWidth: 32, px: 1, mx: 0.5 }}
+      >
+        {i}
+      </Button>
+    );
+  }
 
   return (
     // Use theme.palette.background.default
@@ -373,6 +415,31 @@ export default function Utility() {
         </Box>
       </Box>
 
+      {/* Search Input */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          placeholder="Search services..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "#999" }} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
+          }}
+        />
+      </Box>
+
       {/* --- Utility Cards Grid --- */}
       <Box
         sx={{
@@ -385,9 +452,41 @@ export default function Utility() {
           flexWrap: "wrap",
         }}
       >
-        {currentData.map((item) => (
+        {paginatedData.map((item) => (
           <UtilityCard item={item} onPay={handlePayment} theme={theme} />
         ))}
+      </Box>
+
+      {/* --- Pagination Controls --- */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 1,
+          mb: 4,
+          flexWrap: "wrap",
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          startIcon={<ArrowBackIcon />}
+          sx={{ borderRadius: 2 }}
+        >
+          Prev
+        </Button>
+        {paginationButtons}
+        <Button
+          variant="outlined"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          endIcon={<ArrowForwardIcon />}
+          sx={{ borderRadius: 2 }}
+        >
+          Next
+        </Button>
       </Box>
 
       {/* --- Pay All Bill Bar --- */}
@@ -429,6 +528,7 @@ export default function Utility() {
       <Typography variant="h3" sx={{ mb: 2, fontWeight: 600 }}>
         Details
       </Typography>
+      
       {/* --- Month Navigation --- */}
       <Box
         sx={{
@@ -465,10 +565,10 @@ export default function Utility() {
       </Box>
 
       {/* --- Utility Details Table --- */}
-      <UtilityTable
-        currentData={currentData}
-        onPay={handlePayment}
-        theme={theme}
+      <UtilityTable 
+      currentData={paginatedData} 
+      onPay={handlePayment} 
+      theme={theme} 
       />
     </Container>
   );
