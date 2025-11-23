@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -99,6 +99,9 @@ export default function Utility() {
           <Typography variant="h1">Utilities</Typography>
           <Button variant="contained" color="primary" sx={{ borderRadius: 20 }}>
             Report Incidents
+          </Button>
+          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/history">
+            See History Bookings
           </Button>
         </Box>
       </Box>

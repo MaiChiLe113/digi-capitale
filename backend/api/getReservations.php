@@ -28,13 +28,15 @@ if (!$conn) {
 }
 
 // Fetch user's reservations from booking table joined with item and slots
-// booking: BookID, Email, SlotID, Status
+// booking: BookID, Email, SlotID, Status, TimeStamp
 // slots: SlotID, ItemID, SlotDay, StartTime, Capacity, Status
 // item: ItemID, ServiceName
-$sql = "SELECT 
+$sql = "SELECT
     b.BookID,
+    b.SlotID,
     b.Email,
     b.Status AS BookingStatus,
+    b.TimeStamp,
     i.ServiceName,
     i.ItemID,
     s.SlotDay,
@@ -44,7 +46,7 @@ $sql = "SELECT
 FROM booking b
 JOIN slots s ON b.SlotID = s.SlotID
 JOIN item i ON s.ItemID = i.ItemID
-WHERE b.Email = ? AND (b.Status = 'Registered' OR b.Status = 'Confirmed')
+WHERE b.Email = ?
 ORDER BY s.SlotDay DESC, s.StartTime DESC";
 
 $stmt = $conn->prepare($sql);
@@ -84,8 +86,14 @@ if ($result && $result->num_rows > 0) {
         }
         
         $item = [
+            'BookID' => $row['BookID'],
+            'SlotID' => $row['SlotID'],
             'name' => $row['ServiceName'],
             'time' => (new DateTime($slotDay))->format('d/m/Y') . ' - ' . $startTime,
+            'slotDay' => $slotDay,
+            'startTime' => $startTime,
+            'status' => $row['BookingStatus'],
+            'timestamp' => $row['TimeStamp'],
             'img' => '', // No image URL in DB
             'action' => $action
         ];

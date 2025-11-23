@@ -20,6 +20,7 @@ import BookUtility from "./pages/BookUtility.tsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Report from "./pages/Report.jsx";
 import EmployeeProfile from "./pages/EmployeeProfile.jsx";
+import History from "./pages/History.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Utility />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/history",
+        element: (
+          <ProtectedRoute>
+            <History />
           </ProtectedRoute>
         )
       },
