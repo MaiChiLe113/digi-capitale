@@ -21,18 +21,12 @@ import {
   Tabs,
   Tab,
   TablePagination,
-  Select,
-  MenuItem,
   Checkbox,
-  FormControl,
-  InputLabel,
 } from "@mui/material";
 import {
   CheckCircle,
   Cancel,
   Refresh,
-  Info,
-  Undo,
 } from "@mui/icons-material";
 
 export default function AdminRequest() {
@@ -240,47 +234,33 @@ export default function AdminRequest() {
       {!loading && activeTab === 0 && (
         <>
           {/* Filter and Selection Info */}
-          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <FormControl component="fieldset" sx={{ minWidth: 200 }}>
-                <InputLabel shrink>Filter by Utility</InputLabel>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: 200,
-                    overflowY: "auto",
-                    border: "1px solid rgba(0, 0, 0, 0.23)",
-                    borderRadius: 1,
-                    p: 1,
-                    mt: 1,
-                    bgcolor: "background.paper",
-                  }}
-                >
-                  {getUniqueUtilities(pendingBookings)
-                    .filter((u) => u !== 'All')
-                    .map((utility) => (
-                      <Box key={utility} sx={{ display: "flex", alignItems: "center" }}>
-                        <Checkbox
-                          checked={selectedUtilities.includes(utility)}
-                          onChange={() => {
-                            setSelectedUtilities((prevSelected) => {
-                              if (prevSelected.includes(utility)) {
-                                return prevSelected.filter((u) => u !== utility);
-                              } else {
-                                return [...prevSelected, utility];
-                              }
-                            });
-                            setPage(0);
-                            setSelectedRows([]);
-                          }}
-                          size="small"
-                        />
-                        <Typography variant="body2">{utility}</Typography>
-                      </Box>
-                    ))}
-                </Box>
-              </FormControl>
+          <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333" }}>Filter by Utility:</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                {getUniqueUtilities(pendingBookings)
+                  .filter((u) => u !== 'All')
+                  .map((utility) => (
+                    <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                      <Checkbox
+                        checked={selectedUtilities.includes(utility)}
+                        onChange={() => {
+                          setSelectedUtilities((prevSelected) => {
+                            if (prevSelected.includes(utility)) {
+                              return prevSelected.filter((u) => u !== utility);
+                            } else {
+                              return [...prevSelected, utility];
+                            }
+                          });
+                          setPage(0);
+                          setSelectedRows([]);
+                        }}
+                        size="small"
+                      />
+                      <Typography variant="body2">{utility}</Typography>
+                    </Box>
+                  ))}
+              </Box>
               {selectedRows.length > 0 && (
                 <Typography variant="body2" sx={{ color: "#666" }}>
                   {selectedRows.length} selected
@@ -423,7 +403,7 @@ export default function AdminRequest() {
                     bgcolor: "background.paper",
                   }}
                 >
-                  {getUniqueUtilities(solvedBookings)
+                {getUniqueUtilities(solvedBookings)
                     .filter((u) => u !== 'All')
                     .map((utility) => (
                       <Box key={utility} sx={{ display: "flex", alignItems: "center" }}>
