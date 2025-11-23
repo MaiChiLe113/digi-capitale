@@ -1,29 +1,43 @@
-A software application for managing services for D' Capitale residental area.
+## Project Overview
 
-The project includes:
-1. backend (using php)
-  /api - main api directory logic
-    /config 
-     database (api call connect to the database)
-    index.php - main entry point, router for api
-    .htaccess - apache server - rewrite URL of Form sent
-  /models - database tables use for CRUD (in php)
-  /controllers - Logic handler
-  
-2. database
-  sql file
+D' Capitale is a residential area management application with separate user (resident) and admin (employee) interfaces.
 
-3. frontend (using react)
- /components - For reusable UI components (Buttons, Header, Footer, BackButton, NavBar, Card, Form(Input, Title, Send Butto, DeleteButton, EditButton))
- /pages - (Home, LogIn, SignUp,..)
- /services (Handle API call and external communications)
- /utils
+### Frontend 
+cd frontend
+npm install      # Install dependencies
+npm start        # Run dev server on localhost:3000
+npm run build    # Production build
 
-Example flow for a login feature:
+- **React 19** with **Material UI v7** and **react-router-dom v7**
+- Two layouts: `AppLayout` (residents) and `AdminLayout` (employees)
+- Auth context in `contexts/AuthContext.tsx`
+- Protected routes via `ProtectedRoute.jsx`
+- User data stored in `localStorage` under key `"user"`
 
-Page (pages/Login.js) - Displays the login form
-Component (components/Form/Input.js) - Reusable input fields
-Utils (utils/validation.js) - Validates email/password format
-Service (services/authService.js) - Sends login request to PHP backend
-Backend processes and returns response
-Page handles the response and redirects user
+### Backend (PHP)
+Requires XAMPP with Apache and MySQL running. The project is served from `C:\xamppreal\htdocs\digi-capitale\`.
+
+Single entry point: `backend/api/index.php` routes by `?action=` parameter.
+
+### Database
+- MySQL database: `digicapitale`
+- Connection config: `backend/api/config/database.php`
+- Schema files: `database/` directory
+- For XAMPP: DB_PASS = '' (empty)
+- Stored procedures in `database/` SQL files 
+- Call procedures via: `$conn->prepare('CALL ProcedureName(?, ?)')`
+- Tables use foreign keys with CASCADE
+
+### Frontend Patterns
+- Pages fetch data in `useEffect` on mount
+- API base: `http://localhost/digi-capitale/backend/api/index.php?action=`
+- Pagination uses MUI `Pagination` component with
+- Filters combine checkbox (items) + dropdown (month) + search
+- Theme defined in `frontend/src/theme.js`
+
+## Two User Types
+
+1. **Residents** (AppLayout): Home, Utility, Services, History, Profile, MakeIncidents
+2. **Employees** (AdminLayout): Dashboard, AdminRequest, Report, ViewIncidents, EmployeeProfile
+
+Authentication stores user type and routes accordingly.
