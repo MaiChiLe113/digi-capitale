@@ -97,7 +97,7 @@ export default function Utility() {
           }}
         >
           <Typography variant="h1">Utilities</Typography>
-          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }}>
+          <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/makeincidents">
             Report Incidents
           </Button>
           <Button variant="contained" color="primary" sx={{ borderRadius: 20 }} component={Link} to="/history">

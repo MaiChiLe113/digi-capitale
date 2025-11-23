@@ -14,6 +14,7 @@ const Header = () => {
     { id: 2, name: "Request", href: "/request" },
     { id: 3, name: "Report", href: "/report" },
     { id: 4, name: "Profile", href: "/employee-profile" },
+    { id: 5, name: "Queries", href: "/viewincidents" },
   ];
 
   const handleLogout = () => {

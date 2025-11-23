@@ -30,7 +30,7 @@ try {
         $utilities[] = [
             'id' => $row['ItemID'],
             'name' => $row['ServiceName'],
-            'condition' => $row['Condition'] ?? 'Available' // Default to Available if null
+            'condition' => $row['Condition'] ?? 'Available' 
         ];
     }
 

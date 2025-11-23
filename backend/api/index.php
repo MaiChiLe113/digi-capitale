@@ -45,6 +45,10 @@ if ($action === 'signup') {
   require 'getReportData.php';
 } else if ($action === 'getEmployeeProfile') {
   require 'getEmployeeProfile.php';
+} else if ($action === 'createIncident') {
+  require 'createIncident.php';
+} else if ($action === 'handleIncidents') {
+  require 'handleIncidents.php';
 } else {
   http_response_code(404);
   echo json_encode(['success' => false, 'message' => 'Endpoint not found']);
