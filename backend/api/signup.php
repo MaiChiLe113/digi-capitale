@@ -59,7 +59,7 @@ $stmt->close();
 $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
 // Insert user
-$stmt = $conn->prepare('INSERT INTO users (ResidentID, Email, PasswordHash, Role, IsActive) VALUES (?, ?, ?, "resident", 1)');
+$stmt = $conn->prepare('INSERT INTO users (ResidentID, Email, PasswordHash, IsActive) VALUES (?, ?, ?, 1)');
 $stmt->bind_param('iss', $residentId, $email, $passwordHash);
 
 if ($stmt->execute()) {

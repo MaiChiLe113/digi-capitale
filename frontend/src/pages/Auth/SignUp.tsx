@@ -158,19 +158,15 @@ const SignUp = () => {
     return "";
   };
 
-  // Handle field changes
   const handleChange =
     (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setFormData({ ...formData, [field]: value });
-
-      // Validate in real-time if field has been touched
       if (touched[field as keyof typeof touched]) {
         validateField(field, value);
       }
     };
 
-  // Validate individual field
   const validateField = (field: string, value: string) => {
     let error = "";
 
@@ -241,7 +237,6 @@ const SignUp = () => {
       confirmPassword: true,
     });
 
-    // Check if there are any errors
     return Object.values(newErrors).every((err) => err === "");
   };
 
@@ -281,7 +276,7 @@ const SignUp = () => {
       if (data.success) {
         setSuccess("Account created successfully! Redirecting...");
         setTimeout(() => {
-          window.location.href = "/sign-in";
+          window.location.href = "/signin";
         }, 1500);
       } else {
         setError(data.message || "Sign up failed");
