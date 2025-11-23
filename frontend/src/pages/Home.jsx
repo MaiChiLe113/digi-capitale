@@ -11,17 +11,22 @@ import {
   CircularProgress,
   Alert,
   IconButton,
-  Divider,Modal
+  Divider,
+  Modal,
+  Stack,
 } from "@mui/material";
 import RoomServiceIcon from "@mui/icons-material/RoomServiceRounded";
 import CalendarTodayIcon from "@mui/icons-material/CalendarMonthRounded";
 import PaymentIcon from "@mui/icons-material/AccountBalanceWalletRounded";
-import PayNowIcon from '@mui/icons-material/PaymentRounded';
-import PaidIcon from '@mui/icons-material/CheckCircleRounded';
+import PayNowIcon from "@mui/icons-material/PaymentRounded";
+import PaidIcon from "@mui/icons-material/CheckCircleRounded";
 import WaterIcon from "@mui/icons-material/WaterDropRounded";
 import ElectricityIcon from "@mui/icons-material/ElectricalServicesRounded";
 import MaintenanceIcon from "@mui/icons-material/BuildRounded";
-import { useTheme } from '@mui/material';
+import EditIcon from "@mui/icons-material/EditRounded";
+import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
+import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
+import { useTheme } from "@mui/material";
 
 export default function Home() {
   const [profile, setProfile] = useState(null);
@@ -32,7 +37,6 @@ export default function Home() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
 
   useEffect(() => {
     fetchAll();
@@ -66,7 +70,9 @@ export default function Home() {
 
       // Determine email to use for reservations: prefer stored user, fallback to profile
       const reservationEmail =
-        (user && (user.Email || user.email)) || (pJson && pJson.profile && pJson.profile.Email) || "";
+        (user && (user.Email || user.email)) ||
+        (pJson && pJson.profile && pJson.profile.Email) ||
+        "";
 
       // Reservations (GET with email query)
       const reservationsUrl = `http://localhost/digi-capitale/backend/api/index.php?action=getReservations&email=${encodeURIComponent(
@@ -76,7 +82,9 @@ export default function Home() {
 
       // If router returns 404, try direct php file as a fallback for debugging
       if (!rRes.ok && rRes.status === 404) {
-        console.warn("Router returned 404 for getReservations, trying direct file URL");
+        console.warn(
+          "Router returned 404 for getReservations, trying direct file URL"
+        );
         const directUrl = `http://localhost/digi-capitale/backend/api/getReservations.php?email=${encodeURIComponent(
           reservationEmail
         )}`;
@@ -89,20 +97,27 @@ export default function Home() {
         rJson = await rRes.json();
       } catch (parseErr) {
         const text = await rRes.text();
-        console.error("Failed to parse reservations response as JSON", { status: rRes.status, text });
+        console.error("Failed to parse reservations response as JSON", {
+          status: rRes.status,
+          text,
+        });
         throw new Error("Invalid reservations response: " + text.slice(0, 200));
       }
       console.debug("Reservations response:", rJson, "status:", rRes.status);
       // getReservations returns { today:[], upcoming:[], past:[] }
       const combinedReservations = [];
       if (rJson) {
-        if (Array.isArray(rJson.today)) combinedReservations.push(...rJson.today);
-        if (Array.isArray(rJson.upcoming)) combinedReservations.push(...rJson.upcoming);
+        if (Array.isArray(rJson.today))
+          combinedReservations.push(...rJson.today);
+        if (Array.isArray(rJson.upcoming))
+          combinedReservations.push(...rJson.upcoming);
       }
       setReservations(combinedReservations);
 
       // Utilities
-      const uRes = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getUtilities");
+      const uRes = await fetch(
+        "http://localhost/digi-capitale/backend/api/index.php?action=getUtilities"
+      );
       let uJson;
       try {
         uJson = await uRes.json();
@@ -120,7 +135,9 @@ export default function Home() {
     }
   };
 
-  const pendingPayments = utilities.filter((u) => u.condition === "Pending" || u.status === "Pending");
+  const pendingPayments = utilities.filter(
+    (u) => u.condition === "Pending" || u.status === "Pending"
+  );
 
   // Create lightweight card data for utilities to display similar UI to Services.jsx
   const getIconForUtility = (name) => {
@@ -137,16 +154,22 @@ export default function Home() {
     fee: Number(u.fee || 0),
     icon: getIconForUtility(u.name),
     // treat non-Available items as Pending for display purposes
-    status: (u.condition && u.condition !== "Available") || u.status ? "Pending" : "Paid",
+    status:
+      (u.condition && u.condition !== "Available") || u.status
+        ? "Pending"
+        : "Paid",
   }));
 
-  const pendingTotal = utilityCards.reduce((acc, it) => (it.status === "Pending" ? acc + (it.fee || 0) : acc), 0);
+  const pendingTotal = utilityCards.reduce(
+    (acc, it) => (it.status === "Pending" ? acc + (it.fee || 0) : acc),
+    0
+  );
 
   return (
     <Container maxWidth="lg" sx={{ pt: 0, pb: 4 }}>
       <Box
         sx={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.3), #F8FAFC), url('/images/image.png')`,
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.3), #F8FAFC), url('https://bizweb.dktcdn.net/thumb/2048x2048/100/378/391/files/20230928101136-14c8-wm.jpg?v=1696396656820')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           mb: 4,
@@ -186,31 +209,149 @@ export default function Home() {
           <CircularProgress />
         </Box>
       ) : (
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <Card sx={{ p: 3, display: "flex", gap: 2, alignItems: "center" }}>
-              <Avatar
-                sx={{ width: 80, height: 80, bgcolor: "primary.main" }}
-                src={profile?.Image || undefined}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Box>
+            <Card
+              sx={{
+                p: { xs: 3, md: 4 },
+                borderRadius: 2,
+                background: "linear-gradient(135deg, #C4924A 0%, #E8C8A0 100%)",
+                position: "relative",
+                overflow: "hidden",
+                boxShadow: "0px 15px 40px rgba(196, 146, 74, 0.3)",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: -50,
+                  right: -100,
+                  width: 400,
+                  height: 400,
+                  borderRadius: "50%",
+                  bgcolor: "rgba(255,255,255,0.15)",
+                  zIndex: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                {profile?.FirstName ? profile.FirstName.charAt(0) : "U"}
-              </Avatar>
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                  {profile?.FirstName ? `${profile.FirstName} ${profile.LastName || ""}` : "User"}
-                </Typography>
-                <Typography sx={{ color: "#666" }}>{profile?.Email}</Typography>
-                <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
-                  <Button size="small" variant="outlined">
+                <DiamondOutlinedIcon
+                  sx={{ fontSize: 300, color: "rgba(255, 255, 255, 0.26)" }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: -30,
+                  left: 50,
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  bgcolor: "rgba(255,255,255,0.1)",
+                  zIndex: 0,
+                }}
+              />
+              {/* Card Content */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  position: "relative",
+                  zIndex: 1,
+                  gap: 3,
+                }}
+              >
+                {/* LEFT: Avatar & User Info */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 3,
+                    width: "100%",
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      width: { xs: 70, md: 90 },
+                      height: { xs: 70, md: 90 },
+                      bgcolor: "white",
+                      color: "primary.dark",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                    }}
+                    src={profile?.Image || undefined}
+                  >
+                    {profile?.FirstName ? profile.FirstName.charAt(0) : "U"}
+                  </Avatar>
+
+                  <Box>
+                    <Typography
+                      variant="overline"
+                      sx={{
+                        color: "rgba(255,255,255,0.8)",
+                        letterSpacing: 1.5,
+                      }}
+                    >
+                      RESIDENT
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ fontWeight: 700, color: "white", lineHeight: 1.2 }}
+                    >
+                      {profile?.FirstName
+                        ? `${profile.FirstName} ${profile.LastName || ""}`
+                        : "User"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ color: "rgba(255,255,255,0.9)", mt: 0.5 }}
+                    >
+                      {profile?.Email}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* RIGHT: Action Buttons */}
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{ minWidth: "fit-content" }}
+                >
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      borderColor: "white",
+                      color: "white",
+                      borderRadius: 3,
+                      "&:hover": {
+                        bgcolor: "rgba(255,255,255,0.1)",
+                        borderColor: "white",
+                      },
+                    }}
+                    startIcon={<VisibilityIcon />}
+                  >
                     View Profile
                   </Button>
-                  <Button size="small" variant="contained" color="primary">
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: "primary.dark",
+                      borderRadius: 3,
+                      fontWeight: 700,
+                      "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
+                    }}
+                    startIcon={<EditIcon />}
+                  >
                     Edit
                   </Button>
-                </Box>
+                </Stack>
               </Box>
             </Card>
-
+          </Box>
+          <Grid item xs={12} md={4}>
             <Box sx={{ mt: 3 }}>
               <Typography variant="h3" sx={{ mb: 1, fontWeight: 600 }}>
                 My Reservations
@@ -218,19 +359,27 @@ export default function Home() {
 
               {reservations.length === 0 ? (
                 <Card sx={{ p: 3, textAlign: "center" }}>
-                  <Typography sx={{ color: "#999" }}>No reservations</Typography>
+                  <Typography sx={{ color: "#999" }}>
+                    No reservations
+                  </Typography>
                 </Card>
               ) : (
                 reservations.map((r, idx) => (
                   <Card
                     key={r.BookID || r.id || idx}
-                    sx={{ p: 2, mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                    sx={{
+                      p: 2,
+                      mb: 2,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
                     <Box>
                       <Typography sx={{ fontWeight: 600 }}>{r.name}</Typography>
                       <Typography sx={{ color: "#666" }}>{r.time}</Typography>
                     </Box>
-                  {/* <Button size="small" variant="contained" onClick={handleOpen}>Details</Button>
+                    {/* <Button size="small" variant="contained" onClick={handleOpen}>Details</Button>
                   <Modal
                     open={open}
                     onClose={handleClose}
@@ -254,16 +403,18 @@ export default function Home() {
 
           <Grid item xs={12} md={8}>
             <Grid container spacing={2}>
-              
-
-              
-
               <Grid item xs={12}>
                 <Typography variant="h3" sx={{ mb: 1, fontWeight: 600 }}>
                   Services Payment Status
                 </Typography>
                 <Card sx={{ p: 3 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <Typography variant="h3" sx={{ fontWeight: 600 }}>
                       Payment Status
                     </Typography>
@@ -274,13 +425,17 @@ export default function Home() {
                   <Divider sx={{ my: 2 }} />
 
                   {utilities.length === 0 ? (
-                    <Typography sx={{ color: "#999" }}>No service bills</Typography>
+                    <Typography sx={{ color: "#999" }}>
+                      No service bills
+                    </Typography>
                   ) : (
-                    <Box sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
+                    <Box
+                      sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}
+                    >
                       {utilityCards.map((it) => {
                         const Icon = it.icon;
                         const isPending = it.status === "Pending";
-                        
+
                         return (
                           <Card
                             key={it.id}
@@ -300,22 +455,47 @@ export default function Home() {
                               },
                             }}
                           >
-                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
-                              <Icon sx={{ fontSize: 60, color: "primary.main" }} />
-                              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 0.5 }}>
-                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 2,
+                              }}
+                            >
+                              <Icon
+                                sx={{ fontSize: 60, color: "primary.main" }}
+                              />
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                  gap: 0.5,
+                                }}
+                              >
+                                <Typography
+                                  variant="h6"
+                                  sx={{ fontWeight: 600 }}
+                                >
                                   {it.name} bill
                                 </Typography>
-                                <Typography variant="h4" sx={{ fontWeight: 700, color: "primary.main" }}>
+                                <Typography
+                                  variant="h4"
+                                  sx={{
+                                    fontWeight: 700,
+                                    color: "primary.main",
+                                  }}
+                                >
                                   ${(it.fee || 0).toFixed(2)}
                                 </Typography>
                               </Box>
                             </Box>
 
                             {isPending ? (
-                              <Button 
-                                variant="contained" 
-                                color="primary" 
+                              <Button
+                                variant="contained"
+                                color="primary"
                                 startIcon={<PayNowIcon />}
                                 fullWidth
                                 sx={{ mt: 1 }}
@@ -323,16 +503,16 @@ export default function Home() {
                                 Pay Now
                               </Button>
                             ) : (
-                              <Chip 
-                                label="Paid" 
-                                icon={<PaidIcon />} 
-                                sx={{ 
-                                  fontWeight: 600, 
+                              <Chip
+                                label="Paid"
+                                icon={<PaidIcon />}
+                                sx={{
+                                  fontWeight: 600,
                                   height: 40,
                                   bgcolor: "#e8f5e9",
                                   color: "#2e7d32",
                                   border: "1px solid #4caf50",
-                                }} 
+                                }}
                               />
                             )}
                           </Card>
@@ -344,7 +524,7 @@ export default function Home() {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
       )}
     </Container>
   );
