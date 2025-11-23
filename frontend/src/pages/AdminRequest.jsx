@@ -23,11 +23,7 @@ import {
   TablePagination,
   Checkbox,
 } from "@mui/material";
-import {
-  CheckCircle,
-  Cancel,
-  Refresh,
-} from "@mui/icons-material";
+import { CheckCircle, Cancel, Refresh, Undo, Info } from "@mui/icons-material";
 
 export default function AdminRequest() {
   const [activeTab, setActiveTab] = useState(0);
@@ -55,12 +51,17 @@ export default function AdminRequest() {
   const fetchPendingBookings = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=pending");
+      const response = await fetch(
+        "http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=pending"
+      );
       const data = await response.json();
       setPendingBookings(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching pending bookings:", error);
-      setAlertMessage({ type: "error", text: "Failed to load pending bookings" });
+      setAlertMessage({
+        type: "error",
+        text: "Failed to load pending bookings",
+      });
     } finally {
       setLoading(false);
     }
@@ -69,12 +70,17 @@ export default function AdminRequest() {
   const fetchSolvedBookings = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=solved");
+      const response = await fetch(
+        "http://localhost/digi-capitale/backend/api/index.php?action=getBookings&status=solved"
+      );
       const data = await response.json();
       setSolvedBookings(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching solved bookings:", error);
-      setAlertMessage({ type: "error", text: "Failed to load solved bookings" });
+      setAlertMessage({
+        type: "error",
+        text: "Failed to load solved bookings",
+      });
     } finally {
       setLoading(false);
     }
@@ -89,14 +95,14 @@ export default function AdminRequest() {
 
   // Get unique utilities for filter
   const getUniqueUtilities = (bookings) => {
-    const utilities = bookings.map(booking => booking.UtilityName);
+    const utilities = bookings.map((booking) => booking.UtilityName);
     return Array.from(new Set(utilities)).sort();
   };
 
   // Get unique times for filter
   const getUniqueTimes = (bookings) => {
     const times = new Set();
-    bookings.forEach(booking => {
+    bookings.forEach((booking) => {
       if (booking.BookingTime) {
         times.add(booking.BookingTime);
       }
@@ -107,7 +113,7 @@ export default function AdminRequest() {
   // Get unique dates for filter
   const getUniqueDates = (bookings) => {
     const dates = new Set();
-    bookings.forEach(booking => {
+    bookings.forEach((booking) => {
       if (booking.BookingDate) {
         dates.add(booking.BookingDate);
       }
@@ -117,10 +123,14 @@ export default function AdminRequest() {
 
   // Filter bookings based on selected filters
   const getFilteredBookings = (bookings) => {
-    return bookings.filter(booking => {
-      const utilityMatch = selectedUtilities.length === 0 || selectedUtilities.includes(booking.UtilityName);
-      const timeMatch = selectedTime === "" || booking.BookingTime === selectedTime;
-      const dateMatch = selectedDate === "" || booking.BookingDate === selectedDate;
+    return bookings.filter((booking) => {
+      const utilityMatch =
+        selectedUtilities.length === 0 ||
+        selectedUtilities.includes(booking.UtilityName);
+      const timeMatch =
+        selectedTime === "" || booking.BookingTime === selectedTime;
+      const dateMatch =
+        selectedDate === "" || booking.BookingDate === selectedDate;
       return utilityMatch && timeMatch && dateMatch;
     });
   };
@@ -139,15 +149,15 @@ export default function AdminRequest() {
   // Handle select all
   const handleSelectAll = (bookings) => {
     const filteredBookings = getFilteredBookings(bookings);
-    const allIds = filteredBookings.map(booking => booking.BookID);
+    const allIds = filteredBookings.map((booking) => booking.BookID);
     setSelectedRows(selectedRows.length === allIds.length ? [] : allIds);
   };
 
   // Handle select single row
   const handleSelectRow = (bookID) => {
-    setSelectedRows(prev =>
+    setSelectedRows((prev) =>
       prev.includes(bookID)
-        ? prev.filter(id => id !== bookID)
+        ? prev.filter((id) => id !== bookID)
         : [...prev, bookID]
     );
   };
@@ -168,22 +178,27 @@ export default function AdminRequest() {
     if (!selectedBooking) return;
 
     try {
-      const response = await fetch("http://localhost/digi-capitale/backend/api/index.php?action=handleBookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bookID: selectedBooking.BookID,
-          action: dialogAction,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost/digi-capitale/backend/api/index.php?action=handleBookings",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            bookID: selectedBooking.BookID,
+            action: dialogAction,
+          }),
+        }
+      );
 
       const result = await response.json();
 
       if (result.success) {
         const actionText =
-          dialogAction === "approve" ? "approved" :
-          dialogAction === "reject" ? "rejected" :
-          "reverted to pending";
+          dialogAction === "approve"
+            ? "approved"
+            : dialogAction === "reject"
+            ? "rejected"
+            : "reverted to pending";
 
         setAlertMessage({
           type: "success",
@@ -207,7 +222,14 @@ export default function AdminRequest() {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
-      <Box sx={{ mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Box
+        sx={{
+          mb: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 700, color: "#333" }}>
             Booking Requests
@@ -230,11 +252,14 @@ export default function AdminRequest() {
 
       {/* Tabs */}
       <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
-        <Tabs value={activeTab} onChange={(e, newValue) => {
-          setActiveTab(newValue);
-          setPage(0); // Reset page on tab change
-          setSelectedRows([]); // Clear selections
-        }}>
+        <Tabs
+          value={activeTab}
+          onChange={(e, newValue) => {
+            setActiveTab(newValue);
+            setPage(0); // Reset page on tab change
+            setSelectedRows([]); // Clear selections
+          }}
+        >
           <Tab label={`Pending Requests (${pendingBookings.length})`} />
           <Tab label={`Solved Requests (${solvedBookings.length})`} />
         </Tabs>
@@ -264,11 +289,33 @@ export default function AdminRequest() {
           {/* Filter and Selection Info */}
           <Box sx={{ mb: 3, display: "flex", flexDirection: "column", gap: 2 }}>
             {/* Filter by Utility */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Utility:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Utility:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 {getUniqueUtilities(pendingBookings).map((utility) => (
-                  <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <Box
+                    key={utility}
+                    sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                  >
                     <Checkbox
                       checked={selectedUtilities.includes(utility)}
                       onChange={() => {
@@ -289,9 +336,28 @@ export default function AdminRequest() {
             </Box>
 
             {/* Filter by Time */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Time:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Time:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 <select
                   value={selectedTime}
                   onChange={(e) => {
@@ -318,9 +384,28 @@ export default function AdminRequest() {
             </Box>
 
             {/* Filter by Date */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Date:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Date:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 <select
                   value={selectedDate}
                   onChange={(e) => {
@@ -353,29 +438,56 @@ export default function AdminRequest() {
             )}
           </Box>
 
-          <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <TableContainer
+            component={Paper}
+            sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+          >
             <Table>
               <TableHead>
                 <TableRow sx={{ bgcolor: "#f5f5f5" }}>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      indeterminate={selectedRows.length > 0 && selectedRows.length < getFilteredBookings(pendingBookings).length}
-                      checked={getFilteredBookings(pendingBookings).length > 0 && selectedRows.length === getFilteredBookings(pendingBookings).length}
+                      indeterminate={
+                        selectedRows.length > 0 &&
+                        selectedRows.length <
+                          getFilteredBookings(pendingBookings).length
+                      }
+                      checked={
+                        getFilteredBookings(pendingBookings).length > 0 &&
+                        selectedRows.length ===
+                          getFilteredBookings(pendingBookings).length
+                      }
                       onChange={() => handleSelectAll(pendingBookings)}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Booking ID
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Utility
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    User Email
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Date & Time
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Status
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ fontWeight: 600, color: "#333" }}
+                  >
                     Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {getFilteredBookings(pendingBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).length === 0 ? (
+                {getFilteredBookings(pendingBookings).slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                ).length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
                       <Typography sx={{ color: "#999" }}>
@@ -384,72 +496,95 @@ export default function AdminRequest() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  getFilteredBookings(pendingBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((booking) => (
-                    <TableRow
-                      key={booking.BookID}
-                      sx={{
-                        "&:hover": { bgcolor: "#fafafa" },
-                        borderBottom: "1px solid #eee",
-                      }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedRows.includes(booking.BookID)}
-                          onChange={() => handleSelectRow(booking.BookID)}
-                        />
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
-                      <TableCell>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                            {booking.UtilityName}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                        {booking.UserEmail}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                        {booking.BookingDate} {booking.BookingTime}
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          label={booking.Status || "Registered"}
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            bgcolor: "#fff3cd",
-                            color: "#856404",
-                            borderColor: "#ffc107",
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            color="success"
-                            startIcon={<CheckCircle />}
-                            onClick={() => handleOpenDialog(booking, "approve")}
-                            sx={{ borderRadius: 1 }}
+                  getFilteredBookings(pendingBookings)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((booking) => (
+                      <TableRow
+                        key={booking.BookID}
+                        sx={{
+                          "&:hover": { bgcolor: "#fafafa" },
+                          borderBottom: "1px solid #eee",
+                        }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selectedRows.includes(booking.BookID)}
+                            onChange={() => handleSelectRow(booking.BookID)}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 500 }}>
+                          {booking.BookID}
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.5,
+                            }}
                           >
-                            Approve
-                          </Button>
-                          <Button
+                            <Typography
+                              variant="body2"
+                              sx={{ fontWeight: 500 }}
+                            >
+                              {booking.UtilityName}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                          {booking.UserEmail}
+                        </TableCell>
+                        <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                          {booking.BookingDate} {booking.BookingTime}
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={booking.Status || "Registered"}
                             variant="outlined"
                             size="small"
-                            color="error"
-                            startIcon={<Cancel />}
-                            onClick={() => handleOpenDialog(booking, "reject")}
-                            sx={{ borderRadius: 1 }}
+                            sx={{
+                              bgcolor: "#fff3cd",
+                              color: "#856404",
+                              borderColor: "#ffc107",
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: 1,
+                              justifyContent: "flex-end",
+                            }}
                           >
-                            Reject
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                            <Button
+                              variant="contained"
+                              size="small"
+                              color="success"
+                              startIcon={<CheckCircle />}
+                              onClick={() =>
+                                handleOpenDialog(booking, "approve")
+                              }
+                              sx={{ borderRadius: 1 }}
+                            >
+                              Approve
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              color="error"
+                              startIcon={<Cancel />}
+                              onClick={() =>
+                                handleOpenDialog(booking, "reject")
+                              }
+                              sx={{ borderRadius: 1 }}
+                            >
+                              Reject
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))
                 )}
               </TableBody>
             </Table>
@@ -472,11 +607,33 @@ export default function AdminRequest() {
           {/* Filter and Selection Info */}
           <Box sx={{ mb: 3, display: "flex", flexDirection: "column", gap: 2 }}>
             {/* Filter by Utility */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Utility:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Utility:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 {getUniqueUtilities(solvedBookings).map((utility) => (
-                  <Box key={utility} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <Box
+                    key={utility}
+                    sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                  >
                     <Checkbox
                       checked={selectedUtilities.includes(utility)}
                       onChange={() => {
@@ -497,9 +654,28 @@ export default function AdminRequest() {
             </Box>
 
             {/* Filter by Time */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Time:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Time:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 <select
                   value={selectedTime}
                   onChange={(e) => {
@@ -526,9 +702,28 @@ export default function AdminRequest() {
             </Box>
 
             {/* Filter by Date */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}>Date:</Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#333", minWidth: 120 }}
+              >
+                Date:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
                 <select
                   value={selectedDate}
                   onChange={(e) => {
@@ -561,29 +756,56 @@ export default function AdminRequest() {
             )}
           </Box>
 
-          <TableContainer component={Paper} sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <TableContainer
+            component={Paper}
+            sx={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+          >
             <Table>
               <TableHead>
                 <TableRow sx={{ bgcolor: "#f5f5f5" }}>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      indeterminate={selectedRows.length > 0 && selectedRows.length < getFilteredBookings(solvedBookings).length}
-                      checked={getFilteredBookings(solvedBookings).length > 0 && selectedRows.length === getFilteredBookings(solvedBookings).length}
+                      indeterminate={
+                        selectedRows.length > 0 &&
+                        selectedRows.length <
+                          getFilteredBookings(solvedBookings).length
+                      }
+                      checked={
+                        getFilteredBookings(solvedBookings).length > 0 &&
+                        selectedRows.length ===
+                          getFilteredBookings(solvedBookings).length
+                      }
                       onChange={() => handleSelectAll(solvedBookings)}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Booking ID</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Utility</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>User Email</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Date & Time</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>Status</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 600, color: "#333" }}>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Booking ID
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Utility
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    User Email
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Date & Time
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: "#333" }}>
+                    Status
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ fontWeight: 600, color: "#333" }}
+                  >
                     Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {getFilteredBookings(solvedBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).length === 0 ? (
+                {getFilteredBookings(solvedBookings).slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                ).length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
                       <Typography sx={{ color: "#999" }}>
@@ -592,60 +814,82 @@ export default function AdminRequest() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  getFilteredBookings(solvedBookings).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((booking, index) => (
-                    <TableRow
-                      key={booking.BookID}
-                      sx={{
-                        "&:hover": { bgcolor: "#fafafa" },
-                        borderBottom: "1px solid #eee",
-                      }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedRows.includes(booking.BookID)}
-                          onChange={() => handleSelectRow(booking.BookID)}
-                        />
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 500 }}>{booking.BookID}</TableCell>
-                      <TableCell>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                            {booking.UtilityName}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                        {booking.UserEmail}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
-                        {booking.BookingDate} {booking.BookingTime}
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          label={booking.Status}
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            bgcolor: booking.Status === "Confirmed" ? "#d4edda" : "#f8d7da",
-                            color: booking.Status === "Confirmed" ? "#155724" : "#721c24",
-                            borderColor: booking.Status === "Confirmed" ? "#28a745" : "#dc3545",
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="primary"
-                          startIcon={<Undo />}
-                          onClick={() => handleOpenDialog(booking, "revert")}
-                          sx={{ borderRadius: 1 }}
-                        >
-                          Revert
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  getFilteredBookings(solvedBookings)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((booking, index) => (
+                      <TableRow
+                        key={booking.BookID}
+                        sx={{
+                          "&:hover": { bgcolor: "#fafafa" },
+                          borderBottom: "1px solid #eee",
+                        }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selectedRows.includes(booking.BookID)}
+                            onChange={() => handleSelectRow(booking.BookID)}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 500 }}>
+                          {booking.BookID}
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.5,
+                            }}
+                          >
+                            <Typography
+                              variant="body2"
+                              sx={{ fontWeight: 500 }}
+                            >
+                              {booking.UtilityName}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                          {booking.UserEmail}
+                        </TableCell>
+                        <TableCell sx={{ fontSize: "0.875rem", color: "#666" }}>
+                          {booking.BookingDate} {booking.BookingTime}
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={booking.Status}
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              bgcolor:
+                                booking.Status === "Confirmed"
+                                  ? "#d4edda"
+                                  : "#f8d7da",
+                              color:
+                                booking.Status === "Confirmed"
+                                  ? "#155724"
+                                  : "#721c24",
+                              borderColor:
+                                booking.Status === "Confirmed"
+                                  ? "#28a745"
+                                  : "#dc3545",
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="primary"
+                            startIcon={<Undo />}
+                            onClick={() => handleOpenDialog(booking, "revert")}
+                            sx={{ borderRadius: 1 }}
+                          >
+                            Revert
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
                 )}
               </TableBody>
             </Table>
@@ -665,9 +909,11 @@ export default function AdminRequest() {
       {/* Confirmation Dialog */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle sx={{ fontWeight: 600 }}>
-          {dialogAction === "approve" ? "Approve Booking" :
-           dialogAction === "reject" ? "Reject Booking" :
-           "Revert Booking"}
+          {dialogAction === "approve"
+            ? "Approve Booking"
+            : dialogAction === "reject"
+            ? "Reject Booking"
+            : "Revert Booking"}
         </DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
@@ -676,8 +922,12 @@ export default function AdminRequest() {
               <Typography sx={{ mb: 1, fontWeight: 500 }}>
                 Booking ID: {selectedBooking?.BookID}
               </Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-                <Typography variant="body2">{selectedBooking?.UtilityName}</Typography>
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
+              >
+                <Typography variant="body2">
+                  {selectedBooking?.UtilityName}
+                </Typography>
               </Box>
               <Typography variant="body2" sx={{ color: "#666" }}>
                 {selectedBooking?.BookingDate} at {selectedBooking?.BookingTime}
@@ -692,10 +942,13 @@ export default function AdminRequest() {
           <Typography sx={{ mt: 2, fontSize: "0.9rem", color: "#666" }}>
             Are you sure you want to{" "}
             <strong>
-              {dialogAction === "approve" ? "approve" :
-               dialogAction === "reject" ? "reject" :
-               "revert to pending"}
-            </strong> this booking request?
+              {dialogAction === "approve"
+                ? "approve"
+                : dialogAction === "reject"
+                ? "reject"
+                : "revert to pending"}
+            </strong>{" "}
+            this booking request?
           </Typography>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
@@ -705,13 +958,19 @@ export default function AdminRequest() {
           <Button
             onClick={handleConfirmAction}
             variant="contained"
-            color={dialogAction === "approve" ? "success" :
-                   dialogAction === "reject" ? "error" :
-                   "primary"}
+            color={
+              dialogAction === "approve"
+                ? "success"
+                : dialogAction === "reject"
+                ? "error"
+                : "primary"
+            }
           >
-            {dialogAction === "approve" ? "Approve" :
-             dialogAction === "reject" ? "Reject" :
-             "Revert"}
+            {dialogAction === "approve"
+              ? "Approve"
+              : dialogAction === "reject"
+              ? "Reject"
+              : "Revert"}
           </Button>
         </DialogActions>
       </Dialog>
