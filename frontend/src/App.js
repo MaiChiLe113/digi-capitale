@@ -21,6 +21,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Report from "./pages/Report.jsx";
 import EmployeeProfile from "./pages/EmployeeProfile.jsx";
 import History from "./pages/History.jsx";
+import ViewIncidents from "./pages/ViewIncidents.jsx";
+import MakeIncidents from "./pages/MakeIncidents.jsx";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +76,14 @@ const router = createBrowserRouter([
             <BookUtility />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/makeincidents",
+        element: (
+          <ProtectedRoute>
+            <MakeIncidents />
+          </ProtectedRoute>
+        ),
       }
     ],
   },
@@ -112,6 +122,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/viewincidents",
+        element: (
+          <ProtectedRoute>
+            <ViewIncidents />
+          </ProtectedRoute>
+        ),
+      }
     ],
   },
   {
