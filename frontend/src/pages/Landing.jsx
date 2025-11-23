@@ -1,6 +1,26 @@
-import { Box, Button, Container, Stack, Typography, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Stack,
+  Chip,
+  Card,
+  CardMedia,
+} from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/StarRounded";
+import CheckCircleIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import BusinessIcon from "@mui/icons-material/BusinessRounded";
+import LocationOnIcon from "@mui/icons-material/LocationOnRounded";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalkRounded";
 
 export default function Landing() {
   return (
@@ -57,456 +77,303 @@ export default function Landing() {
         </Box>
       </Box>
       {/* D’Capitale Overview & Incentives */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 4,
-          padding: 2,
-          backgroundColor: "#f1faffff",
-        }}
-      >
-        <Box sx={{ with: "70%" }}>
-          <Box
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h4" color="red" gutterBottom>
-              🏙️ Dự án D’Capitale Trần Duy Hưng
-            </Typography>
-            <Typography variant="h4" color="blue" gutterBottom>
-              Vị trí kim cương, tinh hoa hội tụ
-            </Typography>
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/vinhomes%20-d'capitale.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-          </Box>
-
-          <Typography variant="body1">
-            D’.Capitale là tổ hợp căn hộ cao cấp, officetel và trung tâm thương
-            mại tọa lạc tại vị trí đắc địa – ngã tư Trần Duy Hưng và Hoàng Minh
-            Giám, quận Cầu Giấy, Hà Nội. Dự án là sự kết hợp giữa Tập đoàn Tân
-            Hoàng Minh và Vingroup, được quản lý vận hành bởi Vinhomes – thương
-            hiệu bất động sản hàng đầu Việt Nam.
-          </Typography>
-
-          <Typography variant="body1">
-            Với quy mô 6 tòa căn hộ cao từ 39 đến 46 tầng, D’.Capitale cung cấp
-            hơn 3.000 căn hộ hiện đại, diện tích từ 50–120 m², phù hợp với nhiều
-            nhu cầu: an cư, đầu tư, cho thuê. Dự án sở hữu hệ thống tiện ích
-            đẳng cấp như hồ cảnh quan, skybar, sân thể thao, gym ngoài trời, khu
-            BBQ, bể bơi bốn mùa, trung tâm thương mại Vincom và trường học
-            Vinschool.
-          </Typography>
-
-          <Box sx={{ mt: 4, mb: 2, textAlign: "center" }}>
-            <Typography variant="h5" color="blue" gutterBottom>
-              Chính sách ưu đãi hấp dẫn
-            </Typography>
-            <Typography variant="h5" color="blue" gutterBottom>
-              💥 Chỉ duy nhất dành cho tháng này 💥
-            </Typography>
-          </Box>
-          <ul>
-            <li>💥 Chiết khấu 15% cho khách hàng thanh toán sớm</li>
-            <li>💥 Tặng gói nội thất tương đương 10% giá trị căn hộ</li>
-            <li>
-              💥 Hỗ trợ vay 65% giá trị căn hộ với lãi suất 0% trong 24 tháng
-            </li>
-            <li>💥 Chiết khấu 8% cho khách hàng thanh toán theo tiến độ</li>
-            <li>💥 Khách hàng được lên xem trực tiếp căn hộ</li>
-            <li>💥 Tặng 10 năm phí dịch vụ (hoặc trừ trực tiếp vào giá bán)</li>
-            <li>💥 Căn hộ 1PN: chiết khấu 70 triệu đồng</li>
-            <li>💥 Căn hộ 2PN: chiết khấu 120 triệu đồng</li>
-            <li>💥 Căn hộ 3PN: chiết khấu 170 triệu đồng</li>
-            <li>
-              💥 Tặng gói tân gia trị giá 150 triệu đồng (trừ vào giá trị trước
-              VAT + phí bảo trì)
-            </li>
-          </ul>
-
-          <Typography variant="body1" sx={{ my: 2 }}>
-            Đây là cơ hội tốt nhất để sở hữu căn hộ tại D’.Capitale Trần Duy
-            Hưng với mức giá ưu đãi chưa từng có. Gọi ngay hotline{" "}
-            <strong style={{ color: "blue" }}>0987606780</strong> hoặc để lại
-            thông tin để được tư vấn chi tiết!
-          </Typography>
-
-          <Box
-            sx={{
-              lineHeight: "2",
-              my: "4",
-            }}
-          >
-            <Typography
-              variant="h4"
-              color="blue"
-              textAlign={"center"}
-              m={"4"}
-              gutterBottom
-            >
-              TỔNG QUAN D'CAPITALE TRẦN DUY HƯNG
-            </Typography>
-
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/bg_content.png"
-                alt=""
-              />
-            </Box>
-
-            <Grid container spacing={3}>
-              <Grid item xs={11} sm={6}>
-                <Box sx={{ p: "2" }}>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Tên dự án:</strong>
-                    D'.Capitale
+      <Box sx={{ py: 8, bgcolor: "background.default" }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={6}>
+            {/* LEFT COLUMN: INTRODUCTION & DETAILS */}
+            <Grid item xs={12} md={7}>
+              <Stack spacing={3}>
+                <Box>
+                  <Typography
+                    variant="overline"
+                    color="primary"
+                    fontWeight={700}
+                    letterSpacing={1.5}
+                  >
+                    The Masterpiece
                   </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Vị trí:</strong> Trần Duy
-                    Hưng, Trung Hòa, Cầu Giấy, Hà Nội
+                  <Typography variant="h2" color="secondary.main" gutterBottom>
+                    About D'Capitale
                   </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Chủ đầu tư:</strong> Tập
-                    đoàn Tân Hoàng Minh Group
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>
-                      Phân phối và vận hành quản lý::
-                    </strong>{" "}
-                    Vinhomes (Tập đoàn Vingroup)
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>
-                      Bảo trợ vốn & Bảo lãnh tiến độ:
-                    </strong>{" "}
-                    Ngân hàng Techcombank
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Đơn vị thi công:</strong>{" "}
-                    Delta & Cotecons
-                  </Typography>
-
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>
-                      Tổng diện tích đất dự án:
-                    </strong>{" "}
-                    50.309 m²
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Mật độ xây dựng:</strong>{" "}
-                    29,8%
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>
-                      Loại hình phát triển:
-                    </strong>{" "}
-                    Căn hộ chung cư - Soho D'.Capitale
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Dự án bao gồm:</strong> 4
-                    tòa căn hộ cao cấp và 2 tòa Soho
-                  </Typography>
-                  <Typography py={1}>
-                    <strong style={{ color: "blue" }}>Tổng số:</strong>
-                    3.000 căn
-                  </Typography>
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 4,
+                      bgcolor: "primary.main",
+                      borderRadius: 1,
+                      mb: 3,
+                    }}
+                  />
                 </Box>
-              </Grid>
+
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  paragraph
+                  sx={{ fontSize: "1.1rem", lineHeight: 1.8 }}
+                >
+                  D'.Capitale is a prestigious complex of high-end apartments,
+                  officetels, and commercial centers located at a prime diamond
+                  position – the intersection of <strong>Tran Duy Hung</strong>{" "}
+                  and <strong>Hoang Minh Giam</strong>, Cau Giay, Hanoi.
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  paragraph
+                  sx={{ fontSize: "1.1rem", lineHeight: 1.8 }}
+                >
+                  A strategic collaboration between{" "}
+                  <strong>Tan Hoang Minh Group</strong> and{" "}
+                  <strong>Vingroup</strong>, managed and operated by Vinhomes –
+                  Vietnam's leading real estate brand. With 6 towers ranging
+                  from 39 to 46 floors, we offer over 3,000 modern units
+                  tailored for living, investing, or leasing.
+                </Typography>
+
+                {/* Project Details Grid */}
+                <Box sx={{ mt: 2 }}>
+                  <Typography
+                    variant="h5"
+                    color="secondary.main"
+                    gutterBottom
+                    sx={{ mb: 2 }}
+                  >
+                    Project Highlights
+                  </Typography>
+                  <Grid container spacing={2}>
+                    {[
+                      {
+                        label: "Developer",
+                        value: "Tan Hoang Minh Group",
+                        icon: <BusinessIcon />,
+                      },
+                      {
+                        label: "Operator",
+                        value: "Vinhomes (Vingroup)",
+                        icon: <StarIcon />,
+                      },
+                      {
+                        label: "Location",
+                        value: "Tran Duy Hung, Hanoi",
+                        icon: <LocationOnIcon />,
+                      },
+                      {
+                        label: "Scale",
+                        value: "6 Towers (39-46 Floors)",
+                        icon: <BusinessIcon />,
+                      },
+                    ].map((item, index) => (
+                      <Grid item xs={12} sm={6} key={index}>
+                        <Paper
+                          elevation={0}
+                          sx={{
+                            p: 2,
+                            bgcolor: "background.paper",
+                            borderRadius: 1, // Uses theme borderRadius (24px)
+                            border: "1px solid",
+                            borderColor: "divider",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                          }}
+                        >
+                          <Box sx={{ color: "primary.main" }}>{item.icon}</Box>
+                          <Box>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="block"
+                            >
+                              {item.label}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              color="secondary.main"
+                              fontWeight={700}
+                            >
+                              {item.value}
+                            </Typography>
+                          </Box>
+                        </Paper>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              </Stack>
             </Grid>
-          </Box>
 
-          <Box
-            sx={{
-              padding: 2,
-            }}
-          >
-            <Typography
-              variant="h4"
-              gutterBottom
-              color="blue"
-              m={"4"}
-              textAlign={"center"}
-            >
-              VỊ TRÍ D'CAPITALE TRẦN DUY HƯNG
-            </Typography>
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/bg_content.png"
-                alt=""
-              />
-            </Box>
+            {/* RIGHT COLUMN: INCENTIVES CARD */}
+            <Grid item xs={12} md={5}>
+              <Paper
+                elevation={0} // Flat style for elegance
+                sx={{
+                  p: 4,
+                  bgcolor: "white",
+                  borderRadius: 1, // Bo góc theo theme (24px)
+                  border: "1px solid",
+                  borderColor: "primary.light",
+                  boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.05)",
+                  height: "100%",
+                  width: "100%",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Decorative Circle */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -30,
+                    right: -30,
+                    width: 120,
+                    height: 120,
+                    bgcolor: "primary.light",
+                    opacity: 0.2,
+                    borderRadius: "50%",
+                  }}
+                />
 
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/vi-tri-vinhomes-tran-duy-hung.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="body1" lineHeight={2}>
-              <strong style={{ color: "blue" }}>
-                Chung cư cao cấp D'.Capitale
-              </strong>{" "}
-              tọa lạc ngay giữa trung tâm hành chính - văn hóa - kinh tế - giáo
-              dục của thủ đô Hà Nội. Theo chủ đầu tư, đây là các yếu tố đảm bảo{" "}
-              <strong style={{ color: "blue" }}>
-                {" "}
-                tiềm năng tăng trưởng giá trị của Dự án D’.Capitale trong tương
-                lai
-              </strong>
-              . <br />
-              Chung cư cao cấp Trần Duy Hưng sở hữu vị trí đẹp, đắc địa: <br />♦
-              Thuận lợi giao thông với vị trí 2 mặt tiền, ngã tư giao tại Trần
-              Duy Hưng, Khuất Duy Tiến, Phạm Hùng, Đường vành đai 3. <br />♦
-              Cách Trung tâm thương mại và Giải trí Big C Thăng Long 100m, cách
-              Trung tâm hội nghị quốc gia 200m. <br />♦ Các hệ thống trường học
-              liên cấp quốc tế đẳng cấp : THPT Amsterdam, THPT Lương Thế Vinh,
-              Đại học Hà Nội, Các trường đại học lớn.
-            </Typography>
-          </Box>
+                <Stack
+                  spacing={2}
+                  sx={{ mb: 4, textAlign: "center", alignItems: "center" }}
+                >
+                  <Typography variant="h4" color="secondary.main">
+                    Exclusive Privileges
+                  </Typography>
+                  <Chip
+                    label="💥 Limited Time Offer 💥"
+                    color="primary"
+                    sx={{ fontWeight: 700 }}
+                  />
+                </Stack>
 
-          <Box
-            sx={{
-              padding: 2,
-              margin: "2",
-            }}
-          >
-            <Typography
-              variant="h4"
-              gutterBottom
-              color="blue"
-              m={"4"}
-              textAlign={"center"}
-            >
-              MẶT BẰNG D'CAPITALE TRẦN DUY HƯNG
-            </Typography>
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/bg_content.png"
-                alt=""
-              />
-            </Box>
+                <List disablePadding>
+                  {[
+                    "15% Discount for early payment",
+                    "Free interior package (10% value)",
+                    "0% Interest loan for 24 months",
+                    "8% Discount for standard payment",
+                    "Free 10 years of service fees",
+                    "Housewarming gift: 150 Million VND",
+                    "Up to 170 Million VND discount/unit",
+                  ].map((text, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{ py: 1.5, borderBottom: "1px dashed #E2E8F0" }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 40 }}>
+                        <CheckCircleIcon color="primary" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        primaryTypographyProps={{
+                          fontSize: "0.95rem",
+                          fontWeight: 500,
+                          color: "secondary.main",
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
 
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/12.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="h5" color="blue">
-              1. Tổng quan Tòa Tháp C1- căn hộ chung cư cao cấp Trần Duy Hưng
-            </Typography>
-            <Typography px={2}>
-              <strong>C1 D'capiatale Trần Duy Hưng</strong> có một vị trí siêu
-              đắc địa.
-            </Typography>
-            <ul>
-              <li>Chiều cao của tòa tháp: 39 tầng</li>
-              <li>Mật độ: 11 căn/sàn</li>
-              <li>Loại căn hộ: 01 - 03 phòng ngủ</li>
-              <li>Loại diện tích: 57m2 - 100m2</li>
-              <li>Loại hình phát triển: Căn hộ & Shophouse</li>
-            </ul>
+                <Box sx={{ mt: 4, textAlign: "center" }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Don't miss this unprecedented opportunity!
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    size="large"
+                    startIcon={<PhoneInTalkIcon />}
+                    href="tel:0987606780"
+                    sx={{ mt: 1, borderRadius: 1 }}
+                  >
+                    Hotline: 0987 606 780
+                  </Button>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
 
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/m%E1%BA%B7t-b%E1%BA%B1ng-t%C3%B2a-C1.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="h5" color="blue">
-              2. Tòa C2 là tòa căn hộ SOHO – Officetel – Công năng sử dụng 3
-              trong 1: Sống – làm việc – hưởng thụ
-            </Typography>
-            <Typography px={2}>
-              <strong>Tòa C2 chung cư cao cấp Trần Duy Hưng</strong> là tòa nhà
-              được dựng theo mô hình Officetel đầu tiên.
-            </Typography>
-            <Typography px={2}>
-              Đây là mô hình sản phẩm SOHO vô cùng đẳng cấp.
-            </Typography>
-            <ul>
-              <li>Chiều cao: cao 45 tầng</li>
-              <li>Số lượng căn hộ/sàn: 22 Căn/sàn</li>
-              <li>Căn Studio: 10 căn/ sàn 37,54 – 38,47m2</li>
-              <li>
-                Diện tích xây dựng: 1298,4m2, 2 Tầng hầm và 1 tầng Thương Mại
-              </li>
-              <li>Số lượng thang máy /sàn: 8 thang.</li>
-            </ul>
+      {/* --- VIDEO SECTION --- */}
+      <Box sx={{ py: 8, bgcolor: "secondary.main", color: "white" }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={6} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="overline"
+                color="primary.light"
+                fontWeight={700}
+                letterSpacing={2}
+              >
+                Visual Tour
+              </Typography>
+              <Typography
+                variant="h3"
+                color="white"
+                gutterBottom
+                sx={{ mt: 1 }}
+              >
+                Experience The Lifestyle
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  mb: 4,
+                  color: "primary.contrastText",
+                }}
+              >
+                Discover the perfect blend of modern architecture and green
+                living at D'Capitale. A place where every moment is a
+                masterpiece.
+              </Typography>
+              <Button
+                variant="outlined"
+                color="primary" // This will use the gold color
+                size="large"
+                component={Link}
+                to="/about"
+                sx={{
+                  color: "primary.main",
+                  borderColor: "primary.main",
+                  borderRadius: 1,
+                }}
+              >
+                View More Amenities
+              </Button>
+            </Grid>
 
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/mat-bang-c2.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="h5" color="blue">
-              3. Tòa tháp C3
-            </Typography>
-            <Typography px={2}>
-              <strong>Tòa C3 D’chung cư cao cấp Trần Duy Hưng</strong> sở hữu
-              không gian xung quanh thoáng đạt với 3 mặt tiền đắc địa.
-            </Typography>
-            <ul>
-              <li>Chiều cao:41 tầng</li>
-              <li>Mật độ:12 căn/sàn</li>
-              <li>Loại căn hộ:02 - 03 phòng ngủ</li>
-              <li>Diện tích căn hộ:70m2 - 120m2</li>
-            </ul>
-
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/Mb-c3-L2-12b.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-
-            <Typography variant="h5" color="blue">
-              4. Tòa tháp C5
-            </Typography>
-
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/mat-bang-thiet-ke-toa-soho-c5.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="h5" color="blue">
-              5. Tòa Tháp C6
-            </Typography>
-            <Typography px={2}>
-              Tòa C6 D’Capitale sở hữu mặt tiền thoáng đạt ngay sát trục đường
-              Trần Duy Hưng sầm uất, nhộn nhịp.
-            </Typography>
-            <ul>
-              <li>Chiều cao: 42 tầng</li>
-              <li>Loại căn hộ: 02 - 03 phòng ngủ</li>
-              <li>Diện tích: 70 - 111m2</li>
-              <li>
-                Loại hình phát triển: Căn hộ & TTTM, Shop thương mại, dịch vụ.
-              </li>
-            </ul>
-
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/mat-bang-c6.jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography variant="h5" color="blue">
-              6. Tòa Tháp C7
-            </Typography>
-            <Typography px={2}>
-              <strong>Tòa C7 D'capiatale Trần Duy Hưng</strong> có vị trí đẹp
-              bậc nhất dự án khi nằm ngay ngã tư với 2 mặt tiền đường Trần Duy
-              Hưng và Hoàng Minh Giám.{" "}
-            </Typography>
-            <ul>
-              <li>Số tầng: 42 tầng</li>
-              <li>Mật độ: 12 căn/sàn</li>
-              <li>Loại căn hộ: 2 - 3 phòng ngủ</li>
-              <li>Loại diện tích: Từ 71m2 - 111m2</li>
-              <li>Số lượng thang máy: 7 thang/sàn</li>
-            </ul>
-          </Box>
-
-          <Box
-            sx={{
-              padding: 2,
-            }}
-          >
-            <Typography
-              variant="h4"
-              gutterBottom
-              color="blue"
-              m={"4"}
-              textAlign={"center"}
-            >
-              NỘI THẤT D'CAPITALE
-            </Typography>
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/bg_content.png"
-                alt=""
-              />
-            </Box>
-
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/38.jpg"
-                alt="D’Capitale Trần Duy Hưng"
-                style={{ width: "100%" }}
-              />
-              <Typography color="blue">( phòng khách sang trọng )</Typography>
-            </Box>
-
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/40.jpg"
-                alt="D’Capitale Trần Duy Hưng"
-                style={{ width: "100%" }}
-              />
-              <Typography color="blue">( thiết kế hiện đại )</Typography>
-            </Box>
-
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/42.jpg"
-                alt="D’Capitale Trần Duy Hưng"
-                style={{ width: "100%" }}
-              />
-              <Typography color="blue">( Nội thất cao cấp)</Typography>
-            </Box>
-          </Box>
-
-          <Box
-            sx={{
-              padding: 2,
-            }}
-          >
-            <Typography
-              variant="h4"
-              gutterBottom
-              color="blue"
-              m={"4"}
-              textAlign={"center"}
-            >
-              TIỆN ÍCH D’CAPITALE TRẦN DUY HƯNG
-            </Typography>
-            <Box sx={{ textAlign: "center" }}>
-              <img
-                src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/bg_content.png"
-                alt=""
-              />
-            </Box>
-            <Typography>
-              <strong>VINHOMES D'CAPITALE </strong>có một hệ thống các tiện ích
-              bậc nhất Việt Nam. Gồm có: <br /> Sân bóng rổ, Sân tennis, Sân
-              chơi trẻ em, Đường chạy bộ, Khu tập gym ngoài trời, Sân bóng đá,
-              Hồ cảnh quan, Quảng trường, Vườn BBQ, Sảnh lounge ngoài trời, Bể
-              bơi trung tâm, Đảo thư giãn, Khu café ngoài trời, Khu vực đón
-              khách, Khu tập yoga, thiền, Không gian tổ chức sự kiện, Hàng rào
-              cây xanh, Skybar...
-            </Typography>
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/3(2).jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-            <Typography>
-              Với Vinhomes, cư dân{" "}
-              <strong style={{ color: "blue" }}>D’.Capitale</strong> sẽ được
-              trải nghiệm một môi trường sống lý tưởng, một cuộc sống hạnh phúc
-              ngập tràn
-            </Typography>
-            <img
-              src="https://vinhomelands.com/Areas/Admin/Content/Fileuploads/images/5(1).jpg"
-              alt="D’Capitale Trần Duy Hưng"
-              style={{ width: "100%" }}
-            />
-          </Box>
-        </Box>
-
-        <Box sx={{ width: "30%", marginTop: "2.5rem" }}>
-            <Typography variant="h4" gutterBottom >Video dự án</Typography>
-            <iframe width="360"  height="240" src="https://www.youtube.com/embed/YVZo9yR8edY" title="Vinhomes D&#39;capitale Trần Duy Hưng - 0987606780" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </Box>
+            <Grid item xs={12} md={6}>
+              <Card
+                sx={{
+                  borderRadius: 1, // Theme rounded corners (24px)
+                  overflow: "hidden",
+                  boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <CardMedia
+                  component="iframe"
+                  src="https://www.youtube.com/embed/YVZo9yR8edY"
+                  title="Vinhomes D'capitale Project Video"
+                  sx={{
+                    height: 350,
+                    border: "none",
+                  }}
+                />
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
       </Box>
       {/* Service Section */}
       <Box
@@ -558,29 +425,3 @@ export default function Landing() {
     </Stack>
   );
 }
-
-// ATTRACTIVE INCENTIVE POLICY
-
-// 💥  Only for this month  💥
-
-// 🎁  15% discount for customers who pay early
-
-// 🎁  Free furniture package equivalent to 10% of apartment value
-
-// 🎁  Support loan 65% of apartment value with 0% interest rate in 24 months
-
-// 🎁  8% discount for customers paying on schedule
-
-// 🎁  Customers can come and see the apartment directly
-
-// ⇒  Free 10 years of service fees, if you do not receive service fees, they will be deducted directly from the selling price.
-
-// 🎁  1 bedroom apartment: 70 million discount
-
-// 🎁  2-bedroom apartment: 120 million discount
-
-// 🎁  3-bedroom apartment: discount 170 million
-
-// 🎁  Get a housewarming package worth 150 million, deducted from the value before VAT + maintenance fee
-
-// This is the opportunity to buy D'capitale Tran Duy Hung apartment at the best price. What are you waiting for? Hurry up and buy now, call hotline 0987606780 or leave your information below.
